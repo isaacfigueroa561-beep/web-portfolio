@@ -30,3 +30,33 @@ id = "OxWX50qc-dVB4so3xjSQE"
 uri = "file://artifacts/portfolio/public/headshot.png"
 type = "image"
 title = "Moody professional headshot"
+
+[[generated]]
+id = "jJx2iwyvBpxC1vbva68YQ"
+uri = "file://artifacts/portfolio/public/project-1-new.png"
+type = "image"
+title = "church sermon series poster"
+
+[[generated]]
+id = "uU_jev-a6Zi9QWpCeE-QQ"
+uri = "file://artifacts/portfolio/public/project-2-new.png"
+type = "image"
+title = "youth conference event poster"
+
+[[generated]]
+id = "PmYtevJLYeET5nqw4N3Wl"
+uri = "file://artifacts/portfolio/public/project-3-new.png"
+type = "image"
+title = "minimalist brand identity mockup"
+
+[[generated]]
+id = "XSULTb7iL9Ps9QDfxuqdq"
+uri = "file://artifacts/portfolio/public/project-4-new.png"
+type = "image"
+title = "instagram grid layout design"
+
+[[generated]]
+id = "h8lBSE6Quuszi-AyL-2Zq"
+uri = "file://artifacts/portfolio/public/project-5-new.png"
+type = "image"
+title = "neon urban concert flyer"
