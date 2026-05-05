@@ -49,7 +49,7 @@ function Home() {
       
       {/* Navbar */}
       <nav className="fixed top-0 left-0 w-full p-6 md:p-10 flex justify-between items-center z-50 mix-blend-difference text-white">
-        <div className="font-serif font-bold text-xl uppercase tracking-tighter">RYAN<br/>CARTER</div>
+        <div className="font-serif font-bold text-xl uppercase tracking-tighter">ISAAC<br/>FIGUEROA</div>
         <div className="hidden md:flex gap-8 font-mono text-xs uppercase tracking-widest">
           <a href="#work" className="hover:text-primary transition-colors">Work</a>
           <a href="#about" className="hover:text-primary transition-colors">About</a>
@@ -80,7 +80,7 @@ function Home() {
             transition={{ duration: 1, delay: 0.5 }}
             className="w-full md:w-[300px] font-mono text-sm leading-relaxed text-muted-foreground"
           >
-            <p>Independent Design Director focused on crafting immersive digital experiences and bold brand identities for forward-thinking companies.</p>
+            <p>Independent Creative Director focused on crafting purposeful digital experiences and compelling brand identities for ambitious, forward-thinking companies.</p>
             <div className="mt-8 flex items-center gap-4 text-foreground uppercase tracking-widest text-xs">
               Scroll to explore <ArrowDownRight size={16} />
             </div>
@@ -98,7 +98,7 @@ function Home() {
             transition={{ duration: 0.8 }}
             className="text-3xl md:text-5xl font-serif leading-tight"
           >
-            I believe that great design is not just seen, it's felt. It requires rigorous intent, precise execution, and a touch of the unexpected.
+            Great design is not decoration — it is decision-making made visible. Every choice carries weight, every detail earns its place, and the result should feel inevitable.
           </motion.h2>
         </div>
       </section>
@@ -188,7 +188,7 @@ function Home() {
             transition={{ duration: 1 }}
             className="aspect-[3/4] relative bg-muted"
           >
-            <img src="/headshot.png" alt="Ryan Carter" className="w-full h-full object-cover grayscale contrast-125 brightness-90 hover:grayscale-0 transition-all duration-700" />
+            <img src="/headshot.png" alt="Isaac Figueroa" className="w-full h-full object-cover grayscale contrast-125 brightness-90 hover:grayscale-0 transition-all duration-700" />
             <div className="absolute -bottom-6 -right-6 w-32 h-32 bg-primary flex items-center justify-center text-background font-serif font-bold text-xl uppercase -rotate-12">
               Hello.
             </div>
@@ -200,10 +200,10 @@ function Home() {
             </h2>
             <div className="space-y-6 text-lg text-muted-foreground leading-relaxed">
               <p>
-                I am Ryan Carter, a design director based in London with over a decade of experience crafting digital products and brand identities for ambitious companies worldwide.
+                I am Isaac Figueroa, a creative director with over a decade of experience building digital products and brand identities for ambitious companies across multiple industries.
               </p>
               <p>
-                My approach is rooted in reduction—stripping away the unnecessary to reveal the core essence of a brand or product, then elevating it with precise execution and unexpected details.
+                My process begins with deep listening — understanding the real problem before touching a single pixel. From there, I work toward clarity: stripping away noise until only the essential remains, then executing it with precision and care.
               </p>
             </div>
             <button className="mt-12 flex items-center gap-4 text-foreground uppercase tracking-widest text-sm hover:text-primary transition-colors group">
@@ -227,7 +227,7 @@ function Home() {
 
       {/* Footer */}
       <footer className="py-10 px-6 md:px-10 border-t border-border flex flex-col md:flex-row justify-between items-center gap-6 font-mono text-xs uppercase tracking-widest text-muted-foreground">
-        <div>&copy; {new Date().getFullYear()} Ryan Carter. All rights reserved.</div>
+        <div>&copy; {new Date().getFullYear()} Isaac Figueroa. All rights reserved.</div>
         <div className="flex gap-6">
           <a href="#" className="hover:text-primary transition-colors">Twitter</a>
           <a href="#" className="hover:text-primary transition-colors">Instagram</a>
