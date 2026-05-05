@@ -5,7 +5,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/not-found";
 import { motion } from "framer-motion";
-import { Mail, Phone, Globe, Twitter, Instagram, Linkedin, Square } from "lucide-react";
+import { Mail, Phone, Globe, Twitter, Instagram, Linkedin } from "lucide-react";
 import { SiFigma } from "react-icons/si";
 
 const queryClient = new QueryClient();
@@ -246,29 +246,174 @@ function Home() {
           viewport={{ once: true }}
           className="mb-20"
         >
-          <h2 className="text-5xl md:text-7xl font-serif font-extrabold tracking-widest uppercase mb-4" data-testid="text-work-heading">
+          <h2 className="text-5xl md:text-7xl font-serif font-extrabold tracking-widest uppercase" data-testid="text-work-heading">
             SELECTED WORKS
           </h2>
-          <p className="font-sans font-light text-sm uppercase tracking-widest text-muted-foreground">
-            REAL PROJECTS COMING SOON — UPLOAD YOUR WORK BELOW
-          </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-          {[1, 2, 3, 4, 5, 6].map((i) => (
-            <motion.div 
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
+          {[
+            {
+              name: "Aware Coffee",
+              client: "Aware Coffee",
+              category: "Brand Identity / Packaging",
+              bg: "#f5f5f0",
+              accent: "#000000",
+              labelColor: "#e34d37",
+              nameColor: "#000000",
+              clientColor: "#555555",
+              desc: "Product launch campaign, branded cup mockups, social media graphics",
+            },
+            {
+              name: "Billy Brunch NYC",
+              client: "Billy Brunch NYC",
+              category: "Brand Identity / Merch",
+              bg: "#7ba9ae",
+              accent: "#e34d37",
+              labelColor: "#e34d37",
+              nameColor: "#ffffff",
+              clientColor: "rgba(255,255,255,0.7)",
+              desc: "Full brand suite — social graphics, hoodie, tote bag, signage, A-frame poster",
+            },
+            {
+              name: "Change The World",
+              client: "Self-Initiated",
+              category: "Print / Poster",
+              bg: "#1a3aff",
+              accent: "#FFE500",
+              labelColor: "#FFE500",
+              nameColor: "#ffffff",
+              clientColor: "rgba(255,255,255,0.7)",
+              desc: "Bold typographic print poster series in primary colors",
+            },
+            {
+              name: "Chino Club",
+              client: "Chino Club",
+              category: "Brand Identity / Events",
+              bg: "#f5f508",
+              accent: "#0015ff",
+              labelColor: "#0015ff",
+              nameColor: "#000000",
+              clientColor: "#333333",
+              desc: "Full visual identity — signage, merch, posters, tote bags, apparel",
+            },
+            {
+              name: "Cold Little Heart",
+              client: "Cold Little Heart",
+              category: "Merch Design / Apparel",
+              bg: "#2a2a2a",
+              accent: "#e34d37",
+              labelColor: "#e34d37",
+              nameColor: "#ffffff",
+              clientColor: "rgba(255,255,255,0.6)",
+              desc: "Vintage-style graphic tee with flaming heart illustration",
+            },
+            {
+              name: "Wallet App UI",
+              client: "Concept Project",
+              category: "UX/UI Design",
+              bg: "#e8d5c4",
+              accent: "#5c3fff",
+              labelColor: "#5c3fff",
+              nameColor: "#111111",
+              clientColor: "#555555",
+              desc: "Mobile wallet app — earnings tracking, portfolio view, NFT/stocks UI",
+            },
+            {
+              name: "Mango",
+              client: "Mango",
+              category: "Merch Design",
+              bg: "#2d4a1e",
+              accent: "#FF5C00",
+              labelColor: "#FF5C00",
+              nameColor: "#ffffff",
+              clientColor: "rgba(255,255,255,0.6)",
+              desc: "Camo cap with arched orange MANGO wordmark",
+            },
+            {
+              name: "Spark Pro Services",
+              client: "Spark Pro Services",
+              category: "Brand Identity / Web",
+              bg: "#e34d37",
+              accent: "#1a2c5b",
+              labelColor: "#ffffff",
+              nameColor: "#ffffff",
+              clientColor: "rgba(255,255,255,0.75)",
+              desc: "Construction company full rebrand — logo, web, apparel, signage, ad campaigns",
+            },
+            {
+              name: "The Squad",
+              client: "The Squad",
+              category: "Campaign Design / Print",
+              bg: "#0f1923",
+              accent: "#FF5C00",
+              labelColor: "#FF5C00",
+              nameColor: "#ffffff",
+              clientColor: "rgba(255,255,255,0.6)",
+              desc: "Sermon series posters, fundraising campaigns, and youth event graphics",
+            },
+            {
+              name: "Vive Media",
+              client: "Vive Media",
+              category: "Social Media / Events",
+              bg: "#180030",
+              accent: "#c840ff",
+              labelColor: "#c840ff",
+              nameColor: "#ffffff",
+              clientColor: "rgba(255,255,255,0.6)",
+              desc: "Concert and live event flyer design — neon, urban aesthetic",
+            },
+          ].map((project, i) => (
+            <motion.div
               key={i}
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: i * 0.1 }}
-              className="group flex flex-col items-center justify-center bg-[#111] border border-dashed border-[#383838] aspect-[4/3] cursor-pointer hover:border-primary transition-colors duration-300"
+              transition={{ duration: 0.5, delay: (i % 4) * 0.08 }}
+              className="group relative cursor-pointer overflow-hidden"
+              style={{ aspectRatio: "4/5", background: project.bg }}
               data-testid={`card-work-${i}`}
             >
-              <Square className="w-8 h-8 text-muted-foreground group-hover:text-primary transition-colors duration-300 mb-4" />
-              <span className="font-sans font-light text-xs uppercase tracking-widest text-muted-foreground">
-                UPLOAD YOUR DESIGN HERE
-              </span>
+              {/* Category label */}
+              <div
+                className="absolute top-5 left-5 font-sans font-medium text-[10px] uppercase tracking-widest"
+                style={{ color: project.labelColor }}
+              >
+                {project.category}
+              </div>
+
+              {/* Project name — centered */}
+              <div className="absolute inset-0 flex items-center justify-center px-6">
+                <h3
+                  className="font-serif font-bold text-3xl md:text-2xl xl:text-3xl uppercase tracking-widest text-center leading-tight"
+                  style={{ color: project.nameColor }}
+                >
+                  {project.name}
+                </h3>
+              </div>
+
+              {/* Client + year */}
+              <div className="absolute bottom-5 left-5 right-5 flex justify-between items-end">
+                <span
+                  className="font-sans font-light text-xs uppercase tracking-widest"
+                  style={{ color: project.clientColor }}
+                >
+                  {project.client}
+                </span>
+                <span
+                  className="font-sans font-light text-xs tracking-widest"
+                  style={{ color: project.clientColor }}
+                >
+                  2024
+                </span>
+              </div>
+
+              {/* Hover overlay with description */}
+              <div className="absolute inset-0 flex items-center justify-center px-6 bg-black/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                <p className="font-sans font-light text-sm text-white text-center leading-relaxed tracking-wide">
+                  {project.desc}
+                </p>
+              </div>
             </motion.div>
           ))}
         </div>
