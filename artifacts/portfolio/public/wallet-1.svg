@@ -1,209 +1,242 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" width="1200" height="800">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 900" width="1400" height="900">
   <defs>
-    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#0D0D14"/>
-      <stop offset="100%" style="stop-color:#12101E"/>
+    <style>
+      .t-label { font-family: -apple-system, 'SF Pro Display', 'Helvetica Neue', Arial, sans-serif; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; fill: rgba(245,240,232,0.35); }
+      .t-head  { font-family: -apple-system, 'SF Pro Display', 'Helvetica Neue', Arial, sans-serif; font-weight: 700; fill: #F5F0E8; }
+      .t-sub   { font-family: -apple-system, 'SF Pro Display', 'Helvetica Neue', Arial, sans-serif; font-weight: 300; fill: rgba(245,240,232,0.5); font-size: 13px; }
+      .t-mono  { font-family: 'SF Mono', 'Fira Code', 'Courier New', monospace; fill: rgba(245,240,232,0.25); font-size: 10px; }
+    </style>
+    <linearGradient id="pageBg" x1="0" y1="0" x2="1400" y2="900" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#07070F"/>
+      <stop offset="100%" stop-color="#0F0D1A"/>
     </linearGradient>
-    <linearGradient id="cardGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#5C3FFF"/>
-      <stop offset="100%" style="stop-color:#9B59FF"/>
+    <linearGradient id="accentGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#6C47FF"/>
+      <stop offset="100%" stop-color="#B06CFF"/>
     </linearGradient>
-    <linearGradient id="chartGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" style="stop-color:#5C3FFF;stop-opacity:0.4"/>
-      <stop offset="100%" style="stop-color:#5C3FFF;stop-opacity:0"/>
+    <linearGradient id="goldGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#FFD166"/>
+      <stop offset="100%" stop-color="#FF9B4D"/>
     </linearGradient>
-    <linearGradient id="phoneShine" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#2a2a3a"/>
-      <stop offset="100%" style="stop-color:#1a1a28"/>
+    <linearGradient id="greenGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#00D084"/>
+      <stop offset="100%" stop-color="#00A868"/>
     </linearGradient>
-    <clipPath id="phoneClip">
-      <rect x="370" y="40" width="270" height="560" rx="36"/>
+    <radialGradient id="purpleGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#6C47FF" stop-opacity="0.25"/>
+      <stop offset="100%" stop-color="#6C47FF" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="iconGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#6C47FF" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#6C47FF" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="12" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="softGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="24" stdDeviation="40" flood-color="#6C47FF" flood-opacity="0.3"/>
+    </filter>
+    <clipPath id="iconClip">
+      <rect x="0" y="0" width="120" height="120" rx="30"/>
     </clipPath>
-    <filter id="glow">
-      <feGaussianBlur stdDeviation="8" result="coloredBlur"/>
-      <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
-    </filter>
-    <filter id="softShadow">
-      <feDropShadow dx="0" dy="20" stdDeviation="30" flood-color="#5C3FFF" flood-opacity="0.25"/>
-    </filter>
   </defs>
 
-  <!-- Background -->
-  <rect width="1200" height="800" fill="url(#bg)"/>
+  <!-- Page background -->
+  <rect width="1400" height="900" fill="url(#pageBg)"/>
 
-  <!-- Ambient glow behind phone -->
-  <ellipse cx="505" cy="320" rx="180" ry="200" fill="#5C3FFF" opacity="0.08"/>
+  <!-- Subtle grid lines -->
+  <line x1="0" y1="300" x2="1400" y2="300" stroke="#F5F0E8" stroke-width="0.3" opacity="0.04"/>
+  <line x1="0" y1="600" x2="1400" y2="600" stroke="#F5F0E8" stroke-width="0.3" opacity="0.04"/>
+  <line x1="350" y1="0" x2="350" y2="900" stroke="#F5F0E8" stroke-width="0.3" opacity="0.04"/>
+  <line x1="700" y1="0" x2="700" y2="900" stroke="#F5F0E8" stroke-width="0.3" opacity="0.04"/>
+  <line x1="1050" y1="0" x2="1050" y2="900" stroke="#F5F0E8" stroke-width="0.3" opacity="0.04"/>
 
-  <!-- Left side — Case Study Text -->
-  <text x="80" y="120" font-family="serif" font-size="11" fill="#5C3FFF" letter-spacing="4" text-transform="uppercase" opacity="0.9">UX / UI DESIGN — 2024</text>
-  <text x="80" y="185" font-family="serif" font-weight="bold" font-size="52" fill="#F5F0E8" letter-spacing="-1">WALLET</text>
-  <text x="80" y="245" font-family="serif" font-weight="bold" font-size="52" fill="#F5F0E8" letter-spacing="-1">APP UI</text>
+  <!-- Purple ambient glow behind icon -->
+  <ellipse cx="250" cy="420" rx="260" ry="260" fill="url(#purpleGlow)"/>
 
-  <line x1="80" y1="275" x2="200" y2="275" stroke="#5C3FFF" stroke-width="2"/>
+  <!-- ═══ LEFT: Brand Identity ═══ -->
 
-  <text x="80" y="315" font-family="sans-serif" font-weight="300" font-size="14" fill="#F5F0E8" opacity="0.55" width="260">A concept fintech mobile app</text>
-  <text x="80" y="338" font-family="sans-serif" font-weight="300" font-size="14" fill="#F5F0E8" opacity="0.55">for managing crypto assets,</text>
-  <text x="80" y="361" font-family="sans-serif" font-weight="300" font-size="14" fill="#F5F0E8" opacity="0.55">stocks, and NFT portfolios.</text>
-
-  <!-- Stats -->
-  <rect x="80" y="415" width="100" height="80" fill="#1a1a2e" rx="0"/>
-  <text x="98" y="448" font-family="serif" font-weight="bold" font-size="26" fill="#5C3FFF">4</text>
-  <text x="98" y="473" font-family="sans-serif" font-size="10" fill="#F5F0E8" opacity="0.4" letter-spacing="2">SCREENS</text>
-
-  <rect x="198" y="415" width="100" height="80" fill="#1a1a2e" rx="0"/>
-  <text x="216" y="448" font-family="serif" font-weight="bold" font-size="26" fill="#5C3FFF">6w</text>
-  <text x="216" y="473" font-family="sans-serif" font-size="10" fill="#F5F0E8" opacity="0.4" letter-spacing="2">TIMELINE</text>
-
-  <rect x="80" y="512" width="218" height="80" fill="#1a1a2e" rx="0"/>
-  <text x="98" y="545" font-family="serif" font-weight="bold" font-size="26" fill="#5C3FFF">Figma</text>
-  <text x="98" y="570" font-family="sans-serif" font-size="10" fill="#F5F0E8" opacity="0.4" letter-spacing="2">DESIGN TOOL</text>
-
-  <!-- Role tags -->
-  <rect x="80" y="635" width="110" height="28" fill="#5C3FFF" opacity="0.15" rx="0"/>
-  <text x="95" y="653" font-family="sans-serif" font-size="10" fill="#5C3FFF" letter-spacing="2">UX RESEARCH</text>
-
-  <rect x="200" y="635" width="90" height="28" fill="#5C3FFF" opacity="0.15" rx="0"/>
-  <text x="215" y="653" font-family="sans-serif" font-size="10" fill="#5C3FFF" letter-spacing="2">UI DESIGN</text>
-
-  <rect x="80" y="672" width="100" height="28" fill="#5C3FFF" opacity="0.15" rx="0"/>
-  <text x="95" y="690" font-family="sans-serif" font-size="10" fill="#5C3FFF" letter-spacing="2">PROTOTYPE</text>
-
-  <rect x="190" y="672" width="110" height="28" fill="#5C3FFF" opacity="0.15" rx="0"/>
-  <text x="205" y="690" font-family="sans-serif" font-size="10" fill="#5C3FFF" letter-spacing="2">BRANDING</text>
-
-  <!-- Phone frame -->
-  <rect x="368" y="38" width="274" height="564" rx="38" fill="#1e1c2e" filter="url(#softShadow)"/>
-  <rect x="370" y="40" width="270" height="560" rx="36" fill="url(#phoneShine)"/>
-
-  <!-- Phone screen content clipped -->
-  <g clip-path="url(#phoneClip)">
-    <!-- Screen bg -->
-    <rect x="370" y="40" width="270" height="560" fill="#0D0D14"/>
-
-    <!-- Status bar -->
-    <text x="390" y="72" font-family="sans-serif" font-size="11" fill="#F5F0E8" opacity="0.5">9:41</text>
-    <rect x="590" y="62" width="28" height="12" rx="6" fill="none" stroke="#F5F0E8" stroke-width="1" opacity="0.4"/>
-    <rect x="592" y="64" width="22" height="8" rx="4" fill="#F5F0E8" opacity="0.5"/>
-
-    <!-- Balance card -->
-    <rect x="382" y="86" width="246" height="126" rx="16" fill="url(#cardGrad)"/>
-    <text x="400" y="112" font-family="sans-serif" font-size="10" fill="rgba(255,255,255,0.7)" letter-spacing="1.5">TOTAL BALANCE</text>
-    <text x="400" y="150" font-family="serif" font-weight="bold" font-size="30" fill="#fff">$45,230</text>
-    <text x="400" y="172" font-family="sans-serif" font-size="10" fill="rgba(255,255,255,0.7)">.84</text>
-    <rect x="400" y="183" width="60" height="18" rx="9" fill="rgba(255,255,255,0.15)"/>
-    <text x="414" y="196" font-family="sans-serif" font-size="10" fill="#fff">↑ 4.2%</text>
-    <text x="540" y="196" font-family="sans-serif" font-size="18" fill="rgba(255,255,255,0.3)">⋯</text>
-
-    <!-- Mini chart in card -->
-    <polyline points="480,195 495,188 510,192 525,178 540,183 555,170 570,175 585,162 600,168 615,155 628,160" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-
-    <!-- Section label -->
-    <text x="390" y="236" font-family="sans-serif" font-size="11" fill="#F5F0E8" opacity="0.4" letter-spacing="2">ASSETS</text>
-
-    <!-- Asset rows -->
-    <!-- BTC -->
-    <circle cx="402" cy="262" r="12" fill="#F7931A" opacity="0.9"/>
-    <text x="397" y="267" font-family="serif" font-weight="bold" font-size="10" fill="#fff">₿</text>
-    <text x="422" y="258" font-family="sans-serif" font-weight="600" font-size="12" fill="#F5F0E8">Bitcoin</text>
-    <text x="422" y="272" font-family="sans-serif" font-size="10" fill="#F5F0E8" opacity="0.35">0.812 BTC</text>
-    <text x="570" y="258" font-family="serif" font-weight="bold" font-size="12" fill="#F5F0E8" text-anchor="end">$23,410</text>
-    <text x="570" y="272" font-family="sans-serif" font-size="10" fill="#4ade80" text-anchor="end">+2.3%</text>
-
-    <line x1="390" y1="283" x2="618" y2="283" stroke="#F5F0E8" stroke-width="0.5" opacity="0.08"/>
-
-    <!-- ETH -->
-    <circle cx="402" cy="306" r="12" fill="#627EEA"/>
-    <text x="397" y="311" font-family="serif" font-weight="bold" font-size="10" fill="#fff">Ξ</text>
-    <text x="422" y="302" font-family="sans-serif" font-weight="600" font-size="12" fill="#F5F0E8">Ethereum</text>
-    <text x="422" y="316" font-family="sans-serif" font-size="10" fill="#F5F0E8" opacity="0.35">4.5 ETH</text>
-    <text x="570" y="302" font-family="serif" font-weight="bold" font-size="12" fill="#F5F0E8" text-anchor="end">$14,220</text>
-    <text x="570" y="316" font-family="sans-serif" font-size="10" fill="#4ade80" text-anchor="end">+5.1%</text>
-
-    <line x1="390" y1="327" x2="618" y2="327" stroke="#F5F0E8" stroke-width="0.5" opacity="0.08"/>
-
-    <!-- SOL -->
-    <circle cx="402" cy="350" r="12" fill="#9945FF"/>
-    <text x="397" y="355" font-family="serif" font-weight="bold" font-size="9" fill="#fff">S</text>
-    <text x="422" y="346" font-family="sans-serif" font-weight="600" font-size="12" fill="#F5F0E8">Solana</text>
-    <text x="422" y="360" font-family="sans-serif" font-size="10" fill="#F5F0E8" opacity="0.35">32.0 SOL</text>
-    <text x="570" y="346" font-family="serif" font-weight="bold" font-size="12" fill="#F5F0E8" text-anchor="end">$5,440</text>
-    <text x="570" y="360" font-family="sans-serif" font-size="10" fill="#f87171" text-anchor="end">-1.2%</text>
-
-    <line x1="390" y1="371" x2="618" y2="371" stroke="#F5F0E8" stroke-width="0.5" opacity="0.08"/>
-
-    <!-- ADA -->
-    <circle cx="402" cy="394" r="12" fill="#0033AD"/>
-    <text x="397" y="399" font-family="serif" font-weight="bold" font-size="9" fill="#fff">A</text>
-    <text x="422" y="390" font-family="sans-serif" font-weight="600" font-size="12" fill="#F5F0E8">Cardano</text>
-    <text x="422" y="404" font-family="sans-serif" font-size="10" fill="#F5F0E8" opacity="0.35">5200 ADA</text>
-    <text x="570" y="390" font-family="serif" font-weight="bold" font-size="12" fill="#F5F0E8" text-anchor="end">$2,160</text>
-    <text x="570" y="404" font-family="sans-serif" font-size="10" fill="#4ade80" text-anchor="end">+0.8%</text>
-
-    <!-- Portfolio chart area -->
-    <text x="390" y="432" font-family="sans-serif" font-size="11" fill="#F5F0E8" opacity="0.4" letter-spacing="2">7D PERFORMANCE</text>
-    <rect x="382" y="442" width="246" height="80" rx="12" fill="#1a1a2e"/>
-    <polygon points="390,510 410,492 435,500 460,478 490,483 520,462 550,470 580,452 610,460 628,448 628,518 390,518" fill="url(#chartGrad)"/>
-    <polyline points="390,510 410,492 435,500 460,478 490,483 520,462 550,470 580,452 610,460 628,448" fill="none" stroke="#5C3FFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" filter="url(#glow)"/>
-
-    <!-- Bottom nav -->
-    <rect x="370" y="560" width="270" height="40" fill="#0D0D14"/>
-    <text x="415" y="585" font-family="sans-serif" font-size="16" fill="#5C3FFF" text-anchor="middle">⌂</text>
-    <text x="465" y="585" font-family="sans-serif" font-size="14" fill="#F5F0E8" opacity="0.25" text-anchor="middle">◫</text>
-    <text x="515" y="585" font-family="sans-serif" font-size="14" fill="#F5F0E8" opacity="0.25" text-anchor="middle">↕</text>
-    <text x="565" y="585" font-family="sans-serif" font-size="14" fill="#F5F0E8" opacity="0.25" text-anchor="middle">⊙</text>
-    <circle cx="415" cy="595" r="2.5" fill="#5C3FFF"/>
+  <!-- App Icon -->
+  <g transform="translate(110, 280)">
+    <!-- Icon bg -->
+    <rect width="120" height="120" rx="28" fill="#0D0B1A" clip-path="url(#iconClip)"/>
+    <rect width="120" height="120" rx="28" fill="url(#accentGrad)" opacity="0.15"/>
+    <!-- Icon mark — stylized V + chart bars -->
+    <rect x="22" y="68" width="14" height="28" rx="3" fill="url(#accentGrad)" opacity="0.5"/>
+    <rect x="41" y="50" width="14" height="46" rx="3" fill="url(#accentGrad)" opacity="0.7"/>
+    <rect x="60" y="35" width="14" height="61" rx="3" fill="url(#accentGrad)"/>
+    <rect x="79" y="48" width="14" height="48" rx="3" fill="url(#accentGrad)" opacity="0.8"/>
+    <!-- Icon trend line -->
+    <polyline points="22,80 36,62 55,50 74,38 93,28" fill="none" stroke="#B06CFF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" filter="url(#softGlow)"/>
+    <!-- Icon border -->
+    <rect width="120" height="120" rx="28" fill="none" stroke="url(#accentGrad)" stroke-width="1.5" opacity="0.5"/>
   </g>
 
-  <!-- Phone notch -->
-  <rect x="468" y="40" width="74" height="22" rx="11" fill="#1e1c2e"/>
+  <!-- App name -->
+  <text x="110" y="440" class="t-head" font-size="64" letter-spacing="-2">VAULT</text>
+  <text x="110" y="468" class="t-sub" letter-spacing="0.3em" font-size="11">CRYPTO · STOCKS · NFTs</text>
 
-  <!-- Right side — color palette & details -->
-  <text x="720" y="120" font-family="sans-serif" font-size="10" fill="#F5F0E8" opacity="0.3" letter-spacing="3">COLOR SYSTEM</text>
-  <rect x="720" y="135" width="50" height="50" fill="#5C3FFF" rx="0"/>
-  <rect x="778" y="135" width="50" height="50" fill="#9B59FF" rx="0"/>
-  <rect x="836" y="135" width="50" height="50" fill="#0D0D14" rx="0"/>
-  <rect x="836" y="135" width="50" height="50" fill="none" stroke="#2a2a2a" stroke-width="1" rx="0"/>
-  <rect x="894" y="135" width="50" height="50" fill="#F5F0E8" rx="0"/>
-  <rect x="952" y="135" width="50" height="50" fill="#4ade80" rx="0"/>
-  <rect x="1010" y="135" width="50" height="50" fill="#f87171" rx="0"/>
+  <!-- Thin accent line -->
+  <line x1="110" y1="492" x2="340" y2="492" stroke="url(#accentGrad)" stroke-width="1.5" opacity="0.6"/>
 
-  <text x="720" y="210" font-family="sans-serif" font-size="9" fill="#F5F0E8" opacity="0.25">#5C3FFF</text>
-  <text x="778" y="210" font-family="sans-serif" font-size="9" fill="#F5F0E8" opacity="0.25">#9B59FF</text>
-  <text x="836" y="210" font-family="sans-serif" font-size="9" fill="#F5F0E8" opacity="0.25">#0D0D14</text>
-  <text x="894" y="210" font-family="sans-serif" font-size="9" fill="#F5F0E8" opacity="0.25">#F5F0E8</text>
-  <text x="952" y="210" font-family="sans-serif" font-size="9" fill="#F5F0E8" opacity="0.25">#4ADE80</text>
-  <text x="1010" y="210" font-family="sans-serif" font-size="9" fill="#F5F0E8" opacity="0.25">#F87171</text>
+  <!-- Project meta -->
+  <text x="110" y="524" class="t-label">UX / UI Design · 2024 · Concept Project</text>
+  <text x="110" y="548" class="t-label">Isaac Figueroa — Wave Creative House</text>
 
-  <!-- Typography -->
-  <text x="720" y="260" font-family="sans-serif" font-size="10" fill="#F5F0E8" opacity="0.3" letter-spacing="3">TYPOGRAPHY</text>
-  <text x="720" y="305" font-family="serif" font-weight="bold" font-size="36" fill="#F5F0E8">Inter</text>
-  <text x="720" y="330" font-family="sans-serif" font-size="12" fill="#F5F0E8" opacity="0.35">Display / Headings</text>
-  <text x="860" y="305" font-family="sans-serif" font-size="28" fill="#F5F0E8" opacity="0.6">SF Pro</text>
-  <text x="860" y="330" font-family="sans-serif" font-size="12" fill="#F5F0E8" opacity="0.35">Body / Labels</text>
+  <!-- Role pills -->
+  <g transform="translate(110, 570)">
+    <rect width="102" height="26" rx="13" fill="#6C47FF" opacity="0.18"/>
+    <rect width="102" height="26" rx="13" fill="none" stroke="#6C47FF" stroke-width="1" opacity="0.4"/>
+    <text x="51" y="17" font-family="-apple-system,'Helvetica Neue',sans-serif" font-size="9.5" fill="#9B75FF" text-anchor="middle" letter-spacing="0.1em">UX RESEARCH</text>
+  </g>
+  <g transform="translate(222, 570)">
+    <rect width="94" height="26" rx="13" fill="#6C47FF" opacity="0.18"/>
+    <rect width="94" height="26" rx="13" fill="none" stroke="#6C47FF" stroke-width="1" opacity="0.4"/>
+    <text x="47" y="17" font-family="-apple-system,'Helvetica Neue',sans-serif" font-size="9.5" fill="#9B75FF" text-anchor="middle" letter-spacing="0.1em">UI DESIGN</text>
+  </g>
+  <g transform="translate(110, 606)">
+    <rect width="86" height="26" rx="13" fill="#6C47FF" opacity="0.18"/>
+    <rect width="86" height="26" rx="13" fill="none" stroke="#6C47FF" stroke-width="1" opacity="0.4"/>
+    <text x="43" y="17" font-family="-apple-system,'Helvetica Neue',sans-serif" font-size="9.5" fill="#9B75FF" text-anchor="middle" letter-spacing="0.1em">PROTOTYPE</text>
+  </g>
+  <g transform="translate(206, 606)">
+    <rect width="110" height="26" rx="13" fill="#6C47FF" opacity="0.18"/>
+    <rect width="110" height="26" rx="13" fill="none" stroke="#6C47FF" stroke-width="1" opacity="0.4"/>
+    <text x="55" y="17" font-family="-apple-system,'Helvetica Neue',sans-serif" font-size="9.5" fill="#9B75FF" text-anchor="middle" letter-spacing="0.1em">FIGMA</text>
+  </g>
 
-  <!-- Problem / Solution -->
-  <line x1="720" y1="360" x2="1120" y2="360" stroke="#1a1a2e" stroke-width="1"/>
+  <!-- Stats row -->
+  <line x1="110" y1="654" x2="340" y2="654" stroke="#F5F0E8" stroke-width="0.5" opacity="0.08"/>
+  <text x="110" y="686" class="t-head" font-size="34">4</text>
+  <text x="148" y="686" class="t-head" font-size="34" opacity="0.2">·</text>
+  <text x="168" y="686" class="t-head" font-size="34">6<tspan class="t-sub" font-size="14">w</tspan></text>
+  <text x="220" y="686" class="t-head" font-size="34" opacity="0.2">·</text>
+  <text x="240" y="686" class="t-head" font-size="34">92<tspan class="t-sub" font-size="14">%</tspan></text>
+  <text x="110" y="706" class="t-label" font-size="8.5">SCREENS</text>
+  <text x="168" y="706" class="t-label" font-size="8.5">TIMELINE</text>
+  <text x="240" y="706" class="t-label" font-size="8.5">CLARITY</text>
 
-  <text x="720" y="395" font-family="sans-serif" font-size="10" fill="#5C3FFF" letter-spacing="3">THE CHALLENGE</text>
-  <text x="720" y="420" font-family="sans-serif" font-size="13" fill="#F5F0E8" opacity="0.7">Most crypto apps overwhelm users</text>
-  <text x="720" y="440" font-family="sans-serif" font-size="13" fill="#F5F0E8" opacity="0.7">with data. The goal: make portfolio</text>
-  <text x="720" y="460" font-family="sans-serif" font-size="13" fill="#F5F0E8" opacity="0.7">tracking feel effortless and clear.</text>
+  <!-- ═══ CENTER: Color System ═══ -->
+  <text x="430" y="290" class="t-label">Color System</text>
 
-  <line x1="720" y1="485" x2="1120" y2="485" stroke="#1a1a2e" stroke-width="1"/>
+  <!-- Swatch 1: Primary -->
+  <rect x="430" y="306" width="140" height="90" fill="#6C47FF"/>
+  <text x="444" y="366" font-family="-apple-system,sans-serif" font-size="10" fill="rgba(255,255,255,0.9)" font-weight="600">Primary</text>
+  <text x="444" y="382" class="t-mono" fill="rgba(255,255,255,0.5)">#6C47FF</text>
 
-  <text x="720" y="518" font-family="sans-serif" font-size="10" fill="#5C3FFF" letter-spacing="3">THE SOLUTION</text>
-  <text x="720" y="543" font-family="sans-serif" font-size="13" fill="#F5F0E8" opacity="0.7">A single-screen overview card,</text>
-  <text x="720" y="563" font-family="sans-serif" font-size="13" fill="#F5F0E8" opacity="0.7">live sparklines per asset, and a</text>
-  <text x="720" y="583" font-family="sans-serif" font-size="13" fill="#F5F0E8" opacity="0.7">minimal dark UI to reduce noise.</text>
+  <!-- Swatch 2: Secondary -->
+  <rect x="578" y="306" width="140" height="90" fill="#B06CFF"/>
+  <text x="592" y="366" font-family="-apple-system,sans-serif" font-size="10" fill="rgba(255,255,255,0.9)" font-weight="600">Accent</text>
+  <text x="592" y="382" class="t-mono" fill="rgba(255,255,255,0.5)">#B06CFF</text>
 
-  <line x1="720" y1="605" x2="1120" y2="605" stroke="#1a1a2e" stroke-width="1"/>
+  <!-- Swatch 3: BG -->
+  <rect x="726" y="306" width="140" height="90" fill="#07070F"/>
+  <rect x="726" y="306" width="140" height="90" fill="none" stroke="#F5F0E8" stroke-width="0.5" opacity="0.12"/>
+  <text x="740" y="366" font-family="-apple-system,sans-serif" font-size="10" fill="rgba(255,255,255,0.6)" font-weight="600">Background</text>
+  <text x="740" y="382" class="t-mono">#07070F</text>
 
-  <!-- Bottom metrics -->
-  <text x="720" y="640" font-family="sans-serif" font-size="10" fill="#5C3FFF" letter-spacing="3">OUTCOME</text>
-  <text x="720" y="680" font-family="serif" font-weight="bold" font-size="32" fill="#F5F0E8">92<tspan font-size="14" opacity="0.4">%</tspan></text>
-  <text x="720" y="700" font-family="sans-serif" font-size="10" fill="#F5F0E8" opacity="0.35">USER CLARITY SCORE</text>
-  <text x="830" y="680" font-family="serif" font-weight="bold" font-size="32" fill="#F5F0E8">3<tspan font-size="14" opacity="0.4">s</tspan></text>
-  <text x="830" y="700" font-family="sans-serif" font-size="10" fill="#F5F0E8" opacity="0.35">AVG TIME-TO-INFO</text>
-  <text x="930" y="680" font-family="serif" font-weight="bold" font-size="32" fill="#F5F0E8">4<tspan font-size="14" opacity="0.4"> screens</tspan></text>
-  <text x="930" y="700" font-family="sans-serif" font-size="10" fill="#F5F0E8" opacity="0.35">FULL FLOW COVERAGE</text>
+  <!-- Swatch 4: Surface -->
+  <rect x="874" y="306" width="140" height="90" fill="#14112A"/>
+  <rect x="874" y="306" width="140" height="90" fill="none" stroke="#F5F0E8" stroke-width="0.5" opacity="0.12"/>
+  <text x="888" y="366" font-family="-apple-system,sans-serif" font-size="10" fill="rgba(255,255,255,0.6)" font-weight="600">Surface</text>
+  <text x="888" y="382" class="t-mono">#14112A</text>
+
+  <!-- Swatch 5: Success -->
+  <rect x="1022" y="306" width="94" height="42" fill="#00D084"/>
+  <text x="1036" y="330" font-family="-apple-system,sans-serif" font-size="9" fill="rgba(0,0,0,0.7)" font-weight="600">Success</text>
+  <text x="1036" y="342" font-family="'SF Mono',monospace" font-size="8.5" fill="rgba(0,0,0,0.5)">#00D084</text>
+  <rect x="1022" y="354" width="94" height="42" fill="#FF5A5A"/>
+  <text x="1036" y="378" font-family="-apple-system,sans-serif" font-size="9" fill="rgba(255,255,255,0.8)" font-weight="600">Danger</text>
+  <text x="1036" y="390" font-family="'SF Mono',monospace" font-size="8.5" fill="rgba(255,255,255,0.4)">#FF5A5A</text>
+
+  <!-- Foreground -->
+  <rect x="1124" y="306" width="94" height="90" fill="#F5F0E8"/>
+  <text x="1138" y="366" font-family="-apple-system,sans-serif" font-size="9" fill="#111" font-weight="600">Foreground</text>
+  <text x="1138" y="380" font-family="'SF Mono',monospace" font-size="8.5" fill="rgba(0,0,0,0.4)">#F5F0E8</text>
+
+  <!-- ═══ Typography ═══ -->
+  <text x="430" y="440" class="t-label">Typography</text>
+  <line x1="430" y1="450" x2="1228" y2="450" stroke="#F5F0E8" stroke-width="0.5" opacity="0.08"/>
+  <text x="430" y="500" font-family="-apple-system,'SF Pro Display','Helvetica Neue',sans-serif" font-weight="800" font-size="48" fill="#F5F0E8" letter-spacing="-1.5">SF Pro Display</text>
+  <text x="430" y="526" class="t-label">Display / Headings / Bold UI</text>
+  <text x="820" y="500" font-family="-apple-system,'SF Pro Text','Helvetica Neue',sans-serif" font-weight="300" font-size="34" fill="#F5F0E8" opacity="0.6" letter-spacing="-0.5">SF Pro Text</text>
+  <text x="820" y="526" class="t-label">Body / Labels / Descriptions</text>
+  <text x="1090" y="490" font-family="'SF Mono','Fira Code','Courier New',monospace" font-size="22" fill="#6C47FF" opacity="0.8">$45,230.84</text>
+  <text x="1090" y="514" class="t-label">Figures / Monospace</text>
+
+  <!-- ═══ Challenge & Solution ═══ -->
+  <line x1="430" y1="560" x2="1228" y2="560" stroke="#F5F0E8" stroke-width="0.5" opacity="0.08"/>
+
+  <!-- Challenge -->
+  <rect x="430" y="576" width="3" height="82" fill="url(#accentGrad)"/>
+  <text x="446" y="600" class="t-label" font-size="9">THE CHALLENGE</text>
+  <text x="446" y="622" font-family="-apple-system,sans-serif" font-size="13.5" fill="#F5F0E8" opacity="0.75">Crypto dashboards overwhelm</text>
+  <text x="446" y="642" font-family="-apple-system,sans-serif" font-size="13.5" fill="#F5F0E8" opacity="0.75">users with raw data and noise.</text>
+  <text x="446" y="662" font-family="-apple-system,sans-serif" font-size="13.5" fill="#F5F0E8" opacity="0.75">Clarity was the brief.</text>
+
+  <!-- Solution -->
+  <rect x="730" y="576" width="3" height="82" fill="url(#accentGrad)"/>
+  <text x="746" y="600" class="t-label" font-size="9">THE SOLUTION</text>
+  <text x="746" y="622" font-family="-apple-system,sans-serif" font-size="13.5" fill="#F5F0E8" opacity="0.75">One card overview, live sparklines</text>
+  <text x="746" y="642" font-family="-apple-system,sans-serif" font-size="13.5" fill="#F5F0E8" opacity="0.75">per asset, dark minimal UI that</text>
+  <text x="746" y="662" font-family="-apple-system,sans-serif" font-size="13.5" fill="#F5F0E8" opacity="0.75">reduces cognitive load by 60%.</text>
+
+  <!-- Outcomes -->
+  <rect x="1040" y="576" width="3" height="82" fill="url(#accentGrad)"/>
+  <text x="1056" y="600" class="t-label" font-size="9">OUTCOME</text>
+  <text x="1056" y="625" class="t-head" font-size="36">92<tspan font-size="16" opacity="0.4">%</tspan></text>
+  <text x="1056" y="648" class="t-label" font-size="8">CLARITY SCORE</text>
+  <text x="1150" y="625" class="t-head" font-size="36">3<tspan font-size="16" opacity="0.4">s</tspan></text>
+  <text x="1150" y="648" class="t-label" font-size="8">TIME-TO-INFO</text>
+
+  <!-- ═══ Decorative elements ═══ -->
+  <line x1="430" y1="690" x2="1228" y2="690" stroke="#F5F0E8" stroke-width="0.5" opacity="0.08"/>
+
+  <!-- Process steps inline -->
+  <g transform="translate(430, 712)">
+    <circle cx="10" cy="10" r="10" fill="#6C47FF" opacity="0.2"/>
+    <circle cx="10" cy="10" r="10" fill="none" stroke="#6C47FF" stroke-width="1"/>
+    <text x="10" y="14" font-family="-apple-system,sans-serif" font-size="9" fill="#9B75FF" text-anchor="middle" font-weight="700">1</text>
+    <text x="26" y="14" font-family="-apple-system,sans-serif" font-size="11" fill="#F5F0E8" opacity="0.6">Research</text>
+    <line x1="98" y1="10" x2="128" y2="10" stroke="#6C47FF" stroke-width="1" stroke-dasharray="3,3" opacity="0.4"/>
+  </g>
+  <g transform="translate(570, 712)">
+    <circle cx="10" cy="10" r="10" fill="#6C47FF" opacity="0.2"/>
+    <circle cx="10" cy="10" r="10" fill="none" stroke="#6C47FF" stroke-width="1"/>
+    <text x="10" y="14" font-family="-apple-system,sans-serif" font-size="9" fill="#9B75FF" text-anchor="middle" font-weight="700">2</text>
+    <text x="26" y="14" font-family="-apple-system,sans-serif" font-size="11" fill="#F5F0E8" opacity="0.6">Wireframe</text>
+    <line x1="108" y1="10" x2="128" y2="10" stroke="#6C47FF" stroke-width="1" stroke-dasharray="3,3" opacity="0.4"/>
+  </g>
+  <g transform="translate(720, 712)">
+    <circle cx="10" cy="10" r="10" fill="#6C47FF" opacity="0.4"/>
+    <circle cx="10" cy="10" r="10" fill="none" stroke="#6C47FF" stroke-width="1"/>
+    <text x="10" y="14" font-family="-apple-system,sans-serif" font-size="9" fill="#9B75FF" text-anchor="middle" font-weight="700">3</text>
+    <text x="26" y="14" font-family="-apple-system,sans-serif" font-size="11" fill="#F5F0E8" opacity="0.6">Visual Design</text>
+    <line x1="120" y1="10" x2="128" y2="10" stroke="#6C47FF" stroke-width="1" stroke-dasharray="3,3" opacity="0.4"/>
+  </g>
+  <g transform="translate(880, 712)">
+    <circle cx="10" cy="10" r="10" fill="#6C47FF" opacity="0.6"/>
+    <circle cx="10" cy="10" r="10" fill="none" stroke="#6C47FF" stroke-width="1"/>
+    <text x="10" y="14" font-family="-apple-system,sans-serif" font-size="9" fill="#F5F0E8" text-anchor="middle" font-weight="700">4</text>
+    <text x="26" y="14" font-family="-apple-system,sans-serif" font-size="11" fill="#F5F0E8" opacity="0.6">Prototype</text>
+    <line x1="102" y1="10" x2="128" y2="10" stroke="#6C47FF" stroke-width="1" stroke-dasharray="3,3" opacity="0.4"/>
+  </g>
+  <g transform="translate(1040, 712)">
+    <circle cx="10" cy="10" r="10" fill="#6C47FF"/>
+    <text x="10" y="14" font-family="-apple-system,sans-serif" font-size="9" fill="#fff" text-anchor="middle" font-weight="700">5</text>
+    <text x="26" y="14" font-family="-apple-system,sans-serif" font-size="11" fill="#F5F0E8" opacity="0.6">Handoff</text>
+  </g>
+
+  <!-- Footer -->
+  <line x1="430" y1="760" x2="1228" y2="760" stroke="#F5F0E8" stroke-width="0.5" opacity="0.06"/>
+  <text x="430" y="780" class="t-mono">VAULT — UX/UI CASE STUDY — ISAAC FIGUEROA / WAVE CREATIVE HOUSE — 2024</text>
+  <text x="1228" y="780" class="t-mono" text-anchor="end">01 / 03</text>
+
+  <!-- Slide number large bg watermark -->
+  <text x="1350" y="870" font-family="-apple-system,sans-serif" font-weight="900" font-size="180" fill="#F5F0E8" opacity="0.02" text-anchor="end">01</text>
 </svg>
