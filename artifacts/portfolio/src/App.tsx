@@ -298,6 +298,12 @@ function Home() {
       nameColor: "#000",
       clientColor: "#333",
       desc: "Full visual identity — signage, merch, posters, tote bags",
+      images: [
+        "/chino-1.jpg", "/chino-2.jpg", "/chino-3.jpg", "/chino-4.jpg",
+        "/chino-5.jpg", "/chino-6.jpg", "/chino-7.jpg", "/chino-8.jpg",
+        "/chino-9.jpg", "/chino-10.jpg", "/chino-11.jpg", "/chino-12.png",
+        "/chino-13.png", "/chino-14.png", "/chino-15.png"
+      ],
     },
     {
       name: "Cold Little Heart",
