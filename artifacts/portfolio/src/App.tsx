@@ -178,7 +178,6 @@ function Home() {
 
   return (
     <div className="min-h-[100dvh] w-full bg-background text-foreground overflow-x-hidden selection:bg-[#FF4D00] selection:text-black font-sans rounded-none">
-      
       {/* 1. STICKY NAV */}
       <nav 
         className={`fixed top-0 left-0 w-full px-8 md:px-16 py-4 md:py-6 flex justify-between items-center z-50 transition-all duration-300 rounded-none ${scrolled ? 'backdrop-blur-sm border-b border-[#1a1a1a] bg-background/80' : 'bg-transparent border-b border-transparent'}`}
@@ -192,7 +191,6 @@ function Home() {
           <a href="#contact" className="hover:text-[#F5F0E8] transition-colors" data-testid="link-nav-contact">CONTACT</a>
         </div>
       </nav>
-
       {/* 2. HERO */}
       <section className="relative h-[100dvh] w-full flex flex-col md:flex-row rounded-none">
         {/* LEFT COLUMN */}
@@ -251,7 +249,6 @@ function Home() {
           </div>
         </div>
       </section>
-
       {/* 3. ABOUT */}
       <section id="about" className="w-full py-32 md:py-48 px-8 md:px-16 rounded-none">
         <motion.div 
@@ -282,9 +279,9 @@ function Home() {
             <p className="font-sans font-light text-lg md:text-xl text-[#F5F0E8] leading-loose max-w-xl mb-8">
               Creative designer with 5+ years building high-impact visuals for non-profits, brands, and digital communities. I specialize in brand identity, campaign design, and social content that drives real engagement — and I bring the same level of craft whether the work lives on a screen, in print, or on a stage.
             </p>
-            <p className="font-sans font-light italic text-sm md:text-base text-muted-foreground max-w-xl mb-12">
-              Currently running Wave Creative House, my independent creative studio.
-            </p>
+            <p className="font-sans font-light italic text-sm md:text-base text-muted-foreground max-w-xl mb-12">Currently running Wave Creative House, my independent creative studio.
+            As well as working as a Graphic Designer for The Squad.
+</p>
 
             <div className="flex flex-wrap gap-3 rounded-none">
               {[
@@ -303,7 +300,6 @@ function Home() {
           </div>
         </motion.div>
       </section>
-
       {/* 4. SELECTED WORK */}
       <section id="work" className="w-full py-32 px-8 md:px-16 rounded-none border-t border-[#1a1a1a]">
         <motion.div 
@@ -372,7 +368,6 @@ function Home() {
           ))}
         </div>
       </section>
-
       {/* 5. EXPERIENCE */}
       <section id="experience" className="w-full py-32 px-8 md:px-16 border-t border-[#1a1a1a] rounded-none">
         <motion.div 
@@ -448,7 +443,6 @@ function Home() {
           ))}
         </div>
       </section>
-
       {/* 6. CONTACT + FOOTER */}
       <section id="contact" className="w-full pt-40 pb-10 px-8 md:px-16 border-t border-[#1a1a1a] rounded-none flex flex-col justify-between min-h-screen">
         <div className="flex-1 flex flex-col justify-center rounded-none">
@@ -512,7 +506,6 @@ function Home() {
           </div>
         </footer>
       </section>
-
       {resumeOpen && <ResumeModal onClose={() => setResumeOpen(false)} />}
     </div>
   );
