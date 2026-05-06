@@ -5,8 +5,6 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/not-found";
 import { motion } from "framer-motion";
-import { Mail, Phone, Globe, Twitter, Instagram, Linkedin } from "lucide-react";
-import { SiFigma } from "react-icons/si";
 
 const queryClient = new QueryClient();
 
@@ -15,7 +13,7 @@ function Home() {
 
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 50) {
+      if (window.scrollY > 80) {
         setScrolled(true);
       } else {
         setScrolled(false);
@@ -25,392 +23,318 @@ function Home() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const staggerContainer = {
+  const heroStagger = {
     hidden: { opacity: 0 },
     show: {
       opacity: 1,
-      transition: { staggerChildren: 0.1 }
+      transition: { staggerChildren: 0.15 }
     }
   };
 
-  const staggerItem = {
+  const heroItem = {
     hidden: { opacity: 0, y: 20 },
     show: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } }
   };
 
+  const projects = [
+    {
+      name: "Aware Coffee",
+      client: "Aware Coffee",
+      category: "Brand Identity / Packaging",
+      bg: "#f5f5f0",
+      labelColor: "#e34d37",
+      nameColor: "#111",
+      clientColor: "#555",
+      desc: "Product launch campaign, cup mockups, social media graphics",
+    },
+    {
+      name: "Billy Brunch NYC",
+      client: "Billy Brunch NYC",
+      category: "Brand Identity / Merch",
+      bg: "#7ba9ae",
+      labelColor: "#e34d37",
+      nameColor: "#fff",
+      clientColor: "rgba(255,255,255,0.6)",
+      desc: "Full brand suite — social graphics, hoodie, tote bag, signage",
+    },
+    {
+      name: "Change The World",
+      client: "Self-Initiated",
+      category: "Print / Poster",
+      bg: "#1a3aff",
+      labelColor: "#FFE500",
+      nameColor: "#fff",
+      clientColor: "rgba(255,255,255,0.6)",
+      desc: "Bold typographic print poster series in primary colors",
+    },
+    {
+      name: "Chino Club",
+      client: "Chino Club",
+      category: "Brand Identity / Events",
+      bg: "#f5f508",
+      labelColor: "#0015ff",
+      nameColor: "#000",
+      clientColor: "#333",
+      desc: "Full visual identity — signage, merch, posters, tote bags",
+    },
+    {
+      name: "Cold Little Heart",
+      client: "Cold Little Heart",
+      category: "Merch / Apparel",
+      bg: "#2a2a2a",
+      labelColor: "#e34d37",
+      nameColor: "#fff",
+      clientColor: "rgba(255,255,255,0.5)",
+      desc: "Vintage-style graphic tee with flaming heart illustration",
+    },
+    {
+      name: "Wallet App UI",
+      client: "Concept Project",
+      category: "UX/UI Design",
+      bg: "#e8d5c4",
+      labelColor: "#5c3fff",
+      nameColor: "#111",
+      clientColor: "#555",
+      desc: "Mobile wallet app — earnings tracking, portfolio, NFT/stocks",
+    },
+    {
+      name: "Mango",
+      client: "Mango",
+      category: "Merch Design",
+      bg: "#2d4a1e",
+      labelColor: "#FF5C00",
+      nameColor: "#fff",
+      clientColor: "rgba(255,255,255,0.5)",
+      desc: "Camo cap with arched orange MANGO wordmark",
+    },
+    {
+      name: "Spark Pro Services",
+      client: "Spark Pro Services",
+      category: "Brand Identity / Web",
+      bg: "#e34d37",
+      labelColor: "#fff",
+      nameColor: "#fff",
+      clientColor: "rgba(255,255,255,0.7)",
+      desc: "Construction company full rebrand — logo, web, apparel, signage",
+    },
+    {
+      name: "The Squad",
+      client: "The Squad",
+      category: "Campaign / Print",
+      bg: "#0f1923",
+      labelColor: "#FF5C00",
+      nameColor: "#fff",
+      clientColor: "rgba(255,255,255,0.5)",
+      desc: "Sermon series posters, fundraising campaigns, youth event graphics",
+    },
+    {
+      name: "Vive Media",
+      client: "Vive Media",
+      category: "Social / Events",
+      bg: "#180030",
+      labelColor: "#c840ff",
+      nameColor: "#fff",
+      clientColor: "rgba(255,255,255,0.5)",
+      desc: "Concert and live event flyer design — neon, urban aesthetic",
+    }
+  ];
+
   return (
-    <div className="min-h-[100dvh] w-full bg-background text-foreground overflow-x-hidden selection:bg-primary selection:text-primary-foreground">
+    <div className="min-h-[100dvh] w-full bg-background text-foreground overflow-x-hidden selection:bg-[#FF4D00] selection:text-black font-sans rounded-none">
       
-      {/* NAVBAR */}
+      {/* 1. STICKY NAV */}
       <nav 
-        className={`fixed top-0 left-0 w-full px-6 py-4 md:px-12 flex justify-between items-center z-50 border-b border-border transition-colors duration-300 ${scrolled ? 'bg-[#0a0a0a]' : 'bg-transparent'}`}
+        className={`fixed top-0 left-0 w-full px-8 md:px-16 py-4 md:py-6 flex justify-between items-center z-50 transition-all duration-300 rounded-none ${scrolled ? 'backdrop-blur-sm border-b border-[#1a1a1a] bg-background/80' : 'bg-transparent border-b border-transparent'}`}
       >
-        <div className="font-serif font-bold text-xl md:text-2xl uppercase tracking-widest" data-testid="text-logo">
-          ISAAC FIGUEROA
+        <div className="font-serif font-bold text-2xl text-[#F5F0E8] uppercase" data-testid="nav-logo">
+          IF.
         </div>
-        <div className="hidden md:flex gap-8 font-sans text-xs uppercase tracking-widest">
-          <a href="#work" className="hover:text-primary transition-colors" data-testid="link-nav-work">Work</a>
-          <a href="#about" className="hover:text-primary transition-colors" data-testid="link-nav-about">About</a>
-          <a href="#experience" className="hover:text-primary transition-colors" data-testid="link-nav-experience">Experience</a>
-          <a href="#contact" className="hover:text-primary transition-colors" data-testid="link-nav-contact">Contact</a>
+        <div className="flex gap-6 md:gap-8 font-sans text-xs uppercase tracking-[0.2em] text-muted-foreground">
+          <a href="#work" className="hover:text-[#F5F0E8] transition-colors" data-testid="link-nav-work">WORK</a>
+          <a href="#about" className="hover:text-[#F5F0E8] transition-colors" data-testid="link-nav-about">ABOUT</a>
+          <a href="#contact" className="hover:text-[#F5F0E8] transition-colors" data-testid="link-nav-contact">CONTACT</a>
         </div>
-        <button className="md:hidden text-xs uppercase tracking-widest text-primary font-bold" data-testid="button-mobile-menu">
-          MENU
-        </button>
       </nav>
 
-      {/* HERO */}
-      <section className="relative min-h-[100dvh] w-full flex flex-col justify-end px-6 md:px-12 pb-12 md:pb-24 pt-32">
-        <motion.div 
-          variants={staggerContainer}
-          initial="hidden"
-          animate="show"
-          className="w-full flex flex-col"
-        >
-          <motion.h1 
-            variants={staggerItem} 
-            className="text-[15vw] leading-[0.85] font-serif font-extrabold uppercase tracking-widest text-white mb-8" 
-            data-testid="text-hero-title"
+      {/* 2. HERO */}
+      <section className="relative h-[100dvh] w-full flex flex-col md:flex-row rounded-none">
+        {/* LEFT COLUMN */}
+        <div className="w-full md:w-[55%] h-full flex flex-col justify-center px-8 md:px-16 pt-24 md:pt-0 rounded-none">
+          <motion.div 
+            variants={heroStagger}
+            initial="hidden"
+            animate="show"
+            className="flex flex-col"
           >
-            ISAAC<br/>FIGUEROA
-          </motion.h1>
-          
-          <motion.div variants={staggerItem} className="w-full h-[2px] bg-primary mb-8" />
-          
-          <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-8 w-full">
-            <motion.p 
-              variants={staggerItem} 
-              className="font-sans font-light text-sm md:text-base text-muted-foreground uppercase tracking-widest max-w-lg" 
-              data-testid="text-hero-subtitle"
-            >
-              CREATIVE DESIGNER / BRAND, SOCIAL & DIGITAL CONTENT
-            </motion.p>
-            
-            <motion.div variants={staggerItem} className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
-              <a 
-                href="#work" 
-                className="bg-primary text-black px-10 py-5 font-serif text-lg font-bold uppercase tracking-widest hover:bg-white transition-colors text-center" 
-                data-testid="link-hero-work"
-              >
-                VIEW WORK
-              </a>
-              <a 
-                href="#contact" 
-                className="border border-white text-white px-10 py-5 font-serif text-lg font-bold uppercase tracking-widest hover:bg-white hover:text-black transition-colors text-center" 
-                data-testid="link-hero-contact"
-              >
-                GET IN TOUCH
-              </a>
+            <motion.div variants={heroItem} className="font-sans font-light text-xs tracking-[0.25em] text-muted-foreground uppercase mb-6 md:mb-8">
+              CREATIVE DESIGNER / LAS VEGAS
             </motion.div>
-          </div>
-        </motion.div>
+            
+            <motion.div variants={heroItem} className="flex flex-col">
+              <h1 className="font-serif font-extrabold text-[clamp(5rem,14vw,13rem)] leading-[0.85] tracking-[-0.03em] text-[#F5F0E8] m-0 p-0 uppercase">
+                ISAAC
+              </h1>
+              <h1 className="font-serif font-extrabold text-[clamp(5rem,14vw,13rem)] leading-[0.85] tracking-[-0.03em] text-[#FF4D00] m-0 p-0 uppercase">
+                FIGUEROA
+              </h1>
+            </motion.div>
 
-        <motion.div 
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1, duration: 1 }}
-          className="absolute bottom-12 right-12 hidden md:block text-xs font-sans text-muted-foreground uppercase tracking-widest"
-        >
-          WAVE CREATIVE HOUSE
-        </motion.div>
+            <motion.div variants={heroItem} className="mt-8 mb-12">
+              <p className="font-sans font-light text-sm text-muted-foreground max-w-xs leading-relaxed">
+                Building brands and visuals that stop the scroll — from print to digital.
+              </p>
+            </motion.div>
+
+            <motion.div variants={heroItem} className="flex gap-4">
+              <div className="font-serif font-medium text-xs text-[#F5F0E8] border border-[#2a2a2a] px-4 py-2 uppercase rounded-none">
+                5+ YRS
+              </div>
+              <div className="font-serif font-medium text-xs text-[#F5F0E8] border border-[#2a2a2a] px-4 py-2 uppercase rounded-none">
+                10+ CLIENTS
+              </div>
+            </motion.div>
+          </motion.div>
+        </div>
+
+        {/* RIGHT COLUMN */}
+        <div className="hidden md:flex w-[45%] h-full bg-[#1a1a1a] items-center justify-center rounded-none relative">
+          <div className="font-serif font-bold text-xl text-[#2a2a2a] uppercase tracking-widest text-center">
+            WAVE CREATIVE HOUSE
+          </div>
+        </div>
+
+        {/* BOTTOM MARQUEE */}
+        <div className="absolute bottom-0 left-0 w-full overflow-hidden border-t border-[#1a1a1a] bg-background flex rounded-none whitespace-nowrap py-3">
+          <div className="animate-marquee flex gap-8 items-center min-w-max">
+            {[...Array(3)].map((_, i) => (
+              <div key={i} className="flex items-center gap-8 font-serif font-medium text-sm uppercase tracking-[0.15em] text-[#F5F0E8]">
+                <span>BRAND IDENTITY</span> <span className="text-[#2a2a2a] text-[8px]">●</span>
+                <span>CAMPAIGN DESIGN</span> <span className="text-[#2a2a2a] text-[8px]">●</span>
+                <span>SOCIAL CONTENT</span> <span className="text-[#2a2a2a] text-[8px]">●</span>
+                <span>WEB DESIGN</span> <span className="text-[#2a2a2a] text-[8px]">●</span>
+                <span>MERCH</span> <span className="text-[#2a2a2a] text-[8px]">●</span>
+                <span>PRINT</span> <span className="text-[#2a2a2a] text-[8px]">●</span>
+                <span>EVENT DESIGN</span> <span className="text-[#2a2a2a] text-[8px]">●</span>
+                <span>TYPOGRAPHY</span> <span className="text-[#2a2a2a] text-[8px]">●</span>
+              </div>
+            ))}
+          </div>
+        </div>
       </section>
 
-      {/* ABOUT */}
-      <section id="about" className="py-24 md:py-32 px-6 md:px-12 border-t border-border">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-24 items-start">
-          <motion.div 
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            className="lg:col-span-4"
-          >
-            <h2 className="text-[12vw] lg:text-[8vw] leading-none font-serif font-extrabold uppercase tracking-widest lg:rotate-90 lg:origin-top-left lg:absolute" data-testid="text-about-heading">
-              ABOUT
-            </h2>
-          </motion.div>
-          
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="lg:col-span-8 lg:ml-auto lg:pl-32 flex flex-col gap-12"
-          >
-            <p className="text-lg md:text-xl lg:text-2xl font-sans font-light text-foreground leading-loose" data-testid="text-about-bio">
-              Creative designer with 5+ years building high-impact visuals for non-profits, brands, and digital communities. I specialize in brand identity, campaign design, and social content that drives real engagement — and I bring the same level of craft whether the work lives on a screen, in print, or on a stage. Currently running Wave Creative House, my independent creative studio.
+      {/* 3. ABOUT */}
+      <section id="about" className="w-full py-32 md:py-48 px-8 md:px-16 rounded-none">
+        <motion.div 
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          className="grid grid-cols-1 md:grid-cols-12 gap-16 md:gap-8 rounded-none"
+        >
+          {/* LEFT */}
+          <div className="md:col-span-5 flex flex-col rounded-none">
+            <div className="font-serif font-medium text-xs text-muted-foreground tracking-widest uppercase mb-16">
+              02
+            </div>
+            <div className="font-serif font-bold text-[8rem] leading-none text-[#F5F0E8]">
+              05+
+            </div>
+            <div className="font-sans font-light text-xs text-muted-foreground uppercase tracking-[0.2em] mt-4">
+              YEARS EXPERIENCE
+            </div>
+          </div>
+
+          {/* RIGHT */}
+          <div className="md:col-span-7 flex flex-col rounded-none">
+            <div className="font-sans font-light text-xs text-muted-foreground uppercase tracking-[0.2em] mb-6">
+              ABOUT ISAAC
+            </div>
+            <p className="font-sans font-light text-lg md:text-xl text-[#F5F0E8] leading-loose max-w-xl mb-8">
+              Creative designer with 5+ years building high-impact visuals for non-profits, brands, and digital communities. I specialize in brand identity, campaign design, and social content that drives real engagement — and I bring the same level of craft whether the work lives on a screen, in print, or on a stage.
             </p>
-            
-            <div className="flex flex-wrap gap-3">
+            <p className="font-sans font-light italic text-sm md:text-base text-muted-foreground max-w-xl mb-12">
+              Currently running Wave Creative House, my independent creative studio.
+            </p>
+
+            <div className="flex flex-wrap gap-3 rounded-none">
               {[
                 "Brand Identity", "Campaign Design", "Social Media Graphics", 
                 "Web Design", "Print & Marketing", "Typography", 
                 "Layout & Composition", "Merch Design", "YouTube Thumbnails", "Event Promotion"
-              ].map((skill, i) => (
-                <span 
+              ].map((tag, i) => (
+                <div 
                   key={i} 
-                  className="border border-border px-4 py-2 font-sans font-normal text-xs uppercase tracking-widest hover:border-primary hover:text-primary transition-colors cursor-default" 
-                  data-testid={`tag-skill-${i}`}
+                  className="font-sans font-light text-xs uppercase tracking-[0.15em] text-[#F5F0E8] border border-[#2a2a2a] px-4 py-2 hover:border-[#FF4D00] hover:text-[#FF4D00] transition-colors cursor-default rounded-none"
                 >
-                  {skill}
-                </span>
+                  {tag}
+                </div>
               ))}
             </div>
-
-            <div className="flex flex-wrap items-center gap-x-4 gap-y-2 mt-4 text-muted-foreground font-serif text-xl tracking-widest">
-              <span>ILLUSTRATOR</span> <span className="text-primary font-sans font-light">/</span>
-              <span>PHOTOSHOP</span> <span className="text-primary font-sans font-light">/</span>
-              <span>INDESIGN</span> <span className="text-primary font-sans font-light">/</span>
-              <span>AFTER EFFECTS</span> <span className="text-primary font-sans font-light">/</span>
-              <span>FIGMA</span> <span className="text-primary font-sans font-light">/</span>
-              <span>LIGHTROOM</span>
-            </div>
-          </motion.div>
-        </div>
+          </div>
+        </motion.div>
       </section>
 
-      {/* EXPERIENCE */}
-      <section id="experience" className="py-24 md:py-32 px-6 md:px-12 border-t border-border bg-card">
-        <motion.h2 
+      {/* 4. SELECTED WORK */}
+      <section id="work" className="w-full py-32 px-8 md:px-16 rounded-none border-t border-[#1a1a1a]">
+        <motion.div 
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-5xl md:text-7xl font-serif font-extrabold tracking-widest uppercase mb-20"
+          className="flex flex-col md:flex-row md:items-end justify-between mb-20 rounded-none gap-6"
         >
-          EXPERIENCE
-        </motion.h2>
-
-        <div className="relative border-l-2 border-primary pl-8 md:pl-12 flex flex-col gap-20 ml-2 md:ml-4">
-          {[
-            {
-              role: "CREATIVE DESIGNER",
-              company: "THE SQUAD",
-              year: "2021 – PRESENT",
-              bullets: [
-                "Designed social media graphics, posters, thumbnails, and print materials for non-profit and community organizations across the U.S.",
-                "Built cohesive visual systems for fundraising campaigns, youth events, and seasonal sermon series.",
-                "Partnered with leadership and marketing teams on brand voice and campaign strategy from concept to delivery."
-              ]
-            },
-            {
-              role: "GRAPHIC DESIGNER",
-              company: "VIVE MEDIA",
-              year: "2021",
-              bullets: [
-                "Created social graphics, thumbnails, and marketing assets for digital campaigns and live events.",
-                "Produced on-brand visuals with fast turnaround across multiple concurrent campaigns."
-              ]
-            },
-            {
-              role: "JUNIOR GRAPHIC DESIGNER",
-              company: "VIBRANT MEDIA",
-              year: "2020 – 2021",
-              bullets: [
-                "Designed social media and digital graphics for multiple client brands simultaneously.",
-                "Produced promotional visuals for campaigns, events, and digital ad placements."
-              ]
-            }
-          ].map((job, i) => (
-            <motion.div 
-              key={i}
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.6 }}
-              className="relative max-w-4xl"
-              data-testid={`item-experience-${i}`}
-            >
-              <div className="absolute -left-[41px] md:-left-[57px] top-3 w-4 h-4 bg-background border-2 border-primary rounded-none" />
-              <h3 className="text-3xl md:text-5xl font-serif font-bold tracking-widest uppercase text-white mb-2">{job.role}</h3>
-              <div className="font-serif text-xl tracking-widest uppercase text-primary mb-6">
-                {job.company} <span className="font-sans font-light text-sm text-muted-foreground tracking-widest ml-4">{job.year}</span>
-              </div>
-              <ul className="flex flex-col gap-3 font-sans font-light text-base md:text-lg text-foreground leading-relaxed">
-                {job.bullets.map((bullet, j) => (
-                  <li key={j} className="flex gap-4">
-                    <span className="text-muted-foreground">•</span>
-                    <span>{bullet}</span>
-                  </li>
-                ))}
-              </ul>
-            </motion.div>
-          ))}
-        </div>
-      </section>
-
-      {/* SELECTED WORKS */}
-      <section id="work" className="py-24 md:py-32 px-6 md:px-12 border-t border-border">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="mb-20"
-        >
-          <h2 className="text-5xl md:text-7xl font-serif font-extrabold tracking-widest uppercase" data-testid="text-work-heading">
+          <h2 className="font-serif font-bold text-5xl md:text-7xl text-[#F5F0E8] uppercase m-0 leading-none">
             SELECTED WORKS
           </h2>
+          <div className="font-serif font-light text-xl text-muted-foreground">
+            (10)
+          </div>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
-          {[
-            {
-              name: "Aware Coffee",
-              client: "Aware Coffee",
-              category: "Brand Identity / Packaging",
-              bg: "#f5f5f0",
-              accent: "#000000",
-              labelColor: "#e34d37",
-              nameColor: "#000000",
-              clientColor: "#555555",
-              desc: "Product launch campaign, branded cup mockups, social media graphics",
-            },
-            {
-              name: "Billy Brunch NYC",
-              client: "Billy Brunch NYC",
-              category: "Brand Identity / Merch",
-              bg: "#7ba9ae",
-              accent: "#e34d37",
-              labelColor: "#e34d37",
-              nameColor: "#ffffff",
-              clientColor: "rgba(255,255,255,0.7)",
-              desc: "Full brand suite — social graphics, hoodie, tote bag, signage, A-frame poster",
-            },
-            {
-              name: "Change The World",
-              client: "Self-Initiated",
-              category: "Print / Poster",
-              bg: "#1a3aff",
-              accent: "#FFE500",
-              labelColor: "#FFE500",
-              nameColor: "#ffffff",
-              clientColor: "rgba(255,255,255,0.7)",
-              desc: "Bold typographic print poster series in primary colors",
-            },
-            {
-              name: "Chino Club",
-              client: "Chino Club",
-              category: "Brand Identity / Events",
-              bg: "#f5f508",
-              accent: "#0015ff",
-              labelColor: "#0015ff",
-              nameColor: "#000000",
-              clientColor: "#333333",
-              desc: "Full visual identity — signage, merch, posters, tote bags, apparel",
-            },
-            {
-              name: "Cold Little Heart",
-              client: "Cold Little Heart",
-              category: "Merch Design / Apparel",
-              bg: "#2a2a2a",
-              accent: "#e34d37",
-              labelColor: "#e34d37",
-              nameColor: "#ffffff",
-              clientColor: "rgba(255,255,255,0.6)",
-              desc: "Vintage-style graphic tee with flaming heart illustration",
-            },
-            {
-              name: "Wallet App UI",
-              client: "Concept Project",
-              category: "UX/UI Design",
-              bg: "#e8d5c4",
-              accent: "#5c3fff",
-              labelColor: "#5c3fff",
-              nameColor: "#111111",
-              clientColor: "#555555",
-              desc: "Mobile wallet app — earnings tracking, portfolio view, NFT/stocks UI",
-            },
-            {
-              name: "Mango",
-              client: "Mango",
-              category: "Merch Design",
-              bg: "#2d4a1e",
-              accent: "#FF5C00",
-              labelColor: "#FF5C00",
-              nameColor: "#ffffff",
-              clientColor: "rgba(255,255,255,0.6)",
-              desc: "Camo cap with arched orange MANGO wordmark",
-            },
-            {
-              name: "Spark Pro Services",
-              client: "Spark Pro Services",
-              category: "Brand Identity / Web",
-              bg: "#e34d37",
-              accent: "#1a2c5b",
-              labelColor: "#ffffff",
-              nameColor: "#ffffff",
-              clientColor: "rgba(255,255,255,0.75)",
-              desc: "Construction company full rebrand — logo, web, apparel, signage, ad campaigns",
-            },
-            {
-              name: "The Squad",
-              client: "The Squad",
-              category: "Campaign Design / Print",
-              bg: "#0f1923",
-              accent: "#FF5C00",
-              labelColor: "#FF5C00",
-              nameColor: "#ffffff",
-              clientColor: "rgba(255,255,255,0.6)",
-              desc: "Sermon series posters, fundraising campaigns, and youth event graphics",
-            },
-            {
-              name: "Vive Media",
-              client: "Vive Media",
-              category: "Social Media / Events",
-              bg: "#180030",
-              accent: "#c840ff",
-              labelColor: "#c840ff",
-              nameColor: "#ffffff",
-              clientColor: "rgba(255,255,255,0.6)",
-              desc: "Concert and live event flyer design — neon, urban aesthetic",
-            },
-          ].map((project, i) => (
+        <div className="columns-1 md:columns-2 gap-8 space-y-8 rounded-none">
+          {projects.map((project, i) => (
             <motion.div
               key={i}
-              initial={{ opacity: 0, y: 24 }}
+              initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: (i % 4) * 0.08 }}
-              className="group relative cursor-pointer overflow-hidden"
-              style={{ aspectRatio: "4/5", background: project.bg }}
-              data-testid={`card-work-${i}`}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.6, delay: (i % 2) * 0.1 }}
+              className="relative w-full overflow-hidden group cursor-pointer aspect-[3/2] inline-block mb-8 rounded-none"
+              style={{ backgroundColor: project.bg }}
+              data-testid={`card-project-${i}`}
             >
-              {/* Category label */}
-              <div
-                className="absolute top-5 left-5 font-sans font-medium text-[10px] uppercase tracking-widest"
+              <div 
+                className="absolute top-6 left-6 font-sans font-light text-[10px] uppercase tracking-[0.2em] z-10"
                 style={{ color: project.labelColor }}
               >
                 {project.category}
               </div>
 
-              {/* Project name — centered */}
-              <div className="absolute inset-0 flex items-center justify-center px-6">
-                <h3
-                  className="font-serif font-bold text-3xl md:text-2xl xl:text-3xl uppercase tracking-widest text-center leading-tight"
+              <div className="absolute inset-0 flex items-center justify-center p-8 z-10">
+                <h3 
+                  className="font-serif font-bold text-3xl md:text-4xl uppercase text-center leading-tight transition-transform duration-400 ease-out group-hover:scale-105"
                   style={{ color: project.nameColor }}
                 >
                   {project.name}
                 </h3>
               </div>
 
-              {/* Client + year */}
-              <div className="absolute bottom-5 left-5 right-5 flex justify-between items-end">
-                <span
-                  className="font-sans font-light text-xs uppercase tracking-widest"
+              <div className="absolute bottom-6 left-6 right-6 flex justify-between items-end z-10">
+                <div 
+                  className="font-sans font-light text-xs"
                   style={{ color: project.clientColor }}
                 >
                   {project.client}
-                </span>
-                <span
-                  className="font-sans font-light text-xs tracking-widest"
+                </div>
+                <div 
+                  className="font-sans font-light text-xs"
                   style={{ color: project.clientColor }}
                 >
                   2024
-                </span>
+                </div>
               </div>
 
-              {/* Hover overlay with description */}
-              <div className="absolute inset-0 flex items-center justify-center px-6 bg-black/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                <p className="font-sans font-light text-sm text-white text-center leading-relaxed tracking-wide">
+              <div className="absolute inset-0 bg-black/60 translate-y-full group-hover:translate-y-0 transition-transform duration-400 ease-[0.22,1,0.36,1] z-20 flex items-center justify-center p-8 rounded-none">
+                <p className="font-sans font-light text-sm text-white text-center max-w-sm">
                   {project.desc}
                 </p>
               </div>
@@ -419,92 +343,144 @@ function Home() {
         </div>
       </section>
 
-      {/* TRAINING */}
-      <section className="py-24 px-6 md:px-12 border-t border-border bg-card">
-        <motion.h2 
+      {/* 5. EXPERIENCE */}
+      <section id="experience" className="w-full py-32 px-8 md:px-16 border-t border-[#1a1a1a] rounded-none">
+        <motion.div 
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-5xl md:text-7xl font-serif font-extrabold tracking-widest uppercase mb-16"
+          className="flex flex-col md:flex-row md:items-start gap-6 md:gap-16 mb-20 rounded-none"
         >
-          TRAINING
-        </motion.h2>
+          <div className="font-serif font-medium text-xs text-muted-foreground tracking-widest uppercase md:mt-4">
+            03
+          </div>
+          <h2 className="font-serif font-bold text-5xl md:text-7xl text-[#F5F0E8] uppercase m-0 leading-none">
+            EXPERIENCE
+          </h2>
+        </motion.div>
 
-        <div className="flex flex-col border-t border-border">
+        <div className="flex flex-col rounded-none">
           {[
-            { title: "GOOGLE UX/UI DESIGN", source: "COURSERA / GOOGLE" },
-            { title: "TYPOGRAPHY & DESIGN", source: "THE FUTUR / CHRIS DO" },
-            { title: "FIGMA FOR DESIGNERS", source: "MAX BRINCKMANN" }
-          ].map((course, i) => (
-            <div key={i} className="py-8 border-b border-border flex flex-col md:flex-row md:items-center justify-between gap-4 group" data-testid={`card-training-${i}`}>
-              <h4 className="font-serif font-bold text-3xl md:text-4xl tracking-widest uppercase text-white transition-colors">{course.title}</h4>
-              <p className="font-serif font-normal text-xl tracking-widest uppercase text-primary">{course.source}</p>
-            </div>
+            {
+              year: "2021–PRESENT",
+              role: "CREATIVE DESIGNER",
+              company: "THE SQUAD",
+              bullets: [
+                "Designed social media graphics, posters, and print materials for non-profits",
+                "Built visual systems for fundraising campaigns and sermon series",
+                "Partnered with leadership on brand strategy from concept to delivery"
+              ]
+            },
+            {
+              year: "2021",
+              role: "GRAPHIC DESIGNER",
+              company: "VIVE MEDIA",
+              bullets: [
+                "Created social graphics and marketing assets for digital campaigns and live events",
+                "Delivered on-brand visuals with fast turnaround across concurrent campaigns"
+              ]
+            },
+            {
+              year: "2020–2021",
+              role: "JUNIOR GRAPHIC DESIGNER",
+              company: "VIBRANT MEDIA",
+              bullets: [
+                "Designed graphics for multiple client brands simultaneously",
+                "Produced promotional visuals for campaigns, events, and digital ad placements"
+              ]
+            }
+          ].map((job, i) => (
+            <motion.div 
+              key={i}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: i * 0.1 }}
+              className={`py-10 md:py-14 flex flex-col md:grid md:grid-cols-12 gap-8 md:gap-16 border-[#1a1a1a] rounded-none ${i !== 0 ? 'border-t' : ''}`}
+            >
+              <div className="md:col-span-3 font-sans font-light text-xs text-muted-foreground tracking-wide">
+                {job.year}
+              </div>
+              <div className="md:col-span-4 flex flex-col rounded-none">
+                <h3 className="font-serif font-semibold text-xl md:text-2xl text-[#F5F0E8] uppercase mb-2">{job.role}</h3>
+                <div className="font-serif font-normal text-base text-[#FF4D00]">{job.company}</div>
+              </div>
+              <div className="md:col-span-5 rounded-none">
+                <ul className="flex flex-col gap-3 font-sans font-light text-sm text-muted-foreground leading-loose list-none p-0 m-0">
+                  {job.bullets.map((bullet, j) => (
+                    <li key={j} className="relative pl-4 before:content-[''] before:absolute before:left-0 before:top-2 before:w-1 before:h-1 before:bg-[#2a2a2a] before:rounded-none">
+                      {bullet}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </motion.div>
           ))}
         </div>
       </section>
 
-      {/* CONTACT */}
-      <section id="contact" className="py-24 md:py-32 px-6 md:px-12 border-t border-border">
-        <div className="max-w-6xl mx-auto flex flex-col items-center text-center">
-          <motion.h2 
+      {/* 6. CONTACT + FOOTER */}
+      <section id="contact" className="w-full pt-40 pb-10 px-8 md:px-16 border-t border-[#1a1a1a] rounded-none flex flex-col justify-between min-h-screen">
+        <div className="flex-1 flex flex-col justify-center rounded-none">
+          <motion.div 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-[12vw] md:text-[9vw] leading-[0.85] font-serif font-extrabold uppercase tracking-widest text-white mb-16"
+            className="flex flex-col rounded-none"
           >
-            LET'S CREATE<br/>SOMETHING BOLD.
-          </motion.h2>
+            <div className="font-serif font-medium text-xs text-muted-foreground tracking-widest uppercase mb-12">
+              04
+            </div>
+            <h2 className="font-serif font-bold text-[clamp(3.5rem,10vw,9rem)] leading-[0.9] text-[#F5F0E8] uppercase m-0">
+              LET'S WORK<br />TOGETHER<span className="text-[#FF4D00]">.</span>
+            </h2>
+            
+            <p className="font-sans font-light text-sm text-muted-foreground mt-12 mb-16 max-w-md">
+              Open for freelance projects, brand collaborations, and full-time opportunities.
+            </p>
 
-          <div className="flex flex-col gap-6 font-sans font-light text-lg md:text-xl items-center mb-16">
-            <a href="mailto:isaacfigueroa561@gmail.com" className="flex items-center gap-4 hover:text-primary transition-colors" data-testid="link-email">
-              isaacfigueroa561@gmail.com
-            </a>
-            <a href="tel:+17027880115" className="flex items-center gap-4 hover:text-primary transition-colors" data-testid="link-phone">
-              +1 (702) 788-0115
-            </a>
-            <a href="https://wavecreativehouse.com" target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 hover:text-primary transition-colors" data-testid="link-website">
-              wavecreativehouse.com
-            </a>
-            <div className="font-sans font-light text-sm uppercase tracking-widest text-muted-foreground mt-4">
-              LANGUAGES: ENGLISH / SPANISH
+            <div className="flex flex-col sm:flex-row gap-4 mb-24 rounded-none">
+              <button 
+                className="bg-[#FF4D00] text-black font-serif font-semibold uppercase tracking-wide px-8 py-4 text-sm hover:opacity-90 transition-opacity rounded-none"
+                data-testid="button-start-project"
+              >
+                START A PROJECT
+              </button>
+              <button 
+                className="border border-[#F5F0E8] text-[#F5F0E8] font-serif font-semibold uppercase tracking-wide px-8 py-4 text-sm hover:bg-[#1a1a1a] transition-colors rounded-none"
+                data-testid="button-resume"
+              >
+                VIEW RESUME
+              </button>
+            </div>
+
+            <div className="flex flex-wrap gap-8 font-sans font-light text-xs text-muted-foreground tracking-wide rounded-none">
+              <a href="mailto:isaacfigueroa561@gmail.com" className="hover:text-[#F5F0E8] transition-colors" data-testid="link-email">isaacfigueroa561@gmail.com</a>
+              <a href="tel:+17027880115" className="hover:text-[#F5F0E8] transition-colors" data-testid="link-phone">+1 (702) 788-0115</a>
+              <a href="https://wavecreativehouse.com" target="_blank" rel="noopener noreferrer" className="hover:text-[#F5F0E8] transition-colors" data-testid="link-website">wavecreativehouse.com</a>
+              <span>English / Spanish</span>
+            </div>
+          </motion.div>
+        </div>
+
+        {/* FOOTER */}
+        <footer className="mt-40 pt-10 border-t border-[#1a1a1a] flex flex-col md:flex-row justify-between items-start md:items-center gap-8 rounded-none">
+          <div className="flex flex-col gap-2 rounded-none">
+            <div className="font-serif font-semibold text-sm text-[#F5F0E8] uppercase tracking-[0.15em]">
+              WAVE CREATIVE HOUSE
+            </div>
+            <div className="font-sans font-light text-xs text-muted-foreground">
+              © 2025 ISAAC FIGUEROA. ALL RIGHTS RESERVED.
             </div>
           </div>
 
-          <div className="flex flex-col sm:flex-row gap-6 w-full justify-center">
-            <a 
-              href="mailto:isaacfigueroa561@gmail.com" 
-              className="bg-primary text-black px-12 py-5 font-serif text-xl font-bold uppercase tracking-widest hover:bg-white transition-colors" 
-              data-testid="button-email"
-            >
-              SEND AN EMAIL
-            </a>
-            <button 
-              className="border border-white text-white px-12 py-5 font-serif text-xl font-bold uppercase tracking-widest hover:bg-white hover:text-black transition-colors" 
-              data-testid="button-resume"
-            >
-              VIEW MY RESUME
-            </button>
+          <div className="flex gap-8 font-sans font-light text-xs text-muted-foreground uppercase tracking-wide rounded-none">
+            <a href="#" className="hover:text-[#F5F0E8] transition-colors" data-testid="link-instagram">INSTAGRAM</a>
+            <a href="#" className="hover:text-[#F5F0E8] transition-colors" data-testid="link-linkedin">LINKEDIN</a>
+            <a href="#" className="hover:text-[#F5F0E8] transition-colors" data-testid="link-twitter">TWITTER</a>
           </div>
-        </div>
+        </footer>
       </section>
-
-      {/* FOOTER */}
-      <footer className="py-12 px-6 md:px-12 border-t border-border flex flex-col md:flex-row justify-between items-center gap-8 bg-background">
-        <div className="flex flex-col items-center md:items-start gap-2">
-          <div className="font-serif font-extrabold text-2xl md:text-3xl tracking-widest uppercase text-white">
-            WAVE CREATIVE HOUSE
-          </div>
-          <div className="font-sans font-light text-xs uppercase tracking-widest text-muted-foreground">
-            © 2025 ISAAC FIGUEROA
-          </div>
-        </div>
-        <div className="flex gap-8 font-sans font-light text-xs uppercase tracking-widest">
-          <a href="#" className="hover:text-primary transition-colors" data-testid="link-twitter">TWITTER</a>
-          <a href="#" className="hover:text-primary transition-colors" data-testid="link-instagram">INSTAGRAM</a>
-          <a href="#" className="hover:text-primary transition-colors" data-testid="link-linkedin">LINKEDIN</a>
-        </div>
-      </footer>
 
     </div>
   );
