@@ -229,6 +229,7 @@ function Home() {
   const [scrolled, setScrolled] = useState(false);
   const [resumeOpen, setResumeOpen] = useState(false);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const [hoveredProject, setHoveredProject] = useState<Project | null>(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -468,99 +469,84 @@ function Home() {
           <h2 className="font-serif font-bold text-5xl md:text-7xl text-[#F5F0E8] uppercase m-0 leading-none">
             SELECTED WORKS
           </h2>
-          <div className="font-serif font-light text-xl text-muted-foreground">(7)</div>
+          <div className="font-sans font-light text-sm text-muted-foreground tracking-widest">(07)</div>
         </motion.div>
 
-        {/* Full-bleed grid — gap-[2px] with dark bg creates thin separator lines */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-[2px] bg-[#111]">
-          {projects.map((project, i) => {
-            const isFullWidth = i === 2; // Change The World — bold typographic centerpiece
-            const hasImage = (project.images?.length ?? 0) > 0;
+        {/* Editorial list */}
+        <div className="border-t border-[#1a1a1a] relative">
 
-            return (
+          {/* Floating image preview — fixed to right side while hovering */}
+          <AnimatePresence>
+            {hoveredProject?.images?.[0] && (
               <motion.div
-                key={i}
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                viewport={{ once: true, margin: "-60px" }}
-                transition={{ duration: 0.7, delay: (i % 2) * 0.08 }}
-                className={`relative overflow-hidden group cursor-pointer${isFullWidth ? " md:col-span-2" : ""}`}
-                style={{
-                  backgroundColor: project.bg,
-                  aspectRatio: isFullWidth ? "21/7" : "1/1",
-                }}
-                data-testid={`card-project-${i}`}
-                onClick={() => setSelectedProject(project)}
+                key={hoveredProject.name}
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 8 }}
+                transition={{ duration: 0.22, ease: "easeOut" }}
+                className="fixed pointer-events-none z-40 hidden lg:block"
+                style={{ right: "6vw", top: "50vh", transform: "translateY(-50%)" }}
               >
-                {/* Real image as cover — scales on hover */}
-                {hasImage && (
+                <div style={{ width: 340, height: 240 }} className="overflow-hidden">
                   <img
-                    src={project.images![0]}
-                    alt={project.name}
-                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-[0.16,1,0.3,1] group-hover:scale-105"
+                    src={hoveredProject.images[0]}
+                    alt={hoveredProject.name}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          {projects.map((project, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-40px" }}
+              transition={{ duration: 0.55, delay: i * 0.04 }}
+              className="group border-b border-[#1a1a1a] cursor-pointer"
+              onClick={() => setSelectedProject(project)}
+              onMouseEnter={() => setHoveredProject(project)}
+              onMouseLeave={() => setHoveredProject(null)}
+              data-testid={`card-project-${i}`}
+            >
+              <div className="flex items-center px-8 md:px-16 py-7 md:py-9 gap-6 md:gap-10 group-hover:bg-[#111] transition-colors duration-200">
+                {/* Number */}
+                <span className="font-sans font-light text-[11px] text-[#F5F0E8]/20 w-7 flex-shrink-0 tabular-nums select-none">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+
+                {/* Name */}
+                <h3 className="font-serif font-bold uppercase text-[clamp(1.6rem,4vw,3.5rem)] text-[#F5F0E8] leading-none flex-1 group-hover:text-[#FF4D00] transition-colors duration-300 tracking-tight">
+                  {project.name}
+                </h3>
+
+                {/* Category + Client — hidden on mobile */}
+                <div className="hidden md:flex flex-col items-end gap-[5px] flex-shrink-0 min-w-[160px]">
+                  <span className="font-sans font-light text-[10px] uppercase tracking-[0.22em] text-[#F5F0E8]/40 text-right">
+                    {project.category}
+                  </span>
+                  <span className="font-sans font-light text-[10px] text-[#F5F0E8]/25 text-right">
+                    {project.client}
+                  </span>
+                </div>
+
+                {/* Color swatch for projects without images (visible only on hover) */}
+                {!project.images?.length && (
+                  <div
+                    className="hidden md:block w-6 h-6 flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                    style={{ backgroundColor: project.bg }}
                   />
                 )}
 
-                {/* Bottom gradient for image cards */}
-                {hasImage && (
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/10 to-transparent" />
-                )}
-
-                {/* Category — top left */}
-                <div
-                  className="absolute top-6 left-6 font-sans font-light text-[10px] uppercase tracking-[0.25em] z-10"
-                  style={{ color: hasImage ? "rgba(255,255,255,0.45)" : project.labelColor }}
-                >
-                  {project.category}
-                </div>
-
-                {/* Index — top right */}
-                <div className="absolute top-6 right-6 font-serif font-light text-xs z-10" style={{ color: hasImage ? "rgba(255,255,255,0.2)" : "rgba(0,0,0,0.15)" }}>
-                  {String(i + 1).padStart(2, "0")}
-                </div>
-
-                {/* Color card: large centered name */}
-                {!hasImage && (
-                  <div className="absolute inset-0 flex items-center justify-center p-10 z-10">
-                    <h3
-                      className="font-serif font-bold uppercase text-center leading-none transition-transform duration-500 group-hover:scale-[1.04]"
-                      style={{
-                        color: project.nameColor,
-                        fontSize: isFullWidth ? "clamp(3rem,8vw,7rem)" : "clamp(2rem,5vw,3.5rem)",
-                      }}
-                    >
-                      {project.name}
-                    </h3>
-                  </div>
-                )}
-
-                {/* Image card: name at bottom */}
-                {hasImage && (
-                  <div className="absolute bottom-0 left-0 right-0 px-7 py-6 z-10">
-                    <h3 className="font-serif font-bold text-2xl md:text-3xl uppercase leading-none text-white mb-1">
-                      {project.name}
-                    </h3>
-                    <div className="flex items-center justify-between">
-                      <span className="font-sans font-light text-xs text-white/40">{project.client}</span>
-                      <span className="font-sans font-light text-xs text-white/30 group-hover:text-[#FF4D00] transition-colors duration-300 tracking-widest">
-                        VIEW →
-                      </span>
-                    </div>
-                  </div>
-                )}
-
-                {/* Hover overlay — all cards */}
-                <div className="absolute inset-0 bg-black/65 opacity-0 group-hover:opacity-100 transition-opacity duration-350 z-20 flex flex-col items-center justify-center p-10">
-                  <p className="font-sans font-light text-sm text-white/80 text-center max-w-xs leading-loose mb-5">
-                    {project.desc}
-                  </p>
-                  <span className="font-sans font-light text-[10px] uppercase tracking-[0.3em] text-[#FF4D00]">
-                    VIEW PROJECT
-                  </span>
-                </div>
-              </motion.div>
-            );
-          })}
+                {/* Arrow */}
+                <span className="font-sans text-base text-[#F5F0E8]/20 group-hover:text-[#FF4D00] group-hover:translate-x-1.5 transition-all duration-300 flex-shrink-0 select-none">
+                  →
+                </span>
+              </div>
+            </motion.div>
+          ))}
         </div>
       </section>
       {/* 5. EXPERIENCE */}
