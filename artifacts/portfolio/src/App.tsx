@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Switch, Route, Router as WouterRouter } from "wouter";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/not-found";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 
 const queryClient = new QueryClient();
 
@@ -23,73 +23,186 @@ type Project = {
 function ProjectModal({ project, onClose }: { project: Project; onClose: () => void }) {
   const [imgIndex, setImgIndex] = useState(0);
   const images = project.images ?? [];
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    document.body.style.overflow = "hidden";
+    return () => { document.body.style.overflow = ""; };
+  }, []);
 
   useEffect(() => {
     const handleKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();
-      if (e.key === "ArrowRight") setImgIndex(i => Math.min(i + 1, images.length - 1));
-      if (e.key === "ArrowLeft") setImgIndex(i => Math.max(i - 1, 0));
+      if (e.key === "ArrowRight") goTo(Math.min(imgIndex + 1, images.length - 1));
+      if (e.key === "ArrowLeft") goTo(Math.max(imgIndex - 1, 0));
     };
     document.addEventListener("keydown", handleKey);
     return () => document.removeEventListener("keydown", handleKey);
-  }, [onClose, images.length]);
+  }, [onClose, imgIndex, images.length]);
+
+  const goTo = (idx: number) => {
+    setImgIndex(idx);
+    const el = scrollRef.current?.children[idx] as HTMLElement;
+    el?.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
+  };
+
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    show: { opacity: 1, transition: { duration: 0.25 } },
+    exit: { opacity: 0, transition: { duration: 0.2 } },
+  };
+
+  const panelVariants = {
+    hidden: { y: "100%" },
+    show: { y: 0, transition: { duration: 0.55, ease: [0.16, 1, 0.3, 1] } },
+    exit: { y: "100%", transition: { duration: 0.35, ease: [0.4, 0, 1, 1] } },
+  };
+
+  const imgVariants = {
+    hidden: { opacity: 0, scale: 0.96 },
+    show: (i: number) => ({
+      opacity: 1, scale: 1,
+      transition: { duration: 0.5, delay: i * 0.07, ease: [0.16, 1, 0.3, 1] },
+    }),
+  };
 
   return (
-    <div
-      className="fixed inset-0 z-[9999] bg-black/95 flex flex-col"
+    <motion.div
+      className="fixed inset-0 z-[9999] flex items-end"
+      variants={containerVariants}
+      initial="hidden"
+      animate="show"
+      exit="exit"
       onClick={onClose}
       data-testid="project-modal"
     >
-      <div className="flex items-center justify-between px-8 py-4 border-b border-[#1a1a1a]" onClick={e => e.stopPropagation()}>
-        <div className="flex flex-col gap-1">
-          <span className="font-serif font-bold text-sm text-[#F5F0E8] uppercase tracking-[0.15em]">{project.name}</span>
-          <span className="font-sans font-light text-xs text-muted-foreground uppercase tracking-widest">{project.category}</span>
-        </div>
-        <button
-          onClick={onClose}
-          className="font-sans font-light text-xs text-muted-foreground hover:text-[#F5F0E8] uppercase tracking-widest transition-colors"
-          data-testid="project-modal-close"
-        >
-          CLOSE ✕
-        </button>
-      </div>
+      {/* Backdrop */}
+      <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" />
 
-      <div className="flex-1 flex items-center justify-center p-8 overflow-hidden" onClick={e => e.stopPropagation()}>
+      {/* Panel */}
+      <motion.div
+        className="relative w-full bg-[#0D0D0D] flex flex-col"
+        style={{ height: "92vh" }}
+        variants={panelVariants}
+        onClick={e => e.stopPropagation()}
+      >
+        {/* Drag handle */}
+        <div className="flex justify-center pt-4 pb-2 cursor-pointer" onClick={onClose}>
+          <div className="w-10 h-[3px] bg-[#2a2a2a] rounded-full" />
+        </div>
+
+        {/* Header */}
+        <div className="flex items-start justify-between px-8 md:px-16 pt-4 pb-6 border-b border-[#1a1a1a] flex-shrink-0">
+          <div className="flex flex-col gap-2">
+            <div className="font-sans font-light text-[10px] uppercase tracking-[0.25em] text-[#FF4D00]">
+              {project.category}
+            </div>
+            <h2 className="font-serif font-bold text-3xl md:text-5xl text-[#F5F0E8] uppercase leading-none">
+              {project.name}
+            </h2>
+            <p className="font-sans font-light text-xs text-muted-foreground max-w-sm mt-1 leading-relaxed">
+              {project.desc}
+            </p>
+          </div>
+          <button
+            onClick={onClose}
+            className="font-sans font-light text-[10px] text-muted-foreground hover:text-[#F5F0E8] uppercase tracking-[0.2em] transition-colors flex items-center gap-2 mt-1 flex-shrink-0"
+            data-testid="project-modal-close"
+          >
+            <span>CLOSE</span>
+            <span className="text-base leading-none">✕</span>
+          </button>
+        </div>
+
+        {/* Gallery — horizontal scroll with snap */}
         {images.length > 0 ? (
-          <img
-            src={images[imgIndex]}
-            alt={project.name}
-            className="max-w-full max-h-full object-contain"
-          />
+          <div
+            ref={scrollRef}
+            className="flex-1 flex gap-4 md:gap-6 overflow-x-auto overflow-y-hidden px-8 md:px-16 py-8 snap-x snap-mandatory scroll-smooth"
+            style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+            onScroll={e => {
+              const el = e.currentTarget;
+              const idx = Math.round(el.scrollLeft / el.offsetWidth);
+              setImgIndex(idx);
+            }}
+          >
+            {images.map((src, i) => (
+              <motion.div
+                key={i}
+                custom={i}
+                variants={imgVariants}
+                initial="hidden"
+                animate="show"
+                className="snap-center flex-shrink-0 flex items-center justify-center cursor-pointer"
+                style={{ width: images.length === 1 ? "100%" : "85vw", maxWidth: 960 }}
+                onClick={() => goTo(i)}
+              >
+                <img
+                  src={src}
+                  alt={`${project.name} ${i + 1}`}
+                  className="w-full h-full object-contain max-h-[calc(92vh-200px)] select-none"
+                  draggable={false}
+                />
+              </motion.div>
+            ))}
+          </div>
         ) : (
-          <div className="text-center">
-            <p className="font-sans font-light text-sm text-muted-foreground">{project.desc}</p>
+          <div className="flex-1 flex items-center justify-center px-8">
+            <p className="font-sans font-light text-sm text-muted-foreground text-center max-w-md leading-relaxed">
+              {project.desc}
+            </p>
           </div>
         )}
-      </div>
 
-      {images.length > 1 && (
-        <div className="flex items-center justify-center gap-6 px-8 py-4 border-t border-[#1a1a1a]" onClick={e => e.stopPropagation()}>
-          <button
-            onClick={() => setImgIndex(i => Math.max(i - 1, 0))}
-            disabled={imgIndex === 0}
-            className="font-sans font-light text-xs text-muted-foreground hover:text-[#F5F0E8] uppercase tracking-widest transition-colors disabled:opacity-30"
-          >
-            ← PREV
-          </button>
-          <span className="font-sans font-light text-xs text-muted-foreground">
-            {imgIndex + 1} / {images.length}
-          </span>
-          <button
-            onClick={() => setImgIndex(i => Math.min(i + 1, images.length - 1))}
-            disabled={imgIndex === images.length - 1}
-            className="font-sans font-light text-xs text-muted-foreground hover:text-[#F5F0E8] uppercase tracking-widest transition-colors disabled:opacity-30"
-          >
-            NEXT →
-          </button>
-        </div>
-      )}
-    </div>
+        {/* Footer — dots + arrows */}
+        {images.length > 1 && (
+          <div className="flex-shrink-0 flex items-center justify-between px-8 md:px-16 py-5 border-t border-[#1a1a1a]">
+            {/* Dots */}
+            <div className="flex gap-2 items-center">
+              {images.map((_, i) => (
+                <button
+                  key={i}
+                  onClick={() => goTo(i)}
+                  className="transition-all duration-300"
+                >
+                  <div
+                    className="rounded-full transition-all duration-300"
+                    style={{
+                      width: i === imgIndex ? 24 : 6,
+                      height: 6,
+                      backgroundColor: i === imgIndex ? "#FF4D00" : "#2a2a2a",
+                    }}
+                  />
+                </button>
+              ))}
+            </div>
+
+            {/* Counter + Arrows */}
+            <div className="flex items-center gap-6">
+              <span className="font-sans font-light text-xs text-muted-foreground tabular-nums">
+                {String(imgIndex + 1).padStart(2, "0")} / {String(images.length).padStart(2, "0")}
+              </span>
+              <div className="flex gap-3">
+                <button
+                  onClick={() => goTo(Math.max(imgIndex - 1, 0))}
+                  disabled={imgIndex === 0}
+                  className="w-9 h-9 border border-[#2a2a2a] flex items-center justify-center text-muted-foreground hover:border-[#FF4D00] hover:text-[#FF4D00] transition-colors disabled:opacity-20 font-sans text-sm"
+                >
+                  ←
+                </button>
+                <button
+                  onClick={() => goTo(Math.min(imgIndex + 1, images.length - 1))}
+                  disabled={imgIndex === images.length - 1}
+                  className="w-9 h-9 border border-[#2a2a2a] flex items-center justify-center text-muted-foreground hover:border-[#FF4D00] hover:text-[#FF4D00] transition-colors disabled:opacity-20 font-sans text-sm"
+                >
+                  →
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+      </motion.div>
+    </motion.div>
   );
 }
 
@@ -566,7 +679,9 @@ function Home() {
         </footer>
       </section>
       {resumeOpen && <ResumeModal onClose={() => setResumeOpen(false)} />}
-      {selectedProject && <ProjectModal project={selectedProject} onClose={() => setSelectedProject(null)} />}
+      <AnimatePresence>
+        {selectedProject && <ProjectModal key={selectedProject.name} project={selectedProject} onClose={() => setSelectedProject(null)} />}
+      </AnimatePresence>
     </div>
   );
 }
