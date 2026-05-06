@@ -8,6 +8,91 @@ import { motion } from "framer-motion";
 
 const queryClient = new QueryClient();
 
+type Project = {
+  name: string;
+  client: string;
+  category: string;
+  bg: string;
+  labelColor: string;
+  nameColor: string;
+  clientColor: string;
+  desc: string;
+  images?: string[];
+};
+
+function ProjectModal({ project, onClose }: { project: Project; onClose: () => void }) {
+  const [imgIndex, setImgIndex] = useState(0);
+  const images = project.images ?? [];
+
+  useEffect(() => {
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+      if (e.key === "ArrowRight") setImgIndex(i => Math.min(i + 1, images.length - 1));
+      if (e.key === "ArrowLeft") setImgIndex(i => Math.max(i - 1, 0));
+    };
+    document.addEventListener("keydown", handleKey);
+    return () => document.removeEventListener("keydown", handleKey);
+  }, [onClose, images.length]);
+
+  return (
+    <div
+      className="fixed inset-0 z-[9999] bg-black/95 flex flex-col"
+      onClick={onClose}
+      data-testid="project-modal"
+    >
+      <div className="flex items-center justify-between px-8 py-4 border-b border-[#1a1a1a]" onClick={e => e.stopPropagation()}>
+        <div className="flex flex-col gap-1">
+          <span className="font-serif font-bold text-sm text-[#F5F0E8] uppercase tracking-[0.15em]">{project.name}</span>
+          <span className="font-sans font-light text-xs text-muted-foreground uppercase tracking-widest">{project.category}</span>
+        </div>
+        <button
+          onClick={onClose}
+          className="font-sans font-light text-xs text-muted-foreground hover:text-[#F5F0E8] uppercase tracking-widest transition-colors"
+          data-testid="project-modal-close"
+        >
+          CLOSE ✕
+        </button>
+      </div>
+
+      <div className="flex-1 flex items-center justify-center p-8 overflow-hidden" onClick={e => e.stopPropagation()}>
+        {images.length > 0 ? (
+          <img
+            src={images[imgIndex]}
+            alt={project.name}
+            className="max-w-full max-h-full object-contain"
+          />
+        ) : (
+          <div className="text-center">
+            <p className="font-sans font-light text-sm text-muted-foreground">{project.desc}</p>
+          </div>
+        )}
+      </div>
+
+      {images.length > 1 && (
+        <div className="flex items-center justify-center gap-6 px-8 py-4 border-t border-[#1a1a1a]" onClick={e => e.stopPropagation()}>
+          <button
+            onClick={() => setImgIndex(i => Math.max(i - 1, 0))}
+            disabled={imgIndex === 0}
+            className="font-sans font-light text-xs text-muted-foreground hover:text-[#F5F0E8] uppercase tracking-widest transition-colors disabled:opacity-30"
+          >
+            ← PREV
+          </button>
+          <span className="font-sans font-light text-xs text-muted-foreground">
+            {imgIndex + 1} / {images.length}
+          </span>
+          <button
+            onClick={() => setImgIndex(i => Math.min(i + 1, images.length - 1))}
+            disabled={imgIndex === images.length - 1}
+            className="font-sans font-light text-xs text-muted-foreground hover:text-[#F5F0E8] uppercase tracking-widest transition-colors disabled:opacity-30"
+          >
+            NEXT →
+          </button>
+        </div>
+      )}
+    </div>
+  );
+}
+
 function ResumeModal({ onClose }: { onClose: () => void }) {
   useEffect(() => {
     const handleKey = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
@@ -47,6 +132,7 @@ function ResumeModal({ onClose }: { onClose: () => void }) {
 function Home() {
   const [scrolled, setScrolled] = useState(false);
   const [resumeOpen, setResumeOpen] = useState(false);
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -73,7 +159,7 @@ function Home() {
     show: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } }
   };
 
-  const projects = [
+  const projects: Project[] = [
     {
       name: "Aware Coffee",
       client: "Aware Coffee",
@@ -83,6 +169,7 @@ function Home() {
       nameColor: "#111",
       clientColor: "#555",
       desc: "Product launch campaign, cup mockups, social media graphics",
+      images: ["/aware-coffee-1.png"],
     },
     {
       name: "Billy Brunch NYC",
@@ -135,16 +222,6 @@ function Home() {
       desc: "Mobile wallet app — earnings tracking, portfolio, NFT/stocks",
     },
     {
-      name: "Mango",
-      client: "Mango",
-      category: "Merch Design",
-      bg: "#2d4a1e",
-      labelColor: "#FF5C00",
-      nameColor: "#fff",
-      clientColor: "rgba(255,255,255,0.5)",
-      desc: "Camo cap with arched orange MANGO wordmark",
-    },
-    {
       name: "Spark Pro Services",
       client: "Spark Pro Services",
       category: "Brand Identity / Web",
@@ -154,26 +231,6 @@ function Home() {
       clientColor: "rgba(255,255,255,0.7)",
       desc: "Construction company full rebrand — logo, web, apparel, signage",
     },
-    {
-      name: "The Squad",
-      client: "The Squad",
-      category: "Campaign / Print",
-      bg: "#0f1923",
-      labelColor: "#FF5C00",
-      nameColor: "#fff",
-      clientColor: "rgba(255,255,255,0.5)",
-      desc: "Sermon series posters, fundraising campaigns, youth event graphics",
-    },
-    {
-      name: "Vive Media",
-      client: "Vive Media",
-      category: "Social / Events",
-      bg: "#180030",
-      labelColor: "#c840ff",
-      nameColor: "#fff",
-      clientColor: "rgba(255,255,255,0.5)",
-      desc: "Concert and live event flyer design — neon, urban aesthetic",
-    }
   ];
 
   return (
@@ -312,7 +369,7 @@ function Home() {
             SELECTED WORKS
           </h2>
           <div className="font-serif font-light text-xl text-muted-foreground">
-            (10)
+            (7)
           </div>
         </motion.div>
 
@@ -327,6 +384,7 @@ function Home() {
               className="relative w-full overflow-hidden group cursor-pointer aspect-[3/2] inline-block mb-8 rounded-none"
               style={{ backgroundColor: project.bg }}
               data-testid={`card-project-${i}`}
+              onClick={() => setSelectedProject(project)}
             >
               <div 
                 className="absolute top-6 left-6 font-sans font-light text-[10px] uppercase tracking-[0.2em] z-10"
@@ -507,6 +565,7 @@ function Home() {
         </footer>
       </section>
       {resumeOpen && <ResumeModal onClose={() => setResumeOpen(false)} />}
+      {selectedProject && <ProjectModal project={selectedProject} onClose={() => setSelectedProject(null)} />}
     </div>
   );
 }
