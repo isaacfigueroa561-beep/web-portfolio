@@ -196,11 +196,15 @@ function Home() {
           </motion.div>
         </div>
 
-        {/* RIGHT COLUMN */}
-        <div className="hidden md:flex w-[45%] h-full bg-[#1a1a1a] items-center justify-center rounded-none relative">
-          <div className="font-serif font-bold text-xl text-[#2a2a2a] uppercase tracking-widest text-center">
-            WAVE CREATIVE HOUSE
-          </div>
+        {/* RIGHT COLUMN — Hero photo */}
+        <div className="hidden md:block w-[45%] h-full relative overflow-hidden">
+          <img
+            src="/isaac.png"
+            alt="Isaac Figueroa"
+            className="w-full h-full object-cover object-top"
+            style={{ filter: "grayscale(100%) contrast(1.1) brightness(0.85)" }}
+          />
+          <div className="absolute inset-0 bg-gradient-to-l from-transparent via-transparent to-[#0D0D0D]/30 pointer-events-none" />
         </div>
 
         {/* BOTTOM MARQUEE */}
