@@ -196,11 +196,6 @@ function Home() {
           </motion.div>
         </div>
 
-        {/* RIGHT COLUMN — Hero photo */}
-        <div className="hidden md:block w-[45%] h-full relative overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-l from-transparent via-transparent to-[#0D0D0D]/30 pointer-events-none" />
-        </div>
-
         {/* BOTTOM MARQUEE */}
         <div className="absolute bottom-0 left-0 w-full overflow-hidden border-t border-[#1a1a1a] bg-background flex rounded-none whitespace-nowrap py-3">
           <div className="animate-marquee flex gap-8 items-center min-w-max">
