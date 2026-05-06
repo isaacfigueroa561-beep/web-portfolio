@@ -473,72 +473,110 @@ function Home() {
         </motion.div>
       </section>
       {/* 4. SELECTED WORK */}
-      <section id="work" className="w-full py-32 px-8 md:px-16 rounded-none border-t border-[#1a1a1a]">
-        <motion.div 
+      <section id="work" className="w-full border-t border-[#1a1a1a]">
+        {/* Header */}
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="flex flex-col md:flex-row md:items-end justify-between mb-20 rounded-none gap-6"
+          className="flex flex-col md:flex-row md:items-end justify-between px-8 md:px-16 pt-24 pb-16 gap-6"
         >
           <h2 className="font-serif font-bold text-5xl md:text-7xl text-[#F5F0E8] uppercase m-0 leading-none">
             SELECTED WORKS
           </h2>
-          <div className="font-serif font-light text-xl text-muted-foreground">
-            (7)
-          </div>
+          <div className="font-serif font-light text-xl text-muted-foreground">(7)</div>
         </motion.div>
 
-        <div className="columns-1 md:columns-2 gap-8 space-y-8 rounded-none">
-          {projects.map((project, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.6, delay: (i % 2) * 0.1 }}
-              className="relative w-full overflow-hidden group cursor-pointer aspect-[3/2] inline-block mb-8 rounded-none"
-              style={{ backgroundColor: project.bg }}
-              data-testid={`card-project-${i}`}
-              onClick={() => setSelectedProject(project)}
-            >
-              <div 
-                className="absolute top-6 left-6 font-sans font-light text-[10px] uppercase tracking-[0.2em] z-10"
-                style={{ color: project.labelColor }}
+        {/* Full-bleed grid — gap-[2px] with dark bg creates thin separator lines */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-[2px] bg-[#111]">
+          {projects.map((project, i) => {
+            const isFullWidth = i === 2; // Change The World — bold typographic centerpiece
+            const hasImage = (project.images?.length ?? 0) > 0;
+
+            return (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true, margin: "-60px" }}
+                transition={{ duration: 0.7, delay: (i % 2) * 0.08 }}
+                className={`relative overflow-hidden group cursor-pointer${isFullWidth ? " md:col-span-2" : ""}`}
+                style={{
+                  backgroundColor: project.bg,
+                  aspectRatio: isFullWidth ? "21/7" : "1/1",
+                }}
+                data-testid={`card-project-${i}`}
+                onClick={() => setSelectedProject(project)}
               >
-                {project.category}
-              </div>
+                {/* Real image as cover — scales on hover */}
+                {hasImage && (
+                  <img
+                    src={project.images![0]}
+                    alt={project.name}
+                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-[0.16,1,0.3,1] group-hover:scale-105"
+                  />
+                )}
 
-              <div className="absolute inset-0 flex items-center justify-center p-8 z-10">
-                <h3 
-                  className="font-serif font-bold text-3xl md:text-4xl uppercase text-center leading-tight transition-transform duration-400 ease-out group-hover:scale-105"
-                  style={{ color: project.nameColor }}
-                >
-                  {project.name}
-                </h3>
-              </div>
+                {/* Bottom gradient for image cards */}
+                {hasImage && (
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/10 to-transparent" />
+                )}
 
-              <div className="absolute bottom-6 left-6 right-6 flex justify-between items-end z-10">
-                <div 
-                  className="font-sans font-light text-xs"
-                  style={{ color: project.clientColor }}
+                {/* Category — top left */}
+                <div
+                  className="absolute top-6 left-6 font-sans font-light text-[10px] uppercase tracking-[0.25em] z-10"
+                  style={{ color: hasImage ? "rgba(255,255,255,0.45)" : project.labelColor }}
                 >
-                  {project.client}
+                  {project.category}
                 </div>
-                <div 
-                  className="font-sans font-light text-xs"
-                  style={{ color: project.clientColor }}
-                >
-                  2024
-                </div>
-              </div>
 
-              <div className="absolute inset-0 bg-black/60 translate-y-full group-hover:translate-y-0 transition-transform duration-400 ease-[0.22,1,0.36,1] z-20 flex items-center justify-center p-8 rounded-none">
-                <p className="font-sans font-light text-sm text-white text-center max-w-sm">
-                  {project.desc}
-                </p>
-              </div>
-            </motion.div>
-          ))}
+                {/* Index — top right */}
+                <div className="absolute top-6 right-6 font-serif font-light text-xs z-10" style={{ color: hasImage ? "rgba(255,255,255,0.2)" : "rgba(0,0,0,0.15)" }}>
+                  {String(i + 1).padStart(2, "0")}
+                </div>
+
+                {/* Color card: large centered name */}
+                {!hasImage && (
+                  <div className="absolute inset-0 flex items-center justify-center p-10 z-10">
+                    <h3
+                      className="font-serif font-bold uppercase text-center leading-none transition-transform duration-500 group-hover:scale-[1.04]"
+                      style={{
+                        color: project.nameColor,
+                        fontSize: isFullWidth ? "clamp(3rem,8vw,7rem)" : "clamp(2rem,5vw,3.5rem)",
+                      }}
+                    >
+                      {project.name}
+                    </h3>
+                  </div>
+                )}
+
+                {/* Image card: name at bottom */}
+                {hasImage && (
+                  <div className="absolute bottom-0 left-0 right-0 px-7 py-6 z-10">
+                    <h3 className="font-serif font-bold text-2xl md:text-3xl uppercase leading-none text-white mb-1">
+                      {project.name}
+                    </h3>
+                    <div className="flex items-center justify-between">
+                      <span className="font-sans font-light text-xs text-white/40">{project.client}</span>
+                      <span className="font-sans font-light text-xs text-white/30 group-hover:text-[#FF4D00] transition-colors duration-300 tracking-widest">
+                        VIEW →
+                      </span>
+                    </div>
+                  </div>
+                )}
+
+                {/* Hover overlay — all cards */}
+                <div className="absolute inset-0 bg-black/65 opacity-0 group-hover:opacity-100 transition-opacity duration-350 z-20 flex flex-col items-center justify-center p-10">
+                  <p className="font-sans font-light text-sm text-white/80 text-center max-w-xs leading-loose mb-5">
+                    {project.desc}
+                  </p>
+                  <span className="font-sans font-light text-[10px] uppercase tracking-[0.3em] text-[#FF4D00]">
+                    VIEW PROJECT
+                  </span>
+                </div>
+              </motion.div>
+            );
+          })}
         </div>
       </section>
       {/* 5. EXPERIENCE */}
