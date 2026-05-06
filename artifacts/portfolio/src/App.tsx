@@ -344,6 +344,7 @@ function Home() {
       nameColor: "#fff",
       clientColor: "rgba(255,255,255,0.7)",
       desc: "Construction company full rebrand — logo, web, apparel, signage",
+      images: ["/spark-1.png", "/spark-2.png", "/spark-3.png", "/spark-4.png", "/spark-5.png", "/spark-6.png"],
     },
   ];
 
