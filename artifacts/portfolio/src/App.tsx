@@ -8,8 +8,45 @@ import { motion } from "framer-motion";
 
 const queryClient = new QueryClient();
 
+function ResumeModal({ onClose }: { onClose: () => void }) {
+  useEffect(() => {
+    const handleKey = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
+    document.addEventListener("keydown", handleKey);
+    return () => document.removeEventListener("keydown", handleKey);
+  }, [onClose]);
+
+  return (
+    <div
+      className="fixed inset-0 z-[9999] bg-black/90 flex flex-col"
+      onClick={onClose}
+      data-testid="resume-modal"
+    >
+      <div className="flex items-center justify-between px-8 py-4 border-b border-[#1a1a1a]">
+        <span className="font-serif font-semibold text-sm text-[#F5F0E8] uppercase tracking-[0.15em]">
+          Isaac Figueroa — Resume
+        </span>
+        <button
+          onClick={onClose}
+          className="font-sans font-light text-xs text-muted-foreground hover:text-[#F5F0E8] uppercase tracking-widest transition-colors"
+          data-testid="resume-modal-close"
+        >
+          CLOSE ✕
+        </button>
+      </div>
+      <div className="flex-1 overflow-hidden" onClick={(e) => e.stopPropagation()}>
+        <iframe
+          src="/resume.pdf"
+          className="w-full h-full border-0"
+          title="Isaac Figueroa Resume"
+        />
+      </div>
+    </div>
+  );
+}
+
 function Home() {
   const [scrolled, setScrolled] = useState(false);
+  const [resumeOpen, setResumeOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -442,6 +479,7 @@ function Home() {
               <button 
                 className="border border-[#F5F0E8] text-[#F5F0E8] font-serif font-semibold uppercase tracking-wide px-8 py-4 text-sm hover:bg-[#1a1a1a] transition-colors rounded-none"
                 data-testid="button-resume"
+                onClick={() => setResumeOpen(true)}
               >
                 VIEW RESUME
               </button>
@@ -475,6 +513,7 @@ function Home() {
         </footer>
       </section>
 
+      {resumeOpen && <ResumeModal onClose={() => setResumeOpen(false)} />}
     </div>
   );
 }
