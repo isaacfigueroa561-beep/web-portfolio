@@ -156,3 +156,13 @@ body::before {
   z-index: 9999;
   pointer-events: none;
 }
+
+/* Hide custom cursor on touch/mobile devices — restore default cursor */
+@media (pointer: coarse) {
+  .custom-cursor {
+    display: none !important;
+  }
+  * {
+    cursor: auto !important;
+  }
+}

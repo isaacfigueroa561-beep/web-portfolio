@@ -47,7 +47,7 @@ function CustomCursor() {
 
   return (
     <motion.div
-      className="fixed pointer-events-none z-[99999] select-none"
+      className="custom-cursor fixed pointer-events-none z-[99999] select-none"
       style={{ left: pos.x, top: pos.y, translateX: "-50%", translateY: "-50%" }}
       animate={{ opacity: visible ? 1 : 0, scale: hovered ? 1.6 : 1 }}
       transition={{ scale: { duration: 0.18, ease: "easeOut" }, opacity: { duration: 0.3 } }}
