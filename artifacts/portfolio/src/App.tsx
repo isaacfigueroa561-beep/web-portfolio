@@ -560,7 +560,7 @@ function Home() {
           </div>
         </motion.div>
       </section>
-      {/* 4. SELECTED WORK */}
+      {/* 4. LATEST PROJECTS */}
       <section id="work" className="w-full border-t border-[#1a1a1a]">
         {/* Header */}
         <motion.div
@@ -571,7 +571,7 @@ function Home() {
         >
           <div className="flex items-end gap-5">
             <h2 className="font-serif font-bold text-5xl md:text-7xl text-[#F5F0E8] uppercase m-0 leading-none">
-              SELECTED WORKS
+              LATEST PROJECTS
             </h2>
             <div className="hidden md:block mb-2" style={{ transform: "skewX(-10deg)" }}>
               <div className="bg-[#FF4D00] px-3 py-1">
