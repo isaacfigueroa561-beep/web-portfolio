@@ -447,7 +447,7 @@ function Home() {
               02
             </div>
             <div className="font-serif font-extrabold text-[clamp(4rem,10vw,7.5rem)] leading-[0.88] text-[#F5F0E8] uppercase tracking-tight">
-              ABOUT<br />ISAAC
+              ABOUT<br />ME
             </div>
           </div>
 
