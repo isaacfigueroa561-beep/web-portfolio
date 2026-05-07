@@ -225,6 +225,161 @@ function ResumeModal({ onClose }: { onClose: () => void }) {
   );
 }
 
+const NP_IMAGES = [
+  { src: "/np-1.png",  label: "Celebration of the Season" },
+  { src: "/np-2.png",  label: "DNA Sermon Series" },
+  { src: "/np-3.png",  label: "Emotions — Student Sermon Series" },
+  { src: "/np-4.png",  label: "Foundations" },
+  { src: "/np-5.png",  label: "Fulfilled — The Promises of Christmas" },
+  { src: "/np-6.png",  label: "Guest Speaker — Ps Cody Byrne" },
+  { src: "/np-7.png",  label: "It's All Prodigal" },
+  { src: "/np-8.png",  label: "Men's Night" },
+  { src: "/np-9.png",  label: "It's On The App" },
+  { src: "/np-10.png", label: "Couples Night" },
+  { src: "/np-11.png", label: "The Change Dilemma" },
+  { src: "/np-12.png", label: "VHMC Neighborhood Marketplace" },
+  { src: "/np-13.png", label: "Women's Game Night" },
+  { src: "/np-14.png", label: "Youth Alive Roundtables" },
+];
+
+function NpLightbox({ startIndex, onClose }: { startIndex: number; onClose: () => void }) {
+  const [idx, setIdx] = useState(startIndex);
+  const [direction, setDirection] = useState(0);
+
+  useEffect(() => {
+    document.body.style.overflow = "hidden";
+    return () => { document.body.style.overflow = ""; };
+  }, []);
+
+  useEffect(() => {
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+      if (e.key === "ArrowRight") step(1);
+      if (e.key === "ArrowLeft") step(-1);
+    };
+    document.addEventListener("keydown", handleKey);
+    return () => document.removeEventListener("keydown", handleKey);
+  });
+
+  const step = (dir: number) => {
+    const next = idx + dir;
+    if (next < 0 || next >= NP_IMAGES.length) return;
+    setDirection(dir);
+    setIdx(next);
+  };
+
+  const slideVariants = {
+    enter: (d: number) => ({ x: d > 0 ? "100%" : "-100%", opacity: 0 }),
+    center: { x: 0, opacity: 1, transition: { duration: 0.4, ease: [0.16, 1, 0.3, 1] } },
+    exit: (d: number) => ({ x: d > 0 ? "-100%" : "100%", opacity: 0, transition: { duration: 0.28, ease: [0.4, 0, 1, 1] } }),
+  };
+
+  return (
+    <motion.div
+      className="fixed inset-0 z-[9999] flex items-end"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1, transition: { duration: 0.2 } }}
+      exit={{ opacity: 0, transition: { duration: 0.18 } }}
+      onClick={onClose}
+    >
+      <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" />
+      <motion.div
+        className="relative w-full bg-[#0D0D0D] flex flex-col"
+        style={{ height: "92vh" }}
+        initial={{ y: "100%" }}
+        animate={{ y: 0, transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] } }}
+        exit={{ y: "100%", transition: { duration: 0.3, ease: [0.4, 0, 1, 1] } }}
+        onClick={e => e.stopPropagation()}
+      >
+        <div className="flex justify-center pt-4 pb-2 cursor-pointer flex-shrink-0" onClick={onClose}>
+          <div className="w-10 h-[3px] bg-[#2a2a2a]" />
+        </div>
+        <div className="flex items-start justify-between px-8 md:px-16 pt-3 pb-5 border-b border-[#1a1a1a] flex-shrink-0">
+          <div className="flex flex-col gap-1">
+            <div className="font-sans font-light text-[10px] uppercase tracking-[0.25em] text-[#FF4D00]">NON-PROFITS / CHURCHES</div>
+            <h2 className="font-serif font-bold text-2xl md:text-4xl text-[#F5F0E8] uppercase leading-none">{NP_IMAGES[idx].label}</h2>
+          </div>
+          <button onClick={onClose} className="font-sans font-light text-[10px] text-muted-foreground hover:text-[#F5F0E8] uppercase tracking-[0.2em] transition-colors flex items-center gap-2 mt-1 flex-shrink-0">
+            <span>CLOSE</span><span className="text-base leading-none">✕</span>
+          </button>
+        </div>
+        <div className="flex-1 relative overflow-hidden bg-[#0D0D0D]">
+          <AnimatePresence custom={direction} mode="popLayout">
+            <motion.div
+              key={idx}
+              custom={direction}
+              variants={slideVariants}
+              initial="enter"
+              animate="center"
+              exit="exit"
+              className="absolute inset-0 flex items-center justify-center p-6 md:p-10"
+            >
+              <img src={NP_IMAGES[idx].src} alt={NP_IMAGES[idx].label} className="max-w-full max-h-full object-contain select-none" draggable={false} />
+            </motion.div>
+          </AnimatePresence>
+          <button onClick={() => step(-1)} disabled={idx === 0} className="absolute left-0 top-0 h-full w-1/3 z-10 cursor-w-resize disabled:cursor-default" aria-label="Previous" />
+          <button onClick={() => step(1)} disabled={idx === NP_IMAGES.length - 1} className="absolute right-0 top-0 h-full w-1/3 z-10 cursor-e-resize disabled:cursor-default" aria-label="Next" />
+        </div>
+        <div className="flex-shrink-0 flex items-center justify-between px-8 md:px-16 py-4 border-t border-[#1a1a1a]">
+          <div className="flex gap-2 items-center flex-wrap">
+            {NP_IMAGES.map((_, i) => (
+              <button key={i} onClick={() => { setDirection(i > idx ? 1 : -1); setIdx(i); }} className="p-1">
+                <div className="transition-all duration-300" style={{ width: i === idx ? 20 : 5, height: 5, backgroundColor: i === idx ? "#FF4D00" : "#2a2a2a" }} />
+              </button>
+            ))}
+          </div>
+          <div className="flex items-center gap-5">
+            <span className="font-sans font-light text-xs text-muted-foreground tabular-nums">{String(idx + 1).padStart(2, "0")} / {String(NP_IMAGES.length).padStart(2, "0")}</span>
+            <div className="flex gap-2">
+              <button onClick={() => step(-1)} disabled={idx === 0} className="w-8 h-8 border border-[#2a2a2a] flex items-center justify-center text-muted-foreground hover:border-[#FF4D00] hover:text-[#FF4D00] transition-colors disabled:opacity-20 text-sm">←</button>
+              <button onClick={() => step(1)} disabled={idx === NP_IMAGES.length - 1} className="w-8 h-8 border border-[#2a2a2a] flex items-center justify-center text-muted-foreground hover:border-[#FF4D00] hover:text-[#FF4D00] transition-colors disabled:opacity-20 text-sm">→</button>
+            </div>
+          </div>
+        </div>
+      </motion.div>
+    </motion.div>
+  );
+}
+
+function NpGallery() {
+  const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
+
+  return (
+    <>
+      <div className="columns-2 md:columns-3 gap-3 md:gap-4">
+        {NP_IMAGES.map((img, i) => (
+          <motion.div
+            key={i}
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-40px" }}
+            transition={{ duration: 0.5, delay: i * 0.04 }}
+            className="break-inside-avoid mb-3 md:mb-4 overflow-hidden cursor-pointer group relative"
+            onClick={() => setLightboxIndex(i)}
+          >
+            <img
+              src={img.src}
+              alt={img.label}
+              className="w-full h-auto block group-hover:scale-[1.02] transition-transform duration-500 select-none"
+              draggable={false}
+            />
+            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors duration-300 flex items-end">
+              <span className="font-sans font-light text-[10px] uppercase tracking-[0.2em] text-white px-3 py-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                {img.label}
+              </span>
+            </div>
+          </motion.div>
+        ))}
+      </div>
+      <AnimatePresence>
+        {lightboxIndex !== null && (
+          <NpLightbox key={lightboxIndex} startIndex={lightboxIndex} onClose={() => setLightboxIndex(null)} />
+        )}
+      </AnimatePresence>
+    </>
+  );
+}
+
 function Home() {
   const [scrolled, setScrolled] = useState(false);
   const [resumeOpen, setResumeOpen] = useState(false);
@@ -351,6 +506,7 @@ function Home() {
         </div>
         <div className="flex gap-6 md:gap-8 font-sans text-xs uppercase tracking-[0.2em] text-muted-foreground">
           <a href="#work" className="hover:text-[#F5F0E8] transition-colors" data-testid="link-nav-work">WORK</a>
+          <a href="#nonprofits" className="hover:text-[#F5F0E8] transition-colors" data-testid="link-nav-nonprofits">NON-PROFITS</a>
           <a href="#about" className="hover:text-[#F5F0E8] transition-colors" data-testid="link-nav-about">ABOUT</a>
           <a href="#contact" className="hover:text-[#F5F0E8] transition-colors" data-testid="link-nav-contact">CONTACT</a>
         </div>
@@ -427,11 +583,8 @@ function Home() {
             <div className="font-serif font-medium text-xs text-muted-foreground tracking-widest uppercase mb-16">
               02
             </div>
-            <div className="font-serif font-bold text-[8rem] leading-none text-[#F5F0E8]">
-              05+
-            </div>
-            <div className="font-sans font-light text-xs text-muted-foreground uppercase tracking-[0.2em] mt-4">
-              YEARS EXPERIENCE
+            <div className="font-serif font-extrabold text-[clamp(4rem,10vw,7.5rem)] leading-[0.88] text-[#F5F0E8] uppercase tracking-tight">
+              ABOUT<br />ISAAC
             </div>
           </div>
 
@@ -556,7 +709,32 @@ function Home() {
           ))}
         </div>
       </section>
-      {/* 5. EXPERIENCE */}
+      {/* 5. NON-PROFITS */}
+      <section id="nonprofits" className="w-full py-32 px-8 md:px-16 border-t border-[#1a1a1a] rounded-none">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6"
+        >
+          <div className="flex flex-col md:flex-row md:items-end gap-6 md:gap-10">
+            <div className="font-serif font-medium text-xs text-muted-foreground tracking-widest uppercase md:mb-2">
+              05
+            </div>
+            <h2 className="font-serif font-bold text-5xl md:text-7xl text-[#F5F0E8] uppercase m-0 leading-none">
+              NON-PROFITS
+            </h2>
+          </div>
+          <p className="font-sans font-light text-xs text-muted-foreground max-w-xs leading-relaxed md:text-right">
+            Sermon series, event graphics, and campaign visuals for churches and non-profit organizations.
+          </p>
+        </motion.div>
+
+        {/* Grid */}
+        <NpGallery />
+      </section>
+
+      {/* 6. EXPERIENCE */}
       <section id="experience" className="w-full py-32 px-8 md:px-16 border-t border-[#1a1a1a] rounded-none">
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
