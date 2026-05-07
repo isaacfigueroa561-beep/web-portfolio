@@ -533,9 +533,7 @@ function Home() {
             <p className="font-sans font-light text-lg md:text-xl text-[#F5F0E8] leading-loose max-w-xl mb-8">
               Creative designer with 5+ years building high-impact visuals for non-profits, brands, and digital communities. I specialize in brand identity, campaign design, and social content that drives real engagement — and I bring the same level of craft whether the work lives on a screen, in print, or on a stage.
             </p>
-            <p className="font-sans font-light italic text-sm md:text-base text-muted-foreground max-w-xl mb-12">Currently running Wave Creative House, my independent creative studio.
-            As well as working as a Graphic Designer for The Squad.
-</p>
+            <p className="font-sans font-light italic text-sm md:text-base text-muted-foreground max-w-xl mb-12">Currently freelancing and designing at The Squad.</p>
 
             <div className="flex flex-wrap gap-3 rounded-none">
               {[
@@ -778,7 +776,7 @@ function Home() {
         <footer className="mt-40 pt-10 border-t border-[#1a1a1a] flex flex-col md:flex-row justify-between items-start md:items-center gap-8 rounded-none">
           <div className="flex flex-col gap-2 rounded-none">
             <div className="font-serif font-semibold text-sm text-[#F5F0E8] uppercase tracking-[0.15em]">
-              WAVE CREATIVE HOUSE
+              ISAAC FIGUEROA
             </div>
             <div className="font-sans font-light text-xs text-muted-foreground">
               © 2025 ISAAC FIGUEROA. ALL RIGHTS RESERVED.
