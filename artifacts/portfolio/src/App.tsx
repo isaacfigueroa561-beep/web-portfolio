@@ -4,7 +4,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/not-found";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
 
 const queryClient = new QueryClient();
 
@@ -283,6 +283,10 @@ function Home() {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [hoveredProject, setHoveredProject] = useState<Project | null>(null);
 
+  const heroRef = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
+  const videoBgOpacity = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
+
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 80) {
@@ -426,7 +430,23 @@ function Home() {
         </div>
       </nav>
       {/* 2. HERO */}
-      <section className="relative h-[100dvh] w-full flex flex-col md:flex-row rounded-none">
+      <section ref={heroRef} className="relative h-[100dvh] w-full flex flex-col md:flex-row rounded-none overflow-hidden">
+        {/* VIDEO BACKGROUND */}
+        <motion.div
+          style={{ opacity: videoBgOpacity }}
+          className="absolute inset-0 z-0 pointer-events-none"
+        >
+          <video
+            autoPlay
+            muted
+            loop
+            playsInline
+            className="w-full h-full object-cover"
+            style={{ filter: "grayscale(100%)", opacity: 0.18 }}
+          >
+            <source src="/hero-bg.mp4" type="video/mp4" />
+          </video>
+        </motion.div>
         {/* LEFT COLUMN */}
         <div className="w-full md:w-[55%] h-full flex flex-col justify-center px-8 md:px-16 pt-24 md:pt-0 rounded-none">
           <motion.div 
