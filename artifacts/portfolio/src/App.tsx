@@ -279,7 +279,7 @@ function Home() {
       nameColor: "#fff",
       clientColor: "rgba(255,255,255,0.6)",
       desc: "Full brand suite — social graphics, hoodie, tote bag, signage",
-      images: ["/billy-a.jpg", "/billy-b.jpg", "/billy-c.jpg", "/billy-1.png", "/billy-2.png", "/billy-3.png", "/billy-4.png", "/billy-5.png", "/billy-6.png"],
+      images: ["/billy-p1.jpg", "/billy-p2.jpg", "/billy-p3.jpg", "/billy-p4.jpg", "/billy-p5.jpg", "/billy-a.jpg", "/billy-b.jpg", "/billy-c.jpg", "/billy-1.png", "/billy-2.png", "/billy-3.png", "/billy-4.png", "/billy-5.png", "/billy-6.png"],
     },
     {
       name: "Change The World",
