@@ -520,7 +520,7 @@ function Home() {
                 height: "100%",
                 display: "block",
                 objectFit: "cover",
-                objectPosition: "center 80%",
+                objectPosition: "center top",
                 filter: "grayscale(100%)",
               }}
               loading="lazy"
