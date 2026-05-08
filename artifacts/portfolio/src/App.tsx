@@ -759,12 +759,13 @@ function Home() {
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 mb-24 rounded-none">
-              <button 
-                className="bg-[#FF4D00] text-black font-serif font-semibold uppercase tracking-wide px-8 py-4 text-sm hover:opacity-90 transition-opacity rounded-none"
+              <a
+                href="mailto:isaacfigueroa561@gmail.com?subject=Let's Work Together"
+                className="bg-[#FF4D00] text-black font-serif font-semibold uppercase tracking-wide px-8 py-4 text-sm hover:opacity-90 transition-opacity rounded-none inline-block text-center"
                 data-testid="button-start-project"
               >
                 START A PROJECT
-              </button>
+              </a>
               <button 
                 className="border border-[#F5F0E8] text-[#F5F0E8] font-serif font-semibold uppercase tracking-wide px-8 py-4 text-sm hover:bg-[#1a1a1a] transition-colors rounded-none"
                 data-testid="button-resume"
