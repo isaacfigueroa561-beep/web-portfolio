@@ -241,6 +241,98 @@ function ProjectModal({ project, onClose }: { project: Project; onClose: () => v
   );
 }
 
+function ContactFormModal({ onClose }: { onClose: () => void }) {
+  const [form, setForm] = useState({ name: "", email: "", project: "", message: "" });
+  const [sent, setSent] = useState(false);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const subject = encodeURIComponent(`Project Inquiry from ${form.name}`);
+    const body = encodeURIComponent(
+      `Name: ${form.name}\nEmail: ${form.email}\nProject Type: ${form.project}\n\n${form.message}`
+    );
+    window.open(`mailto:isaacfigueroa561@gmail.com?subject=${subject}&body=${body}`);
+    setSent(true);
+  };
+
+  const inputClass = "w-full bg-transparent border-b border-[#2a2a2a] focus:border-[#FF4D00] outline-none font-sans font-light text-[#F5F0E8] text-sm py-3 placeholder:text-[#444] transition-colors";
+
+  return (
+    <motion.div
+      className="fixed inset-0 z-[9999] flex items-end"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      onClick={onClose}
+    >
+      <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" />
+      <motion.div
+        className="relative w-full bg-[#0D0D0D] flex flex-col"
+        style={{ maxHeight: "90vh", overflowY: "auto" }}
+        initial={{ y: "100%" }}
+        animate={{ y: 0, transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] } }}
+        exit={{ y: "100%", transition: { duration: 0.3, ease: [0.4, 0, 1, 1] } }}
+        onClick={e => e.stopPropagation()}
+      >
+        <div className="flex justify-center pt-4 pb-2 flex-shrink-0" onClick={onClose} style={{ cursor: "pointer" }}>
+          <div className="w-10 h-[3px] bg-[#2a2a2a]" />
+        </div>
+        <div className="px-8 md:px-16 pt-4 pb-12">
+          <div className="flex items-start justify-between mb-10">
+            <div>
+              <div className="font-sans font-light text-[10px] uppercase tracking-[0.25em] text-[#FF4D00] mb-1">Get In Touch</div>
+              <h3 className="font-serif font-bold text-3xl md:text-4xl text-[#F5F0E8] uppercase m-0">Start A Project</h3>
+            </div>
+            <button onClick={onClose} className="text-muted-foreground hover:text-[#F5F0E8] transition-colors text-2xl font-light leading-none mt-1" style={{ cursor: "none" }}>×</button>
+          </div>
+
+          {sent ? (
+            <div className="py-16 text-center">
+              <div className="text-[#FF4D00] font-serif font-bold text-4xl mb-4">✓</div>
+              <p className="font-sans font-light text-[#F5F0E8] text-lg mb-2">Email client opened!</p>
+              <p className="font-sans font-light text-muted-foreground text-sm">Send the email and Isaac will get back to you soon.</p>
+              <button onClick={onClose} className="mt-8 border border-[#2a2a2a] text-[#F5F0E8] font-sans font-light text-xs uppercase tracking-widest px-6 py-3 hover:border-[#F5F0E8] transition-colors" style={{ cursor: "none" }}>Close</button>
+            </div>
+          ) : (
+            <form onSubmit={handleSubmit} className="flex flex-col gap-8 max-w-xl">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div className="flex flex-col gap-1">
+                  <label className="font-sans font-light text-[10px] uppercase tracking-[0.2em] text-muted-foreground">Your Name *</label>
+                  <input required className={inputClass} placeholder="Jane Smith" value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))} />
+                </div>
+                <div className="flex flex-col gap-1">
+                  <label className="font-sans font-light text-[10px] uppercase tracking-[0.2em] text-muted-foreground">Email *</label>
+                  <input required type="email" className={inputClass} placeholder="jane@example.com" value={form.email} onChange={e => setForm(f => ({ ...f, email: e.target.value }))} />
+                </div>
+              </div>
+              <div className="flex flex-col gap-1">
+                <label className="font-sans font-light text-[10px] uppercase tracking-[0.2em] text-muted-foreground">Project Type</label>
+                <select className={inputClass + " bg-[#0D0D0D]"} value={form.project} onChange={e => setForm(f => ({ ...f, project: e.target.value }))}>
+                  <option value="">Select a service...</option>
+                  <option value="Brand Identity">Brand Identity</option>
+                  <option value="Social Content">Social Content</option>
+                  <option value="Campaign Design">Campaign Design</option>
+                  <option value="Merch / Apparel">Merch / Apparel</option>
+                  <option value="Web Design">Web Design</option>
+                  <option value="Print / Signage">Print / Signage</option>
+                  <option value="Other">Other</option>
+                </select>
+              </div>
+              <div className="flex flex-col gap-1">
+                <label className="font-sans font-light text-[10px] uppercase tracking-[0.2em] text-muted-foreground">Tell Me About Your Project *</label>
+                <textarea required rows={4} className={inputClass + " resize-none"} placeholder="Describe your project, timeline, and budget..." value={form.message} onChange={e => setForm(f => ({ ...f, message: e.target.value }))} />
+              </div>
+              <button type="submit" className="self-start bg-[#FF4D00] text-black font-serif font-semibold uppercase tracking-wide px-10 py-4 text-sm hover:opacity-90 transition-opacity" style={{ cursor: "none" }}>
+                Send Message →
+              </button>
+            </form>
+          )}
+        </div>
+      </motion.div>
+    </motion.div>
+  );
+}
+
 function ResumeModal({ onClose }: { onClose: () => void }) {
   useEffect(() => {
     const handleKey = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
@@ -280,6 +372,7 @@ function ResumeModal({ onClose }: { onClose: () => void }) {
 function Home() {
   const [scrolled, setScrolled] = useState(false);
   const [resumeOpen, setResumeOpen] = useState(false);
+  const [contactFormOpen, setContactFormOpen] = useState(false);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [hoveredProject, setHoveredProject] = useState<Project | null>(null);
 
@@ -759,13 +852,13 @@ function Home() {
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 mb-24 rounded-none">
-              <a
-                href="mailto:isaacfigueroa561@gmail.com?subject=Let's Work Together"
-                className="bg-[#FF4D00] text-black font-serif font-semibold uppercase tracking-wide px-8 py-4 text-sm hover:opacity-90 transition-opacity rounded-none inline-block text-center"
+              <button
+                className="bg-[#FF4D00] text-black font-serif font-semibold uppercase tracking-wide px-8 py-4 text-sm hover:opacity-90 transition-opacity rounded-none"
                 data-testid="button-start-project"
+                onClick={() => setContactFormOpen(true)}
               >
                 START A PROJECT
-              </a>
+              </button>
               <button 
                 className="border border-[#F5F0E8] text-[#F5F0E8] font-serif font-semibold uppercase tracking-wide px-8 py-4 text-sm hover:bg-[#1a1a1a] transition-colors rounded-none"
                 data-testid="button-resume"
@@ -778,7 +871,6 @@ function Home() {
             <div className="flex flex-wrap gap-8 font-sans font-light text-xs text-muted-foreground tracking-wide rounded-none">
               <a href="mailto:isaacfigueroa561@gmail.com" className="hover:text-[#F5F0E8] transition-colors" data-testid="link-email">isaacfigueroa561@gmail.com</a>
               <a href="tel:+17027880115" className="hover:text-[#F5F0E8] transition-colors" data-testid="link-phone">+1 (702) 788-0115</a>
-              <a href="https://wavecreativehouse.com" target="_blank" rel="noopener noreferrer" className="hover:text-[#F5F0E8] transition-colors" data-testid="link-website">wavecreativehouse.com</a>
               <span>English / Spanish</span>
             </div>
           </motion.div>
@@ -804,6 +896,7 @@ function Home() {
       </section>
       {resumeOpen && <ResumeModal onClose={() => setResumeOpen(false)} />}
       <AnimatePresence>
+        {contactFormOpen && <ContactFormModal key="contact-form" onClose={() => setContactFormOpen(false)} />}
         {selectedProject && <ProjectModal key={selectedProject.name} project={selectedProject} onClose={() => setSelectedProject(null)} />}
       </AnimatePresence>
     </div>
