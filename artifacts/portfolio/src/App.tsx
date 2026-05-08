@@ -333,7 +333,10 @@ function Home() {
       nameColor: "#fff",
       clientColor: "rgba(255,255,255,0.6)",
       desc: "Full brand suite — social graphics, hoodie, tote bag, signage",
-      images: ["/billy-new-1.jpg", "/billy-new-2.jpg", "/billy-new-3.jpg", "/billy-new-4.jpg"],
+      images: [
+        "/billy-new-1.png", "/billy-new-2.png", "/billy-new-3.png", "/billy-new-4.png",
+        "/billy-new-5.png", "/billy-new-6.png", "/billy-new-7.png", "/billy-new-8.png", "/billy-new-9.png"
+      ],
     },
     {
       name: "Change The World",
@@ -514,7 +517,7 @@ function Home() {
           className="grid grid-cols-1 md:grid-cols-12 rounded-none"
         >
           {/* LEFT — photo flush, transparent cutout on black */}
-          <div className="md:col-span-5 overflow-hidden" style={{ background: "#0D0D0D", minHeight: "480px" }}>
+          <div className="md:col-span-5 overflow-hidden" style={{ background: "#0D0D0D", minHeight: "420px" }}>
             <img
               src="/profile-photo.png"
               alt="Isaac Figueroa"
@@ -531,7 +534,7 @@ function Home() {
           </div>
 
           {/* RIGHT */}
-          <div className="md:col-span-7 flex flex-col justify-center rounded-none px-8 md:px-16 py-16 md:py-24">
+          <div className="md:col-span-7 flex flex-col justify-center rounded-none px-8 md:px-16 py-10 md:py-14">
             <div className="font-sans font-light text-xs text-muted-foreground uppercase tracking-[0.2em] mb-2">
               02
             </div>
