@@ -19,6 +19,10 @@ type Project = {
   desc: string;
   images?: string[];
   phoneFrame?: boolean;
+  caseStudy?: {
+    challenge: string;
+    approach: string;
+  };
 };
 
 function CustomCursor() {
@@ -216,6 +220,28 @@ function CarouselModal({
                 {project.desc}
               </p>
             </div>
+
+            {/* Case study */}
+            {project.caseStudy && (
+              <div className="px-14 md:px-24 pb-8 grid grid-cols-1 md:grid-cols-2 gap-px border-t border-b border-[#1a1a1a] bg-[#1a1a1a]">
+                <div className="bg-[#0a0a0a] p-6 md:p-8">
+                  <div className="font-sans font-light text-[10px] uppercase tracking-[0.25em] text-[#FF4D00] mb-3">
+                    The Challenge
+                  </div>
+                  <p className="font-sans font-light text-sm text-[#F5F0E8]/70 leading-relaxed">
+                    {project.caseStudy.challenge}
+                  </p>
+                </div>
+                <div className="bg-[#0a0a0a] p-6 md:p-8">
+                  <div className="font-sans font-light text-[10px] uppercase tracking-[0.25em] text-[#FF4D00] mb-3">
+                    The Approach
+                  </div>
+                  <p className="font-sans font-light text-sm text-[#F5F0E8]/70 leading-relaxed">
+                    {project.caseStudy.approach}
+                  </p>
+                </div>
+              </div>
+            )}
 
             {imgs.length > 0 ? (
               project.phoneFrame ? (
@@ -666,6 +692,10 @@ function Home() {
       clientColor: "rgba(255,255,255,0.7)",
       desc: "Construction company full rebrand — logo, web, apparel, signage",
       images: ["/spark-1.png", "/spark-2.png", "/spark-3.png", "/spark-4.png", "/spark-5.png", "/spark-6.png"],
+      caseStudy: {
+        challenge: "Spark Pro Services had been operating for years under a forgettable name and no real visual identity. They were losing bids to competitors who simply looked more established and professional. They needed a full rebrand that communicated trust, strength, and capability — without losing the scrappy, hard-working spirit that defines their crew.",
+        approach: "I built the identity around tension: raw industrial energy meets precision craft. The name 'Spark' gave me a clear visual direction — fire, ignition, momentum. I chose a high-contrast palette anchored in bold orange-red, paired with heavy-weight type that commands authority on a work site or a business proposal. Every touchpoint from the logo to the work shirts was designed to make them look like the biggest contractor in the room.",
+      },
     },
     {
       name: "Billy Brunch NYC",
@@ -680,6 +710,10 @@ function Home() {
         "/billy-new-1.png", "/billy-new-2.png", "/billy-new-3.png", "/billy-new-4.png",
         "/billy-new-5.png", "/billy-new-6.png", "/billy-new-7.png", "/billy-new-8.png", "/billy-new-9.png"
       ],
+      caseStudy: {
+        challenge: "Billy Brunch NYC wanted a brand that felt as warm and inviting as their food — something that would translate effortlessly from Instagram to a hoodie someone actually wants to wear outside. The challenge was carving out a distinct identity in a city oversaturated with brunch spots all fighting for the same aesthetic.",
+        approach: "I anchored the brand in a soft, muted teal that feels comfortable and approachable — warm enough for a weekend morning, refined enough to stand out. The logomark leans into casual confidence: loose letterforms with just enough structure to feel intentional. For merch, I prioritized wearability over branding volume — the pieces feel like something you'd buy at a boutique, not just a restaurant.",
+      },
     },
     {
       name: "Chino Club",
@@ -694,6 +728,10 @@ function Home() {
         "/chino-new-1.png", "/chino-new-2.png", "/chino-new-3.png", "/chino-new-4.png",
         "/chino-new-5.png", "/chino-new-6.png", "/chino-new-7.png", "/chino-new-8.png", "/chino-new-9.png"
       ],
+      caseStudy: {
+        challenge: "Chino Club needed an identity that could do a lot of heavy lifting — work on a 10-foot banner outside a venue, read instantly on a social post, and look sharp on a tote bag someone carries around the city. The brand had to be loud enough to own a room but polished enough to build real recognition over time.",
+        approach: "High-voltage yellow and electric blue was the obvious move once I understood the energy they wanted — it's impossible to ignore and creates instant recall. I leaned into rave-era graphic language: bold condensed type, blocky layouts, graphic shapes that print cleanly at any size. Every deliverable was designed to feel like a collectable piece, not just a branded item — so people actually want to hold onto it.",
+      },
     },
     {
       name: "Cold Little Heart",
@@ -708,6 +746,10 @@ function Home() {
         "/clh-1.png", "/clh-2.png", "/clh-3.png", "/clh-4.png", "/clh-5.png",
         "/clh-6.png", "/clh-7.png", "/clh-8.png", "/clh-9.png"
       ],
+      caseStudy: {
+        challenge: "Cold Little Heart wanted a graphic tee that felt genuinely worn-in and authentic — not a slogan shirt, not a logo drop. The kind of piece that looks like it came from a vintage store, carries emotional weight, and sells itself without needing an explanation. The name alone set a specific emotional tone that the visual had to match.",
+        approach: "I went straight to illustration — a flaming heart rendered with the kind of hand-drawn imperfection that reads as vintage without trying too hard. Distressed textures, a tight color palette, and intentionally aged typography gave the shirt that lived-in quality from day one. The design sits in the center of the chest where it belongs: confident, self-contained, and meaningful without being loud.",
+      },
     },
     {
       name: "Aware Coffee",
@@ -719,6 +761,10 @@ function Home() {
       clientColor: "#555",
       desc: "Product launch campaign, cup mockups, social media graphics",
       images: ["/aware-coffee-1.png", "/aware-coffee-2.png", "/aware-coffee-3.png", "/aware-coffee-4.png", "/aware-coffee-5.png"],
+      caseStudy: {
+        challenge: "Aware Coffee was launching from scratch with no existing brand equity — just a name, a product, and the ambition to compete in a space dominated by established specialty coffee brands. They needed visual language that felt premium and intentional on social media from day one, without the budget of a big agency campaign.",
+        approach: "I kept the art direction restrained on purpose — clean off-white backgrounds, minimal type, and a single accent color used sparingly. The name 'Aware' pointed me toward mindfulness and clarity, so I stripped away anything that felt noisy or decorative. The cup mockups were shot and styled to feel editorial rather than promotional, giving them content that performs whether a customer is scrolling or standing in front of a shelf.",
+      },
     },
     {
       name: "Non-Profits",
@@ -729,6 +775,10 @@ function Home() {
       nameColor: "#fff",
       clientColor: "rgba(255,255,255,0.5)",
       desc: "Sermon series, event graphics, and campaign visuals for churches and non-profit organizations.",
+      caseStudy: {
+        challenge: "Churches and non-profits operate on tight budgets but have some of the most ambitious communication goals — they need graphics that inspire, inform, and mobilize communities, often on a weekly cadence. Each sermon series or event requires its own distinct visual world, while still feeling like it belongs to the same organization.",
+        approach: "I treated each series like a short-run editorial campaign. Rather than reusing templates, I built a unique visual language for each theme — distinct typography, color palette, and graphic system — so every series felt like an event worth showing up for. The goal was always to make the congregation feel like their community was doing something worth paying attention to, because it is.",
+      },
       images: [
         "/np-1.png", "/np-2.png", "/np-3.png", "/np-4.png",
         "/np-5.png", "/np-6.png", "/np-7.png", "/np-8.png",
