@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import { Switch, Route, Router as WouterRouter } from "wouter";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
@@ -71,9 +71,25 @@ function CustomCursor() {
   );
 }
 
-function ProjectModal({ project, onClose }: { project: Project; onClose: () => void }) {
-  const images = project.images ?? [];
+function CarouselModal({
+  projects,
+  initialIndex,
+  onClose,
+}: {
+  projects: Project[];
+  initialIndex: number;
+  onClose: () => void;
+}) {
+  const [currentIndex, setCurrentIndex] = useState(initialIndex);
+  const [direction, setDirection] = useState(0);
   const dialogRef = useRef<HTMLDivElement>(null);
+  const touchStartX = useRef<number | null>(null);
+  const project = projects[currentIndex];
+
+  const go = useCallback((dir: number) => {
+    setDirection(dir);
+    setCurrentIndex((i) => (i + dir + projects.length) % projects.length);
+  }, [projects.length]);
 
   useEffect(() => {
     document.body.style.overflow = "hidden";
@@ -85,6 +101,8 @@ function ProjectModal({ project, onClose }: { project: Project; onClose: () => v
   useEffect(() => {
     const handleKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") { onClose(); return; }
+      if (e.key === "ArrowLeft") { e.preventDefault(); go(-1); return; }
+      if (e.key === "ArrowRight") { e.preventDefault(); go(1); return; }
       if (e.key !== "Tab" || !dialogRef.current) return;
       const focusable = Array.from(dialogRef.current.querySelectorAll<HTMLElement>(
         'a[href],button:not([disabled]),input,select,textarea,[tabindex]:not([tabindex="-1"])'
@@ -96,170 +114,168 @@ function ProjectModal({ project, onClose }: { project: Project; onClose: () => v
     };
     document.addEventListener("keydown", handleKey);
     return () => document.removeEventListener("keydown", handleKey);
-  }, [onClose]);
+  }, [onClose, go]);
 
-  const gridContainer = {
-    hidden: { opacity: 0 },
-    show: {
-      opacity: 1,
-      transition: { staggerChildren: 0.06, delayChildren: 0.15 },
-    },
+  const handleTouchStart = (e: React.TouchEvent) => { touchStartX.current = e.touches[0].clientX; };
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (touchStartX.current === null) return;
+    const delta = e.changedTouches[0].clientX - touchStartX.current;
+    if (Math.abs(delta) > 50) go(delta < 0 ? 1 : -1);
+    touchStartX.current = null;
   };
 
-  const gridItem = {
-    hidden: { opacity: 0, scale: 0.88, y: 24 },
-    show: { opacity: 1, scale: 1, y: 0, transition: { duration: 0.55, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] } },
+  const slideVariants = {
+    enter: (dir: number) => ({ x: dir > 0 ? "100%" : "-100%", opacity: 0 }),
+    center: { x: 0, opacity: 1 },
+    exit: (dir: number) => ({ x: dir > 0 ? "-100%" : "100%", opacity: 0 }),
   };
 
+  /* ---------- RENDER ---------- */
   return (
-    <motion.div
+    <div
       role="dialog"
       aria-modal="true"
-      aria-labelledby="project-modal-title"
-      className="fixed inset-0 z-[9999] flex items-end"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1, transition: { duration: 0.25 } }}
-      exit={{ opacity: 0, transition: { duration: 0.2 } }}
-      onClick={onClose}
+      aria-labelledby="carousel-title"
+      ref={dialogRef}
+      tabIndex={-1}
+      className="fixed inset-0 z-[9999] bg-[#0a0a0a] flex flex-col focus:outline-none"
+      onTouchStart={handleTouchStart}
+      onTouchEnd={handleTouchEnd}
       data-testid="project-modal"
     >
-      <div className="absolute inset-0 bg-black/75 backdrop-blur-sm" aria-hidden="true" />
+      {/* Backdrop */}
+      <div className="absolute inset-0" onClick={onClose} aria-hidden="true" />
 
-      <motion.div
-        ref={dialogRef}
-        tabIndex={-1}
-        className="relative w-full bg-[#0D0D0D] flex flex-col focus:outline-none"
-        style={{ height: "92vh" }}
-        initial={{ y: "100%" }}
-        animate={{ y: 0, transition: { duration: 0.55, ease: [0.16, 1, 0.3, 1] } }}
-        exit={{ y: "100%", transition: { duration: 0.35, ease: [0.4, 0, 1, 1] } }}
-        onClick={e => e.stopPropagation()}
-      >
-        {/* Drag handle */}
-        <div className="flex justify-center pt-4 pb-2 flex-shrink-0" onClick={onClose} aria-hidden="true" style={{ cursor: "none" }}>
-          <div className="w-10 h-[3px] bg-[#2a2a2a]" />
-        </div>
-
-        {/* Header */}
-        <div className="flex items-start justify-between px-8 md:px-16 pt-3 pb-5 border-b border-[#1a1a1a] flex-shrink-0">
-          <div className="flex flex-col gap-1">
-            <div className="font-sans font-light text-[10px] uppercase tracking-[0.25em] text-[#FF4D00]" aria-hidden="true">
-              {project.category}
-            </div>
-            <h2 id="project-modal-title" className="font-serif font-bold text-2xl md:text-4xl text-[#F5F0E8] uppercase leading-none">
-              {project.name}
-            </h2>
-            <p className="font-sans font-light text-xs text-muted-foreground max-w-sm mt-1 leading-relaxed hidden md:block">
-              {project.desc}
-            </p>
+      {/* Header */}
+      <div className="relative z-10 flex items-center justify-between px-6 md:px-14 py-4 border-b border-[#1a1a1a] flex-shrink-0" onClick={e => e.stopPropagation()}>
+        <div>
+          <div className="font-sans font-light text-[10px] uppercase tracking-[0.25em] text-[#FF4D00]" aria-hidden="true">
+            {project.category}
           </div>
+          <h2 id="carousel-title" className="font-serif font-bold text-xl md:text-3xl text-[#F5F0E8] uppercase leading-none">
+            {project.name}
+          </h2>
+        </div>
+        <div className="flex items-center gap-6">
+          <span className="font-sans font-light text-xs text-[#F5F0E8]/30 tabular-nums hidden md:block" aria-label={`Project ${currentIndex + 1} of ${projects.length}`}>
+            {String(currentIndex + 1).padStart(2, "0")}&nbsp;/&nbsp;{String(projects.length).padStart(2, "0")}
+          </span>
           <button
             onClick={onClose}
-            aria-label={`Close ${project.name}`}
-            className="font-sans font-light text-[10px] text-muted-foreground hover:text-[#F5F0E8] uppercase tracking-[0.2em] transition-colors flex items-center gap-2 mt-1 flex-shrink-0"
+            aria-label="Close project viewer"
+            className="font-sans font-light text-[10px] text-muted-foreground hover:text-[#F5F0E8] uppercase tracking-[0.2em] transition-colors flex items-center gap-2"
             data-testid="project-modal-close"
           >
             <span aria-hidden="true">CLOSE</span>
             <span className="text-base leading-none" aria-hidden="true">✕</span>
           </button>
         </div>
+      </div>
 
-        {/* All images — pop in together, staggered */}
-        <div className="flex-1 overflow-y-auto">
-          {images.length > 0 ? (
-            project.phoneFrame ? (
-              /* Phone frame mockup layout for UI/app projects */
-              <motion.div
-                variants={gridContainer}
-                initial="hidden"
-                animate="show"
-                className="flex flex-wrap justify-center items-start gap-8 p-8 md:p-12"
-              >
-                {images.map((src, i) => (
-                  <motion.div
-                    key={i}
-                    variants={gridItem}
-                    className="phone-frame flex-shrink-0"
+      {/* Slide area */}
+      <div className="relative flex-1 overflow-hidden flex items-center" onClick={e => e.stopPropagation()}>
+        {/* Prev arrow */}
+        <button
+          onClick={() => go(-1)}
+          aria-label={`Previous: ${projects[(currentIndex - 1 + projects.length) % projects.length].name}`}
+          className="absolute left-3 md:left-8 z-20 w-10 h-10 md:w-14 md:h-14 flex items-center justify-center text-[#F5F0E8]/25 hover:text-[#FF4D00] hover:bg-white/5 transition-all duration-200"
+        >
+          <span className="text-2xl md:text-3xl" aria-hidden="true">←</span>
+        </button>
+
+        {/* Animated slide */}
+        <AnimatePresence initial={false} custom={direction} mode="wait">
+          <motion.div
+            key={currentIndex}
+            custom={direction}
+            variants={slideVariants}
+            initial="enter"
+            animate="center"
+            exit="exit"
+            transition={{ duration: 0.38, ease: [0.25, 0.46, 0.45, 0.94] as [number, number, number, number] }}
+            className="absolute inset-0 flex flex-col items-center justify-center px-16 md:px-28 py-6"
+          >
+            {project.images && project.images.length > 0 ? (
+              <div className="flex-1 flex items-center justify-center w-full overflow-hidden">
+                {project.phoneFrame ? (
+                  <div
                     style={{
-                      width: 220,
                       background: "#0a0a0a",
                       border: "2px solid #2a2a2a",
                       padding: "28px 10px 14px",
                       position: "relative",
+                      width: 200,
+                      flexShrink: 0,
                       boxShadow: "0 28px 56px rgba(0,0,0,0.8), inset 0 1px 0 rgba(255,255,255,0.07)",
                     }}
                   >
-                    {/* Dynamic island / notch */}
-                    <div
-                      className="phone-frame-notch"
-                      style={{
-                        position: "absolute",
-                        top: 10,
-                        left: "50%",
-                        transform: "translateX(-50%)",
-                        width: 70,
-                        height: 6,
-                        background: "#1a1a1a",
-                      }}
-                    />
+                    <div aria-hidden="true" style={{ position: "absolute", top: 10, left: "50%", transform: "translateX(-50%)", width: 70, height: 6, background: "#1a1a1a" }} />
                     <img
-                      src={src}
-                      alt={`${project.name} ${i + 1}`}
-                      className="w-full h-auto block phone-frame-screen"
-                      draggable={false}
-                      loading="lazy"
-                    />
-                  </motion.div>
-                ))}
-              </motion.div>
-            ) : (
-              /* Standard masonry grid */
-              <motion.div
-                variants={gridContainer}
-                initial="hidden"
-                animate="show"
-                className="columns-2 md:columns-3 p-6 md:p-10"
-                style={{ columnGap: "12px" }}
-              >
-                {images.map((src, i) => (
-                  <motion.div
-                    key={i}
-                    variants={gridItem}
-                    className="break-inside-avoid"
-                    style={{ marginBottom: "12px" }}
-                  >
-                    <img
-                      src={src}
-                      alt={`${project.name} ${i + 1}`}
+                      src={project.images[0]}
+                      alt={`${project.name} — ${project.category}`}
                       className="w-full h-auto block"
-                      draggable={false}
-                      loading="lazy"
+                      loading="eager"
                     />
-                  </motion.div>
-                ))}
-              </motion.div>
-            )
-          ) : (
-            <div className="h-full flex items-center justify-center px-8">
-              <p className="font-sans font-light text-sm text-muted-foreground text-center max-w-md leading-relaxed">
+                  </div>
+                ) : (
+                  <img
+                    src={project.images[0]}
+                    alt={`${project.name} — ${project.category}`}
+                    className="max-w-full max-h-[55vh] object-contain"
+                    loading="eager"
+                  />
+                )}
+              </div>
+            ) : (
+              <div
+                className="w-full max-w-2xl h-56 md:h-72 flex items-center justify-center flex-shrink-0"
+                style={{ backgroundColor: project.bg }}
+              >
+                <span
+                  className="font-serif font-bold text-3xl md:text-5xl uppercase tracking-tight"
+                  style={{ color: project.nameColor }}
+                >
+                  {project.name}
+                </span>
+              </div>
+            )}
+            <div className="mt-4 md:mt-6 text-center max-w-lg px-4 flex-shrink-0">
+              <p className="font-sans font-light text-sm text-muted-foreground leading-relaxed">
                 {project.desc}
               </p>
             </div>
-          )}
-        </div>
+          </motion.div>
+        </AnimatePresence>
 
-        {/* Footer count */}
-        {images.length > 0 && (
-          <div className="flex-shrink-0 px-8 md:px-16 py-4 border-t border-[#1a1a1a]">
-            <span className="font-sans font-light text-xs text-muted-foreground tabular-nums">
-              {String(images.length).padStart(2, "0")} IMAGES
-            </span>
-          </div>
-        )}
-      </motion.div>
-    </motion.div>
+        {/* Next arrow */}
+        <button
+          onClick={() => go(1)}
+          aria-label={`Next: ${projects[(currentIndex + 1) % projects.length].name}`}
+          className="absolute right-3 md:right-8 z-20 w-10 h-10 md:w-14 md:h-14 flex items-center justify-center text-[#F5F0E8]/25 hover:text-[#FF4D00] hover:bg-white/5 transition-all duration-200"
+        >
+          <span className="text-2xl md:text-3xl" aria-hidden="true">→</span>
+        </button>
+      </div>
+
+      {/* Dot nav */}
+      <div
+        className="relative z-10 flex items-center justify-center gap-2 py-4 flex-shrink-0 border-t border-[#1a1a1a]"
+        onClick={e => e.stopPropagation()}
+      >
+        {projects.map((p, i) => (
+          <button
+            key={i}
+            onClick={() => { setDirection(i > currentIndex ? 1 : -1); setCurrentIndex(i); }}
+            aria-label={`Go to ${p.name}`}
+            aria-current={i === currentIndex ? "true" : undefined}
+            className={`h-[3px] transition-all duration-300 ${i === currentIndex ? "w-6 bg-[#FF4D00]" : "w-[6px] bg-[#2a2a2a] hover:bg-[#555]"}`}
+          />
+        ))}
+      </div>
+    </div>
   );
 }
+
 
 function ContactFormModal({ onClose }: { onClose: () => void }) {
   const [form, setForm] = useState({ name: "", email: "", project: "", message: "" });
@@ -449,7 +465,7 @@ function Home() {
   const [scrolled, setScrolled] = useState(false);
   const [resumeOpen, setResumeOpen] = useState(false);
   const [contactFormOpen, setContactFormOpen] = useState(false);
-  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [hoveredProject, setHoveredProject] = useState<Project | null>(null);
 
   const heroRef = useRef<HTMLElement>(null);
@@ -687,63 +703,7 @@ function Home() {
           </div>
         </div>
       </section>
-      {/* 3. ABOUT */}
-      <section id="about" className="w-full rounded-none">
-        <motion.div 
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-          className="grid grid-cols-1 md:grid-cols-12 rounded-none"
-        >
-          {/* LEFT — photo flush, transparent cutout on black */}
-          <div className="md:col-span-5 overflow-hidden" style={{ background: "#0D0D0D", minHeight: "420px" }}>
-            <img
-              src="/profile-photo.png"
-              alt="Isaac Figueroa"
-              style={{
-                width: "100%",
-                height: "100%",
-                display: "block",
-                objectFit: "cover",
-                objectPosition: "center top",
-                filter: "grayscale(100%)",
-              }}
-              loading="lazy"
-            />
-          </div>
-
-          {/* RIGHT */}
-          <div className="md:col-span-7 flex flex-col justify-start rounded-none px-8 md:px-16 pt-10 pb-10 md:pt-12 md:pb-12">
-            <div className="font-sans font-light text-xs text-muted-foreground uppercase tracking-[0.2em] mb-2">
-              02
-            </div>
-            <div className="font-sans font-light text-xs text-muted-foreground uppercase tracking-[0.2em] mb-6">
-              ABOUT ISAAC
-            </div>
-            <p className="font-sans font-light text-lg md:text-xl text-[#F5F0E8] leading-loose max-w-xl mb-8">
-              Creative designer with 5+ years building high-impact visuals for non-profits, brands, and digital communities. I specialize in brand identity, campaign design, and social content that drives real engagement — and I bring the same level of craft whether the work lives on a screen, in print, or on a stage.
-            </p>
-            <p className="font-sans font-light italic text-sm md:text-base text-muted-foreground max-w-xl mb-12">Currently freelancing and designing at The Squad.</p>
-
-            <div className="flex flex-wrap gap-3 rounded-none">
-              {[
-                "Brand Identity", "Campaign Design", "Social Media Graphics", 
-                "Web Design", "Print & Marketing", "Typography", 
-                "Layout & Composition", "Merch Design", "YouTube Thumbnails", "Event Promotion"
-              ].map((tag, i) => (
-                <div 
-                  key={i} 
-                  className="font-sans font-light text-xs uppercase tracking-[0.15em] text-[#F5F0E8] border border-[#2a2a2a] px-4 py-2 hover:border-[#FF4D00] hover:text-[#FF4D00] transition-colors cursor-default rounded-none"
-                >
-                  {tag}
-                </div>
-              ))}
-            </div>
-          </div>
-        </motion.div>
-      </section>
-      {/* 4. RECENT PROJECTS */}
+      {/* 2. RECENT PROJECTS */}
       <section id="work" className="w-full border-t border-[#1a1a1a]">
         {/* Header */}
         <motion.div
@@ -779,11 +739,12 @@ function Home() {
                 transition={{ duration: 0.22, ease: "easeOut" }}
                 className="fixed pointer-events-none z-40 hidden lg:block"
                 style={{ right: "6vw", top: "50vh", transform: "translateY(-50%)" }}
+                aria-hidden="true"
               >
                 <div style={{ width: 340, height: 240 }} className="overflow-hidden">
                   <img
                     src={hoveredProject.images[0]}
-                    alt={hoveredProject.name}
+                    alt=""
                     className="w-full h-full object-cover"
                     loading="lazy"
                   />
@@ -803,15 +764,15 @@ function Home() {
               viewport={{ once: true, margin: "-40px" }}
               transition={{ duration: 0.55, delay: i * 0.04 }}
               className="group border-b border-[#1a1a1a] cursor-pointer"
-              onClick={() => setSelectedProject(project)}
-              onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setSelectedProject(project); } }}
+              onClick={() => setSelectedIndex(i)}
+              onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setSelectedIndex(i); } }}
               onMouseEnter={() => setHoveredProject(project)}
               onMouseLeave={() => setHoveredProject(null)}
               data-testid={`card-project-${i}`}
             >
               <div className="project-card-row flex items-center px-8 md:px-16 py-7 md:py-9 gap-6 md:gap-10 group-hover:bg-[#111] border-l-2 border-transparent group-hover:border-[#FF4D00] transition-all duration-200">
                 {/* Number */}
-                <span className="font-sans font-light text-[11px] text-[#F5F0E8]/20 w-7 flex-shrink-0 tabular-nums select-none">
+                <span className="font-sans font-light text-[11px] text-[#F5F0E8]/20 w-7 flex-shrink-0 tabular-nums select-none" aria-hidden="true">
                   {String(i + 1).padStart(2, "0")}
                 </span>
 
@@ -821,7 +782,7 @@ function Home() {
                 </h3>
 
                 {/* Category + Client — hidden on mobile */}
-                <div className="hidden md:flex flex-col items-end gap-[5px] flex-shrink-0 min-w-[160px]">
+                <div className="hidden md:flex flex-col items-end gap-[5px] flex-shrink-0 min-w-[160px]" aria-hidden="true">
                   <span className="font-sans font-light text-[10px] uppercase tracking-[0.22em] text-[#F5F0E8]/40 text-right">
                     {project.category}
                   </span>
@@ -835,17 +796,74 @@ function Home() {
                   <div
                     className="hidden md:block w-6 h-6 flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
                     style={{ backgroundColor: project.bg }}
+                    aria-hidden="true"
                   />
                 )}
 
                 {/* Arrow */}
-                <span className="project-card-arrow font-sans text-base text-[#F5F0E8]/20 group-hover:text-[#FF4D00] group-hover:translate-x-2 transition-all duration-300 flex-shrink-0 select-none">
+                <span className="project-card-arrow font-sans text-base text-[#F5F0E8]/20 group-hover:text-[#FF4D00] group-hover:translate-x-2 transition-all duration-300 flex-shrink-0 select-none" aria-hidden="true">
                   →
                 </span>
               </div>
             </motion.div>
           ))}
         </div>
+      </section>
+      {/* 3. ABOUT */}
+      <section id="about" className="w-full border-t border-[#1a1a1a] rounded-none">
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          className="grid grid-cols-1 md:grid-cols-12 rounded-none"
+        >
+          {/* LEFT — photo flush, transparent cutout on black */}
+          <div className="md:col-span-5 overflow-hidden" style={{ background: "#0D0D0D", minHeight: "420px" }}>
+            <img
+              src="/profile-photo.png"
+              alt="Isaac Figueroa"
+              style={{
+                width: "100%",
+                height: "100%",
+                display: "block",
+                objectFit: "cover",
+                objectPosition: "center top",
+                filter: "grayscale(100%)",
+              }}
+              loading="lazy"
+            />
+          </div>
+
+          {/* RIGHT */}
+          <div className="md:col-span-7 flex flex-col justify-start rounded-none px-8 md:px-16 pt-10 pb-10 md:pt-12 md:pb-12">
+            <div className="font-sans font-light text-xs text-muted-foreground uppercase tracking-[0.2em] mb-2" aria-hidden="true">
+              03
+            </div>
+            <div className="font-sans font-light text-xs text-muted-foreground uppercase tracking-[0.2em] mb-6">
+              ABOUT ISAAC
+            </div>
+            <p className="font-sans font-light text-lg md:text-xl text-[#F5F0E8] leading-loose max-w-xl mb-8">
+              Creative designer with 5+ years building high-impact visuals for non-profits, brands, and digital communities. I specialize in brand identity, campaign design, and social content that drives real engagement — and I bring the same level of craft whether the work lives on a screen, in print, or on a stage.
+            </p>
+            <p className="font-sans font-light italic text-sm md:text-base text-muted-foreground max-w-xl mb-12">Currently freelancing and designing at The Squad.</p>
+
+            <div className="flex flex-wrap gap-3 rounded-none">
+              {[
+                "Brand Identity", "Campaign Design", "Social Media Graphics",
+                "Web Design", "Print & Marketing", "Typography",
+                "Layout & Composition", "Merch Design", "YouTube Thumbnails", "Event Promotion"
+              ].map((tag, i) => (
+                <div
+                  key={i}
+                  className="font-sans font-light text-xs uppercase tracking-[0.15em] text-[#F5F0E8] border border-[#2a2a2a] px-4 py-2 hover:border-[#FF4D00] hover:text-[#FF4D00] transition-colors cursor-default rounded-none"
+                >
+                  {tag}
+                </div>
+              ))}
+            </div>
+          </div>
+        </motion.div>
       </section>
       {/* 5. EXPERIENCE */}
       <section id="experience" className="w-full py-32 px-8 md:px-16 border-t border-[#1a1a1a] rounded-none">
@@ -855,8 +873,8 @@ function Home() {
           viewport={{ once: true }}
           className="flex flex-col md:flex-row md:items-start gap-6 md:gap-16 mb-20 rounded-none"
         >
-          <div className="font-serif font-medium text-xs text-muted-foreground tracking-widest uppercase md:mt-4">
-            03
+          <div className="font-serif font-medium text-xs text-muted-foreground tracking-widest uppercase md:mt-4" aria-hidden="true">
+            04
           </div>
           <h2 className="font-serif font-bold text-5xl md:text-7xl text-[#F5F0E8] uppercase m-0 leading-none">
             EXPERIENCE
@@ -931,8 +949,8 @@ function Home() {
             viewport={{ once: true }}
             className="flex flex-col rounded-none"
           >
-            <div className="font-serif font-medium text-xs text-muted-foreground tracking-widest uppercase mb-12">
-              04
+            <div className="font-serif font-medium text-xs text-muted-foreground tracking-widest uppercase mb-12" aria-hidden="true">
+              05
             </div>
             <h2 className="font-serif font-bold text-[clamp(3.5rem,10vw,9rem)] leading-[0.9] text-[#F5F0E8] uppercase m-0">
               LET'S WORK<br />TOGETHER<span className="text-[#FF4D00]">.</span>
@@ -987,7 +1005,7 @@ function Home() {
       {resumeOpen && <ResumeModal onClose={() => setResumeOpen(false)} />}
       <AnimatePresence>
         {contactFormOpen && <ContactFormModal key="contact-form" onClose={() => setContactFormOpen(false)} />}
-        {selectedProject && <ProjectModal key={selectedProject.name} project={selectedProject} onClose={() => setSelectedProject(null)} />}
+        {selectedIndex !== null && <CarouselModal key="carousel" projects={projects} initialIndex={selectedIndex} onClose={() => setSelectedIndex(null)} />}
       </AnimatePresence>
       </main>
     </div>

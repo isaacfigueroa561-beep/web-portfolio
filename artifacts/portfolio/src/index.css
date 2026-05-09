@@ -157,6 +157,11 @@ body::before {
   pointer-events: none;
 }
 
+/* Always hide the OS cursor on interactive elements — custom cursor handles it */
+a, button, [role="button"], select, input, textarea, label {
+  cursor: none !important;
+}
+
 /* Accessible focus-visible outlines — orange brand colour, visible on dark bg */
 :focus-visible {
   outline: 2px solid #FF4D00 !important;
