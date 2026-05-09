@@ -183,7 +183,7 @@ function CarouselModal({
           <span className="text-2xl md:text-3xl" aria-hidden="true">←</span>
         </button>
 
-        {/* Animated slide */}
+        {/* Animated slide — scrollable image stack */}
         <AnimatePresence initial={false} custom={direction} mode="wait">
           <motion.div
             key={currentIndex}
@@ -193,57 +193,72 @@ function CarouselModal({
             animate="center"
             exit="exit"
             transition={{ duration: 0.38, ease: [0.25, 0.46, 0.45, 0.94] as [number, number, number, number] }}
-            className="absolute inset-0 flex flex-col items-center justify-center px-16 md:px-28 py-6"
+            className="absolute inset-0 overflow-y-auto"
           >
-            {project.images && project.images.length > 0 ? (
-              <div className="flex-1 flex items-center justify-center w-full overflow-hidden">
-                {project.phoneFrame ? (
-                  <div
-                    style={{
-                      background: "#0a0a0a",
-                      border: "2px solid #2a2a2a",
-                      padding: "28px 10px 14px",
-                      position: "relative",
-                      width: 200,
-                      flexShrink: 0,
-                      boxShadow: "0 28px 56px rgba(0,0,0,0.8), inset 0 1px 0 rgba(255,255,255,0.07)",
-                    }}
-                  >
-                    <div aria-hidden="true" style={{ position: "absolute", top: 10, left: "50%", transform: "translateX(-50%)", width: 70, height: 6, background: "#1a1a1a" }} />
-                    <img
-                      src={project.images[0]}
-                      alt={`${project.name} — ${project.category}`}
-                      className="w-full h-auto block"
-                      loading="eager"
-                    />
-                  </div>
-                ) : (
-                  <img
-                    src={project.images[0]}
-                    alt={`${project.name} — ${project.category}`}
-                    className="max-w-full max-h-[55vh] object-contain"
-                    loading="eager"
-                  />
-                )}
-              </div>
-            ) : (
-              <div
-                className="w-full max-w-2xl h-56 md:h-72 flex items-center justify-center flex-shrink-0"
-                style={{ backgroundColor: project.bg }}
-              >
-                <span
-                  className="font-serif font-bold text-3xl md:text-5xl uppercase tracking-tight"
-                  style={{ color: project.nameColor }}
-                >
-                  {project.name}
-                </span>
-              </div>
-            )}
-            <div className="mt-4 md:mt-6 text-center max-w-lg px-4 flex-shrink-0">
-              <p className="font-sans font-light text-sm text-muted-foreground leading-relaxed">
+            {/* Description strip at top */}
+            <div className="px-16 md:px-28 pt-8 pb-6">
+              <p className="font-sans font-light text-sm text-muted-foreground leading-relaxed max-w-2xl">
                 {project.desc}
               </p>
             </div>
+
+            {project.images && project.images.length > 0 ? (
+              project.phoneFrame ? (
+                /* Phone frames: centered row, horizontally scrollable on small screens */
+                <div className="flex flex-wrap justify-center gap-8 px-16 md:px-28 pb-16">
+                  {project.images.map((src, i) => (
+                    <div
+                      key={i}
+                      style={{
+                        background: "#0a0a0a",
+                        border: "2px solid #2a2a2a",
+                        padding: "28px 10px 14px",
+                        position: "relative",
+                        width: 200,
+                        flexShrink: 0,
+                        boxShadow: "0 28px 56px rgba(0,0,0,0.8), inset 0 1px 0 rgba(255,255,255,0.07)",
+                      }}
+                    >
+                      <div aria-hidden="true" style={{ position: "absolute", top: 10, left: "50%", transform: "translateX(-50%)", width: 70, height: 6, background: "#1a1a1a" }} />
+                      <img
+                        src={src}
+                        alt={`${project.name} screen ${i + 1}`}
+                        className="w-full h-auto block"
+                        loading={i === 0 ? "eager" : "lazy"}
+                      />
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                /* Standard: full-width images stacked vertically */
+                <div className="flex flex-col gap-3 px-16 md:px-28 pb-16">
+                  {project.images.map((src, i) => (
+                    <img
+                      key={i}
+                      src={src}
+                      alt={`${project.name} — image ${i + 1}`}
+                      className="w-full h-auto block"
+                      loading={i === 0 ? "eager" : "lazy"}
+                    />
+                  ))}
+                </div>
+              )
+            ) : (
+              /* No images: large colour block */
+              <div className="flex items-center justify-center px-16 md:px-28 pb-16">
+                <div
+                  className="w-full h-64 md:h-96 flex items-center justify-center"
+                  style={{ backgroundColor: project.bg }}
+                >
+                  <span
+                    className="font-serif font-bold text-3xl md:text-5xl uppercase tracking-tight"
+                    style={{ color: project.nameColor }}
+                  >
+                    {project.name}
+                  </span>
+                </div>
+              </div>
+            )}
           </motion.div>
         </AnimatePresence>
 
@@ -524,16 +539,6 @@ function Home() {
       ],
     },
     {
-      name: "Change The World",
-      client: "Self-Initiated",
-      category: "Print / Poster",
-      bg: "#1a3aff",
-      labelColor: "#FFE500",
-      nameColor: "#fff",
-      clientColor: "rgba(255,255,255,0.6)",
-      desc: "Bold typographic print poster series in primary colors",
-    },
-    {
       name: "Chino Club",
       client: "Chino Club",
       category: "Brand Identity / Events",
@@ -760,7 +765,7 @@ function Home() {
               </div>
             </div>
           </div>
-          <div className="font-sans font-light text-sm text-muted-foreground tracking-widest">(08)</div>
+          <div className="font-sans font-light text-sm text-muted-foreground tracking-widest">(07)</div>
         </motion.div>
 
         {/* Editorial list */}
