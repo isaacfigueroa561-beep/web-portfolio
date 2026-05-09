@@ -1187,11 +1187,11 @@ function Home() {
             {
               year: "2021–PRESENT",
               role: "CREATIVE DESIGNER",
-              company: "THE SQUAD",
+              company: "THE SQUAD — NON-PROFIT & COMMUNITY ORGS",
               bullets: [
-                "Designed social media graphics, posters, and print materials for non-profits",
-                "Built visual systems for fundraising campaigns and sermon series",
-                "Partnered with leadership on brand strategy from concept to delivery"
+                "Designed social media graphics, posters, thumbnails, and print materials for non-profit and community organizations across the U.S.",
+                "Built cohesive visual systems for fundraising campaigns, youth events, and seasonal sermon series — translating mission-driven messaging into compelling storytelling.",
+                "Partnered directly with leadership and marketing teams to develop brand voices and campaign strategies from concept to delivery."
               ]
             },
             {
@@ -1199,8 +1199,8 @@ function Home() {
               role: "GRAPHIC DESIGNER",
               company: "VIVE MEDIA",
               bullets: [
-                "Created social graphics and marketing assets for digital campaigns and live events",
-                "Delivered on-brand visuals with fast turnaround across concurrent campaigns"
+                "Created social graphics, thumbnails, and marketing assets for digital campaigns and live events.",
+                "Produced on-brand visuals with fast turnaround across multiple concurrent campaigns."
               ]
             },
             {
@@ -1208,8 +1208,8 @@ function Home() {
               role: "JUNIOR GRAPHIC DESIGNER",
               company: "VIBRANT MEDIA",
               bullets: [
-                "Designed graphics for multiple client brands simultaneously",
-                "Produced promotional visuals for campaigns, events, and digital ad placements"
+                "Designed social media and digital graphics for multiple client brands simultaneously.",
+                "Produced promotional visuals for campaigns, events, and digital ad placements."
               ]
             }
           ].map((job, i) => (
@@ -1239,6 +1239,39 @@ function Home() {
               </div>
             </motion.div>
           ))}
+        </div>
+
+        {/* Training + Languages */}
+        <div className="mt-16 grid grid-cols-1 md:grid-cols-2 gap-px bg-[#1a1a1a] border-t border-[#1a1a1a]">
+          <div className="bg-[#0D0D0D] py-10 pr-10">
+            <div className="font-sans font-light text-[10px] uppercase tracking-[0.25em] text-[#FF4D00] mb-6">Training</div>
+            <ul className="flex flex-col gap-4 list-none p-0 m-0">
+              {[
+                { course: "Google UX/UI Design", source: "Coursera / Google" },
+                { course: "Typography & Design", source: "The Futur — Chris Do" },
+                { course: "Figma for Designers", source: "Max Brinckmann" },
+              ].map((t, i) => (
+                <li key={i} className="flex flex-col gap-0.5">
+                  <span className="font-sans font-light text-sm text-[#F5F0E8]">{t.course}</span>
+                  <span className="font-sans font-light text-xs text-muted-foreground">{t.source}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div className="bg-[#0D0D0D] py-10 pl-10">
+            <div className="font-sans font-light text-[10px] uppercase tracking-[0.25em] text-[#FF4D00] mb-6">Languages</div>
+            <ul className="flex flex-col gap-4 list-none p-0 m-0">
+              {[
+                { lang: "English", level: "Fluent" },
+                { lang: "Spanish", level: "Fluent" },
+              ].map((l, i) => (
+                <li key={i} className="flex items-center justify-between max-w-xs">
+                  <span className="font-sans font-light text-sm text-[#F5F0E8]">{l.lang}</span>
+                  <span className="font-sans font-light text-xs text-muted-foreground uppercase tracking-widest">{l.level}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       </section>
       {/* 5.5 TESTIMONIALS */}
