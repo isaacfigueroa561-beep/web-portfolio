@@ -60,3 +60,57 @@ id = "h8lBSE6Quuszi-AyL-2Zq"
 uri = "file://artifacts/portfolio/public/project-5-new.png"
 type = "image"
 title = "neon urban concert flyer"
+
+[[generated]]
+id = "xB-bhtqhe1dtF4V4Pt6Fd"
+uri = "file://artifacts/portfolio/public/wallet-1.png"
+type = "image"
+title = "vault wallet phone dashboard"
+
+[[generated]]
+id = "v7uj_EntuusILhS1v4iC3"
+uri = "file://artifacts/portfolio/public/wallet-2.png"
+type = "image"
+title = "vault wallet macbook dashboard"
+
+[[generated]]
+id = "Zj029G8Kn8cwQ-l5atcwM"
+uri = "file://artifacts/portfolio/public/wallet-3.png"
+type = "image"
+title = "vault wallet send screen"
+
+[[generated]]
+id = "dyAlo5rCmoAMPTDkAj_Bo"
+uri = "file://artifacts/portfolio/public/wallet-4.png"
+type = "image"
+title = "vault wallet nft screen"
+
+[[generated]]
+id = "Pu3ztarJUckT6JW-wxe8m"
+uri = "file://artifacts/portfolio/public/wallet-5.png"
+type = "image"
+title = "vault wallet analytics chart"
+
+[[generated]]
+id = "YIiweGgZGM54vAFh3V9-i"
+uri = "file://artifacts/portfolio/public/wallet-6.png"
+type = "image"
+title = "vault wallet two phones"
+
+[[generated]]
+id = "ri1VgE42LQ73yAe0p4I6r"
+uri = "file://artifacts/portfolio/public/wallet-7.png"
+type = "image"
+title = "vault wallet card screen"
+
+[[generated]]
+id = "912MYakzpFTYL0aYGcEnI"
+uri = "file://artifacts/portfolio/public/wallet-8.png"
+type = "image"
+title = "vault wallet figma screens"
+
+[[generated]]
+id = "pQaitFELkoqy3QDpwSsBH"
+uri = "file://artifacts/portfolio/public/wallet-9.png"
+type = "image"
+title = "vault wallet transactions"
