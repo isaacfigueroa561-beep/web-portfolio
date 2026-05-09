@@ -157,6 +157,40 @@ body::before {
   pointer-events: none;
 }
 
+/* ── Testimonials infinite scroll ── */
+@keyframes scroll-left {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+@keyframes scroll-right {
+  0%   { transform: translateX(-50%); }
+  100% { transform: translateX(0); }
+}
+
+.testimonials-track-wrapper {
+  overflow: hidden;
+  width: 100%;
+}
+
+.testimonials-track-left {
+  display: flex;
+  width: max-content;
+  animation: scroll-left 40s linear infinite;
+}
+
+.testimonials-track-right {
+  display: flex;
+  width: max-content;
+  animation: scroll-right 50s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .testimonials-track-left,
+  .testimonials-track-right {
+    animation: none;
+  }
+}
+
 /* Always hide the OS cursor on interactive elements — custom cursor handles it */
 a, button, [role="button"], select, input, textarea, label {
   cursor: none !important;

@@ -602,6 +602,44 @@ function Home() {
     },
   ];
 
+  const testimonials = [
+    {
+      quote: "Our entire church loved the shirt Isaac designed for us! Isaac was so easy to work with. We had thought we wanted to go one direction and then after seeing the concepts he put together for us, we liked the other option he threw out even more.",
+      name: "Shera Errico",
+      org: "",
+    },
+    {
+      quote: "Isaac Figueroa is the real deal. He helped me build out my company's website, business cards, and branded hats, and everything came out better than I imagined. He just gets it! I didn't have to micromanage anything. He took the vision and ran with it, and the whole brand feels cohesive and legit now. If you need someone creative, reliable, and easy to work with, Isaac is your guy. Highly recommend, no hesitation.",
+      name: "Jesus Rojas",
+      org: "Ranch Valley Contracting",
+    },
+    {
+      quote: "Isaac made me excited for the event and I'm the one planning the dang thing LOL!",
+      name: "Djuna S.",
+      org: "CC Network",
+    },
+    {
+      quote: "Isaac did fantastic on these and worked diligently from before Christmas break until now to help me get them just right!",
+      name: "Christianna Barbosa",
+      org: "COTR",
+    },
+    {
+      quote: "Isaac did a great job on this! He worked with us until we got a design that fits our needs perfectly. Thanks Isaac!",
+      name: "Janna Bartosh",
+      org: "",
+    },
+    {
+      quote: "Simple, fun, got it done. As the Creative Director it's great to see good design that I was 0% a part of implementing. Isaac is a big favorite around here.",
+      name: "Jacob Whipple",
+      org: "Mosaic",
+    },
+    {
+      quote: "Isaac crushed this project. It looks even better than I imagined. Loved that he gave me a few different options and then made all the collateral so it will be easy to update the pictures and post to socials. Great job!",
+      name: "Lacey Quebe",
+      org: "",
+    },
+  ];
+
   return (
     <div className="min-h-[100dvh] w-full bg-background text-foreground overflow-x-hidden selection:bg-[#FF4D00] selection:text-black font-sans rounded-none" style={{ cursor: "none" }}>
       <a
@@ -938,6 +976,88 @@ function Home() {
               </div>
             </motion.div>
           ))}
+        </div>
+      </section>
+      {/* 5.5 TESTIMONIALS */}
+      <section id="testimonials" className="w-full border-t border-[#1a1a1a] py-24 overflow-hidden" aria-label="Client testimonials">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="flex flex-col md:flex-row md:items-end justify-between px-8 md:px-16 mb-14 gap-4"
+        >
+          <div className="flex items-end gap-5">
+            <h2 className="font-serif font-bold text-5xl md:text-7xl text-[#F5F0E8] uppercase m-0 leading-none">
+              CLIENT LOVE
+            </h2>
+          </div>
+          <p className="font-sans font-light text-sm text-muted-foreground max-w-xs">
+            Real words from real clients — unedited.
+          </p>
+        </motion.div>
+
+        {/* Row 1 — scrolls left */}
+        <div
+          className="testimonials-track-wrapper"
+          onMouseEnter={e => (e.currentTarget.querySelector('.testimonials-track-left') as HTMLElement | null)?.style.setProperty('animation-play-state', 'paused')}
+          onMouseLeave={e => (e.currentTarget.querySelector('.testimonials-track-left') as HTMLElement | null)?.style.setProperty('animation-play-state', 'running')}
+        >
+          <div className="testimonials-track-left flex gap-5" aria-hidden="false">
+            {[...testimonials, ...testimonials].map((t, i) => (
+              <div
+                key={i}
+                className="testimonial-card flex-shrink-0 w-[340px] md:w-[420px] bg-[#111] border border-[#1e1e1e] p-7 flex flex-col justify-between gap-6"
+                aria-label={i < testimonials.length ? `Testimonial from ${t.name}${t.org ? `, ${t.org}` : ""}` : undefined}
+                aria-hidden={i >= testimonials.length ? "true" : undefined}
+              >
+                <p className="font-sans font-light text-sm text-[#F5F0E8]/80 leading-loose">
+                  &ldquo;{t.quote}&rdquo;
+                </p>
+                <div>
+                  <div className="w-6 h-[1px] bg-[#FF4D00] mb-3" aria-hidden="true" />
+                  <div className="font-sans font-semibold text-xs text-[#FF4D00] uppercase tracking-[0.18em]">
+                    {t.name}
+                  </div>
+                  {t.org && (
+                    <div className="font-sans font-light text-[10px] text-muted-foreground uppercase tracking-[0.15em] mt-1">
+                      {t.org}
+                    </div>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Row 2 — scrolls right */}
+        <div
+          className="testimonials-track-wrapper mt-5"
+          onMouseEnter={e => (e.currentTarget.querySelector('.testimonials-track-right') as HTMLElement | null)?.style.setProperty('animation-play-state', 'paused')}
+          onMouseLeave={e => (e.currentTarget.querySelector('.testimonials-track-right') as HTMLElement | null)?.style.setProperty('animation-play-state', 'running')}
+        >
+          <div className="testimonials-track-right flex gap-5" aria-hidden="true">
+            {[...testimonials, ...testimonials].map((t, i) => (
+              <div
+                key={i}
+                className="testimonial-card flex-shrink-0 w-[340px] md:w-[420px] bg-[#0f0f0f] border border-[#1a1a1a] p-7 flex flex-col justify-between gap-6"
+              >
+                <p className="font-sans font-light text-sm text-[#F5F0E8]/60 leading-loose">
+                  &ldquo;{t.quote}&rdquo;
+                </p>
+                <div>
+                  <div className="w-6 h-[1px] bg-[#2a2a2a] mb-3" aria-hidden="true" />
+                  <div className="font-sans font-semibold text-xs text-[#F5F0E8]/40 uppercase tracking-[0.18em]">
+                    {t.name}
+                  </div>
+                  {t.org && (
+                    <div className="font-sans font-light text-[10px] text-muted-foreground uppercase tracking-[0.15em] mt-1">
+                      {t.org}
+                    </div>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
       {/* 6. CONTACT + FOOTER */}
