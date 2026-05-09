@@ -47,6 +47,7 @@ function CustomCursor() {
 
   return (
     <motion.div
+      aria-hidden="true"
       className="custom-cursor fixed pointer-events-none z-[99999] select-none"
       style={{ left: pos.x, top: pos.y, translateX: "-50%", translateY: "-50%" }}
       animate={{ opacity: visible ? 1 : 0, scale: hovered ? 1.6 : 1 }}
@@ -72,14 +73,27 @@ function CustomCursor() {
 
 function ProjectModal({ project, onClose }: { project: Project; onClose: () => void }) {
   const images = project.images ?? [];
+  const dialogRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     document.body.style.overflow = "hidden";
-    return () => { document.body.style.overflow = ""; };
+    const prev = document.activeElement as HTMLElement | null;
+    const timer = setTimeout(() => dialogRef.current?.focus(), 50);
+    return () => { clearTimeout(timer); document.body.style.overflow = ""; prev?.focus(); };
   }, []);
 
   useEffect(() => {
-    const handleKey = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") { onClose(); return; }
+      if (e.key !== "Tab" || !dialogRef.current) return;
+      const focusable = Array.from(dialogRef.current.querySelectorAll<HTMLElement>(
+        'a[href],button:not([disabled]),input,select,textarea,[tabindex]:not([tabindex="-1"])'
+      ));
+      if (!focusable.length) return;
+      const first = focusable[0], last = focusable[focusable.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    };
     document.addEventListener("keydown", handleKey);
     return () => document.removeEventListener("keydown", handleKey);
   }, [onClose]);
@@ -94,11 +108,14 @@ function ProjectModal({ project, onClose }: { project: Project; onClose: () => v
 
   const gridItem = {
     hidden: { opacity: 0, scale: 0.88, y: 24 },
-    show: { opacity: 1, scale: 1, y: 0, transition: { duration: 0.55, ease: [0.16, 1, 0.3, 1] } },
+    show: { opacity: 1, scale: 1, y: 0, transition: { duration: 0.55, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] } },
   };
 
   return (
     <motion.div
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="project-modal-title"
       className="fixed inset-0 z-[9999] flex items-end"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1, transition: { duration: 0.25 } }}
@@ -106,10 +123,12 @@ function ProjectModal({ project, onClose }: { project: Project; onClose: () => v
       onClick={onClose}
       data-testid="project-modal"
     >
-      <div className="absolute inset-0 bg-black/75 backdrop-blur-sm" />
+      <div className="absolute inset-0 bg-black/75 backdrop-blur-sm" aria-hidden="true" />
 
       <motion.div
-        className="relative w-full bg-[#0D0D0D] flex flex-col"
+        ref={dialogRef}
+        tabIndex={-1}
+        className="relative w-full bg-[#0D0D0D] flex flex-col focus:outline-none"
         style={{ height: "92vh" }}
         initial={{ y: "100%" }}
         animate={{ y: 0, transition: { duration: 0.55, ease: [0.16, 1, 0.3, 1] } }}
@@ -117,17 +136,17 @@ function ProjectModal({ project, onClose }: { project: Project; onClose: () => v
         onClick={e => e.stopPropagation()}
       >
         {/* Drag handle */}
-        <div className="flex justify-center pt-4 pb-2 flex-shrink-0" onClick={onClose} style={{ cursor: "none" }}>
+        <div className="flex justify-center pt-4 pb-2 flex-shrink-0" onClick={onClose} aria-hidden="true" style={{ cursor: "none" }}>
           <div className="w-10 h-[3px] bg-[#2a2a2a]" />
         </div>
 
         {/* Header */}
         <div className="flex items-start justify-between px-8 md:px-16 pt-3 pb-5 border-b border-[#1a1a1a] flex-shrink-0">
           <div className="flex flex-col gap-1">
-            <div className="font-sans font-light text-[10px] uppercase tracking-[0.25em] text-[#FF4D00]">
+            <div className="font-sans font-light text-[10px] uppercase tracking-[0.25em] text-[#FF4D00]" aria-hidden="true">
               {project.category}
             </div>
-            <h2 className="font-serif font-bold text-2xl md:text-4xl text-[#F5F0E8] uppercase leading-none">
+            <h2 id="project-modal-title" className="font-serif font-bold text-2xl md:text-4xl text-[#F5F0E8] uppercase leading-none">
               {project.name}
             </h2>
             <p className="font-sans font-light text-xs text-muted-foreground max-w-sm mt-1 leading-relaxed hidden md:block">
@@ -136,11 +155,12 @@ function ProjectModal({ project, onClose }: { project: Project; onClose: () => v
           </div>
           <button
             onClick={onClose}
+            aria-label={`Close ${project.name}`}
             className="font-sans font-light text-[10px] text-muted-foreground hover:text-[#F5F0E8] uppercase tracking-[0.2em] transition-colors flex items-center gap-2 mt-1 flex-shrink-0"
             data-testid="project-modal-close"
           >
-            <span>CLOSE</span>
-            <span className="text-base leading-none">✕</span>
+            <span aria-hidden="true">CLOSE</span>
+            <span className="text-base leading-none" aria-hidden="true">✕</span>
           </button>
         </div>
 
@@ -244,6 +264,29 @@ function ProjectModal({ project, onClose }: { project: Project; onClose: () => v
 function ContactFormModal({ onClose }: { onClose: () => void }) {
   const [form, setForm] = useState({ name: "", email: "", project: "", message: "" });
   const [sent, setSent] = useState(false);
+  const dialogRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const prev = document.activeElement as HTMLElement | null;
+    const timer = setTimeout(() => dialogRef.current?.focus(), 50);
+    return () => { clearTimeout(timer); prev?.focus(); };
+  }, []);
+
+  useEffect(() => {
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") { onClose(); return; }
+      if (e.key !== "Tab" || !dialogRef.current) return;
+      const focusable = Array.from(dialogRef.current.querySelectorAll<HTMLElement>(
+        'a[href],button:not([disabled]),input,select,textarea,[tabindex]:not([tabindex="-1"])'
+      ));
+      if (!focusable.length) return;
+      const first = focusable[0], last = focusable[focusable.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    };
+    document.addEventListener("keydown", handleKey);
+    return () => document.removeEventListener("keydown", handleKey);
+  }, [onClose]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -259,74 +302,83 @@ function ContactFormModal({ onClose }: { onClose: () => void }) {
 
   return (
     <motion.div
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="contact-form-title"
       className="fixed inset-0 z-[9999] flex items-end"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       onClick={onClose}
     >
-      <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" />
+      <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" aria-hidden="true" />
       <motion.div
-        className="relative w-full bg-[#0D0D0D] flex flex-col"
+        ref={dialogRef}
+        tabIndex={-1}
+        className="relative w-full bg-[#0D0D0D] flex flex-col focus:outline-none"
         style={{ maxHeight: "90vh", overflowY: "auto" }}
         initial={{ y: "100%" }}
         animate={{ y: 0, transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] } }}
         exit={{ y: "100%", transition: { duration: 0.3, ease: [0.4, 0, 1, 1] } }}
         onClick={e => e.stopPropagation()}
       >
-        <div className="flex justify-center pt-4 pb-2 flex-shrink-0" onClick={onClose} style={{ cursor: "pointer" }}>
+        <div className="flex justify-center pt-4 pb-2 flex-shrink-0" onClick={onClose} aria-hidden="true" style={{ cursor: "pointer" }}>
           <div className="w-10 h-[3px] bg-[#2a2a2a]" />
         </div>
         <div className="px-8 md:px-16 pt-4 pb-12">
           <div className="flex items-start justify-between mb-10">
             <div>
-              <div className="font-sans font-light text-[10px] uppercase tracking-[0.25em] text-[#FF4D00] mb-1">Get In Touch</div>
-              <h3 className="font-serif font-bold text-3xl md:text-4xl text-[#F5F0E8] uppercase m-0">Start A Project</h3>
+              <div className="font-sans font-light text-[10px] uppercase tracking-[0.25em] text-[#FF4D00] mb-1" aria-hidden="true">Get In Touch</div>
+              <h3 id="contact-form-title" className="font-serif font-bold text-3xl md:text-4xl text-[#F5F0E8] uppercase m-0">Start A Project</h3>
             </div>
-            <button onClick={onClose} className="text-muted-foreground hover:text-[#F5F0E8] transition-colors text-2xl font-light leading-none mt-1" style={{ cursor: "none" }}>×</button>
+            <button onClick={onClose} aria-label="Close contact form" className="text-muted-foreground hover:text-[#F5F0E8] transition-colors text-2xl font-light leading-none mt-1" style={{ cursor: "none" }}>
+              <span aria-hidden="true">×</span>
+            </button>
           </div>
 
-          {sent ? (
-            <div className="py-16 text-center">
-              <div className="text-[#FF4D00] font-serif font-bold text-4xl mb-4">✓</div>
-              <p className="font-sans font-light text-[#F5F0E8] text-lg mb-2">Email client opened!</p>
-              <p className="font-sans font-light text-muted-foreground text-sm">Send the email and Isaac will get back to you soon.</p>
-              <button onClick={onClose} className="mt-8 border border-[#2a2a2a] text-[#F5F0E8] font-sans font-light text-xs uppercase tracking-widest px-6 py-3 hover:border-[#F5F0E8] transition-colors" style={{ cursor: "none" }}>Close</button>
-            </div>
-          ) : (
-            <form onSubmit={handleSubmit} className="flex flex-col gap-8 max-w-xl">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div className="flex flex-col gap-1">
-                  <label className="font-sans font-light text-[10px] uppercase tracking-[0.2em] text-muted-foreground">Your Name *</label>
-                  <input required className={inputClass} placeholder="Jane Smith" value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))} />
+          <div aria-live="polite" aria-atomic="true">
+            {sent ? (
+              <div className="py-16 text-center">
+                <div className="text-[#FF4D00] font-serif font-bold text-4xl mb-4" aria-hidden="true">✓</div>
+                <p className="font-sans font-light text-[#F5F0E8] text-lg mb-2">Email client opened!</p>
+                <p className="font-sans font-light text-muted-foreground text-sm">Send the email and Isaac will get back to you soon.</p>
+                <button onClick={onClose} className="mt-8 border border-[#2a2a2a] text-[#F5F0E8] font-sans font-light text-xs uppercase tracking-widest px-6 py-3 hover:border-[#F5F0E8] transition-colors" style={{ cursor: "none" }}>Close</button>
+              </div>
+            ) : (
+              <form onSubmit={handleSubmit} className="flex flex-col gap-8 max-w-xl" noValidate>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                  <div className="flex flex-col gap-1">
+                    <label htmlFor="cf-name" className="font-sans font-light text-[10px] uppercase tracking-[0.2em] text-muted-foreground">Your Name *</label>
+                    <input id="cf-name" required className={inputClass} placeholder="Jane Smith" value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))} />
+                  </div>
+                  <div className="flex flex-col gap-1">
+                    <label htmlFor="cf-email" className="font-sans font-light text-[10px] uppercase tracking-[0.2em] text-muted-foreground">Email *</label>
+                    <input id="cf-email" required type="email" className={inputClass} placeholder="jane@example.com" value={form.email} onChange={e => setForm(f => ({ ...f, email: e.target.value }))} />
+                  </div>
                 </div>
                 <div className="flex flex-col gap-1">
-                  <label className="font-sans font-light text-[10px] uppercase tracking-[0.2em] text-muted-foreground">Email *</label>
-                  <input required type="email" className={inputClass} placeholder="jane@example.com" value={form.email} onChange={e => setForm(f => ({ ...f, email: e.target.value }))} />
+                  <label htmlFor="cf-project" className="font-sans font-light text-[10px] uppercase tracking-[0.2em] text-muted-foreground">Project Type</label>
+                  <select id="cf-project" className={inputClass + " bg-[#0D0D0D]"} value={form.project} onChange={e => setForm(f => ({ ...f, project: e.target.value }))}>
+                    <option value="">Select a service...</option>
+                    <option value="Brand Identity">Brand Identity</option>
+                    <option value="Social Content">Social Content</option>
+                    <option value="Campaign Design">Campaign Design</option>
+                    <option value="Merch / Apparel">Merch / Apparel</option>
+                    <option value="Web Design">Web Design</option>
+                    <option value="Print / Signage">Print / Signage</option>
+                    <option value="Other">Other</option>
+                  </select>
                 </div>
-              </div>
-              <div className="flex flex-col gap-1">
-                <label className="font-sans font-light text-[10px] uppercase tracking-[0.2em] text-muted-foreground">Project Type</label>
-                <select className={inputClass + " bg-[#0D0D0D]"} value={form.project} onChange={e => setForm(f => ({ ...f, project: e.target.value }))}>
-                  <option value="">Select a service...</option>
-                  <option value="Brand Identity">Brand Identity</option>
-                  <option value="Social Content">Social Content</option>
-                  <option value="Campaign Design">Campaign Design</option>
-                  <option value="Merch / Apparel">Merch / Apparel</option>
-                  <option value="Web Design">Web Design</option>
-                  <option value="Print / Signage">Print / Signage</option>
-                  <option value="Other">Other</option>
-                </select>
-              </div>
-              <div className="flex flex-col gap-1">
-                <label className="font-sans font-light text-[10px] uppercase tracking-[0.2em] text-muted-foreground">Tell Me About Your Project *</label>
-                <textarea required rows={4} className={inputClass + " resize-none"} placeholder="Describe your project, timeline, and budget..." value={form.message} onChange={e => setForm(f => ({ ...f, message: e.target.value }))} />
-              </div>
-              <button type="submit" className="self-start bg-[#FF4D00] text-black font-serif font-semibold uppercase tracking-wide px-10 py-4 text-sm hover:opacity-90 transition-opacity" style={{ cursor: "none" }}>
-                Send Message →
-              </button>
-            </form>
-          )}
+                <div className="flex flex-col gap-1">
+                  <label htmlFor="cf-message" className="font-sans font-light text-[10px] uppercase tracking-[0.2em] text-muted-foreground">Tell Me About Your Project *</label>
+                  <textarea id="cf-message" required rows={4} className={inputClass + " resize-none"} placeholder="Describe your project, timeline, and budget..." value={form.message} onChange={e => setForm(f => ({ ...f, message: e.target.value }))} />
+                </div>
+                <button type="submit" className="self-start bg-[#FF4D00] text-black font-serif font-semibold uppercase tracking-wide px-10 py-4 text-sm hover:opacity-90 transition-opacity" style={{ cursor: "none" }}>
+                  Send Message →
+                </button>
+              </form>
+            )}
+          </div>
         </div>
       </motion.div>
     </motion.div>
@@ -334,28 +386,52 @@ function ContactFormModal({ onClose }: { onClose: () => void }) {
 }
 
 function ResumeModal({ onClose }: { onClose: () => void }) {
+  const dialogRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
-    const handleKey = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
+    const prev = document.activeElement as HTMLElement | null;
+    const timer = setTimeout(() => dialogRef.current?.focus(), 50);
+    return () => { clearTimeout(timer); prev?.focus(); };
+  }, []);
+
+  useEffect(() => {
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") { onClose(); return; }
+      if (e.key !== "Tab" || !dialogRef.current) return;
+      const focusable = Array.from(dialogRef.current.querySelectorAll<HTMLElement>(
+        'a[href],button:not([disabled]),input,select,textarea,[tabindex]:not([tabindex="-1"])'
+      ));
+      if (!focusable.length) return;
+      const first = focusable[0], last = focusable[focusable.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    };
     document.addEventListener("keydown", handleKey);
     return () => document.removeEventListener("keydown", handleKey);
   }, [onClose]);
 
   return (
     <div
-      className="fixed inset-0 z-[9999] bg-black/90 flex flex-col"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="resume-modal-title"
+      ref={dialogRef}
+      tabIndex={-1}
+      className="fixed inset-0 z-[9999] bg-black/90 flex flex-col focus:outline-none"
       onClick={onClose}
       data-testid="resume-modal"
     >
       <div className="flex items-center justify-between px-8 py-4 border-b border-[#1a1a1a]">
-        <span className="font-serif font-semibold text-sm text-[#F5F0E8] uppercase tracking-[0.15em]">
+        <span id="resume-modal-title" className="font-serif font-semibold text-sm text-[#F5F0E8] uppercase tracking-[0.15em]">
           Isaac Figueroa — Resume
         </span>
         <button
           onClick={onClose}
+          aria-label="Close resume"
           className="font-sans font-light text-xs text-muted-foreground hover:text-[#F5F0E8] uppercase tracking-widest transition-colors"
           data-testid="resume-modal-close"
         >
-          CLOSE ✕
+          <span aria-hidden="true">CLOSE ✕</span>
         </button>
       </div>
       <div className="flex-1 overflow-hidden" onClick={(e) => e.stopPropagation()}>
@@ -402,7 +478,7 @@ function Home() {
 
   const heroItem = {
     hidden: { opacity: 0, y: 20 },
-    show: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } }
+    show: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] } }
   };
 
   const projects: Project[] = [
@@ -512,14 +588,21 @@ function Home() {
 
   return (
     <div className="min-h-[100dvh] w-full bg-background text-foreground overflow-x-hidden selection:bg-[#FF4D00] selection:text-black font-sans rounded-none" style={{ cursor: "none" }}>
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[999999] focus:bg-[#FF4D00] focus:text-black focus:px-4 focus:py-2 focus:font-sans focus:font-semibold focus:text-sm focus:uppercase focus:tracking-wide"
+      >
+        Skip to main content
+      </a>
       <CustomCursor />
       {/* 1. STICKY NAV */}
-      <nav 
+      <nav
+        aria-label="Main navigation"
         className={`fixed top-0 left-0 w-full px-8 md:px-16 py-4 md:py-6 flex justify-between items-center z-50 transition-all duration-300 rounded-none ${scrolled ? 'backdrop-blur-sm border-b border-[#1a1a1a] bg-background/80' : 'bg-transparent border-b border-transparent'}`}
       >
-        <div className="font-serif font-bold text-2xl text-[#F5F0E8] uppercase" data-testid="nav-logo">
+        <a href="#main-content" className="font-serif font-bold text-2xl text-[#F5F0E8] uppercase" data-testid="nav-logo" aria-label="Isaac Figueroa — home">
           IF.
-        </div>
+        </a>
         <div className="flex gap-6 md:gap-8 font-sans text-xs uppercase tracking-[0.2em] text-muted-foreground">
           <a href="#work" className="hover:text-[#F5F0E8] transition-colors" data-testid="link-nav-work">WORK</a>
           <a href="#about" className="hover:text-[#F5F0E8] transition-colors" data-testid="link-nav-about">ABOUT</a>
@@ -527,11 +610,13 @@ function Home() {
         </div>
       </nav>
       {/* 2. HERO */}
+      <main id="main-content">
       <section ref={heroRef} className="relative h-[100dvh] w-full flex flex-col md:flex-row rounded-none overflow-hidden">
         {/* VIDEO BACKGROUND */}
         <motion.div
           style={{ opacity: videoBgOpacity }}
           className="absolute inset-0 z-0 pointer-events-none"
+          aria-hidden="true"
         >
           <video
             autoPlay
@@ -557,11 +642,13 @@ function Home() {
             </motion.div>
             
             <motion.div variants={heroItem} className="flex flex-col">
-              <h1 className="font-serif font-extrabold text-[clamp(5rem,14vw,13rem)] leading-[0.85] tracking-[-0.03em] text-[#F5F0E8] m-0 p-0 uppercase">
-                ISAAC
-              </h1>
-              <h1 className="font-serif font-extrabold text-[clamp(5rem,14vw,13rem)] leading-[0.85] tracking-[-0.03em] text-[#FF4D00] m-0 p-0 uppercase">
-                FIGUEROA
+              <h1 className="flex flex-col m-0 p-0">
+                <span className="font-serif font-extrabold text-[clamp(5rem,14vw,13rem)] leading-[0.85] tracking-[-0.03em] text-[#F5F0E8] uppercase">
+                  ISAAC
+                </span>
+                <span className="font-serif font-extrabold text-[clamp(5rem,14vw,13rem)] leading-[0.85] tracking-[-0.03em] text-[#FF4D00] uppercase">
+                  FIGUEROA
+                </span>
               </h1>
             </motion.div>
 
@@ -583,7 +670,7 @@ function Home() {
         </div>
 
         {/* BOTTOM MARQUEE */}
-        <div className="absolute bottom-0 left-0 w-full overflow-hidden border-t border-[#1a1a1a] bg-background flex rounded-none whitespace-nowrap py-3">
+        <div className="absolute bottom-0 left-0 w-full overflow-hidden border-t border-[#1a1a1a] bg-background flex rounded-none whitespace-nowrap py-3" aria-hidden="true">
           <div className="animate-marquee flex gap-8 items-center min-w-max">
             {[...Array(3)].map((_, i) => (
               <div key={i} className="flex items-center gap-8 font-serif font-medium text-sm uppercase tracking-[0.15em] text-[#F5F0E8]">
@@ -708,12 +795,16 @@ function Home() {
           {projects.map((project, i) => (
             <motion.div
               key={i}
+              role="button"
+              tabIndex={0}
+              aria-label={`View ${project.name} — ${project.category}`}
               initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-40px" }}
               transition={{ duration: 0.55, delay: i * 0.04 }}
               className="group border-b border-[#1a1a1a] cursor-pointer"
               onClick={() => setSelectedProject(project)}
+              onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setSelectedProject(project); } }}
               onMouseEnter={() => setHoveredProject(project)}
               onMouseLeave={() => setHoveredProject(null)}
               data-testid={`card-project-${i}`}
@@ -898,6 +989,7 @@ function Home() {
         {contactFormOpen && <ContactFormModal key="contact-form" onClose={() => setContactFormOpen(false)} />}
         {selectedProject && <ProjectModal key={selectedProject.name} project={selectedProject} onClose={() => setSelectedProject(null)} />}
       </AnimatePresence>
+      </main>
     </div>
   );
 }

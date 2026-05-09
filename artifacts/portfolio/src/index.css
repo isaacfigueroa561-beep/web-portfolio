@@ -157,6 +157,25 @@ body::before {
   pointer-events: none;
 }
 
+/* Accessible focus-visible outlines — orange brand colour, visible on dark bg */
+:focus-visible {
+  outline: 2px solid #FF4D00 !important;
+  outline-offset: 3px !important;
+}
+
+/* Skip-to-content link — hidden until focused */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
 /* Hide custom cursor on touch/mobile devices — restore default cursor */
 @media (pointer: coarse) {
   .custom-cursor {
