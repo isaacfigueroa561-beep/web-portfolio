@@ -786,6 +786,26 @@ function Home() {
         "/np-13.png", "/np-14.png"
       ],
     },
+    {
+      name: "Fynance — Wallet UI",
+      client: "Practice Project",
+      category: "UX/UI Design / Figma",
+      bg: "#12091f",
+      labelColor: "#a78bfa",
+      nameColor: "#fff",
+      clientColor: "rgba(255,255,255,0.4)",
+      desc: "Personal UX/UI practice project — a concept finance app designed entirely in Figma. Not a real client project.",
+      phoneFrame: true,
+      caseStudy: {
+        challenge: "This was a self-initiated practice project to sharpen my UX/UI skills in Figma. The goal was to design a full end-to-end finance app — covering core flows like portfolio tracking, transactions, markets, and money transfers — while keeping the experience clean, modern, and genuinely usable.",
+        approach: "I focused on information hierarchy and dark-mode readability first, since finance apps live or die by how quickly users can parse numbers. Each screen was built as a standalone component in Figma, then connected into a full prototype flow. The purple accent palette was chosen to feel premium without mimicking existing fintech brands.",
+      },
+      images: [
+        "/wallet-01.png", "/wallet-02.png", "/wallet-03.png",
+        "/wallet-04.png", "/wallet-05.png", "/wallet-06.png",
+        "/wallet-07.png", "/wallet-08.png", "/wallet-09.png",
+      ],
+    },
   ];
 
   const testimonials = [
@@ -946,7 +966,7 @@ function Home() {
               </div>
             </div>
           </div>
-          <div className="font-sans font-light text-sm text-muted-foreground tracking-widest">(06)</div>
+          <div className="font-sans font-light text-sm text-muted-foreground tracking-widest">(07)</div>
         </motion.div>
 
         {/* Editorial list */}
