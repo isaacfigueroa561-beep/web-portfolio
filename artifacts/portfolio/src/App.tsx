@@ -825,14 +825,170 @@ function Home() {
           </div>
         </div>
       </section>
-      {/* I need two things done:
-      
-      1. REPLACE AWARE COFFEE IMAGES: Save the 5 attached images to artifacts/portfolio/public/ as aware-coffee-1.png, aware-coffee-2.png, aware-coffee-3.png, aware-coffee-4.png, aware-coffee-5.png (overwrite the existing aware-coffee-1.png). Then update the Aware Coffee project in App.tsx so its images array is: ["/aware-coffee-1.png", "/aware-coffee-2.png", "/aware-coffee-3.png", "/aware-coffee-4.png", "/aware-coffee-5.png"]
-      
-      2. REDESIGN PROJECT MODAL TO PHOTO GRID: When a user clicks a project card, instead of showing just one large scrolling image, show a photo grid (like Instagram/Lightroom grid) where ALL of the project's images are displayed in a responsive 2-column or 3-column grid of thumbnails. Each thumbnail should be square (object-cover), clickable, and when clicked it opens a full-screen lightbox/overlay showing that single image enlarged with a close button (X) and arrow keys/arrow buttons to navigate between images. The outer CarouselModal arrows/dots that navigate between projects should still work. The project title and description should still appear at the top.
-      
-      Make sure there are no TypeScript errors. Then republish when done.div>
+      {/* 2. WORK */}
+      <section id="work" className="w-full border-t border-[#1a1a1a]">
+        {/* Header */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="flex flex-col md:flex-row md:items-end justify-between px-8 md:px-16 pt-24 pb-16 gap-6"
+        >
+          <div className="flex items-end gap-5">
+            <h2 className="font-serif font-bold text-5xl md:text-7xl text-[#F5F0E8] uppercase m-0 leading-none">
+              RECENT PROJECTS
+            </h2>
+            <div className="hidden md:block mb-2" style={{ transform: "skewX(-10deg)" }}>
+              <div className="bg-[#FF4D00] px-3 py-1">
+                <span className="font-sans font-bold text-[10px] text-black uppercase tracking-widest" style={{ display: "block", transform: "skewX(10deg)" }}>2021–NOW</span>
+              </div>
+            </div>
+          </div>
+          <div className="font-sans font-light text-sm text-muted-foreground tracking-widest">(07)</div>
+        </motion.div>
+
+        {/* Editorial list */}
+        <div className="border-t border-[#1a1a1a] relative">
+
+          {/* Floating image preview — fixed to right side while hovering */}
+          <AnimatePresence>
+            {hoveredProject?.images?.[0] && (
+              <motion.div
+                key={hoveredProject.name}
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 8 }}
+                transition={{ duration: 0.22, ease: "easeOut" }}
+                className="fixed pointer-events-none z-40 hidden lg:block"
+                style={{ right: "6vw", top: "50vh", transform: "translateY(-50%)" }}
+                aria-hidden="true"
+              >
+                <div style={{ width: 340, height: 240 }} className="overflow-hidden">
+                  <img
+                    src={hoveredProject.images[0]}
+                    alt=""
+                    className="w-full h-full object-cover"
+                    loading="lazy"
+                  />
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          {projects.map((project, i) => (
+            <motion.div
+              key={i}
+              role="button"
+              tabIndex={0}
+              aria-label={`View ${project.name} — ${project.category}`}
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-40px" }}
+              transition={{ duration: 0.55, delay: i * 0.04 }}
+              className="group border-b border-[#1a1a1a] cursor-pointer"
+              onClick={() => setSelectedIndex(i)}
+              onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setSelectedIndex(i); } }}
+              onMouseEnter={() => setHoveredProject(project)}
+              onMouseLeave={() => setHoveredProject(null)}
+              data-testid={`card-project-${i}`}
+            >
+              <div className="project-card-row flex items-center px-8 md:px-16 py-7 md:py-9 gap-6 md:gap-10 group-hover:bg-[#111] border-l-2 border-transparent group-hover:border-[#FF4D00] transition-all duration-200">
+                {/* Number */}
+                <span className="font-sans font-light text-[11px] text-[#F5F0E8]/20 w-7 flex-shrink-0 tabular-nums select-none" aria-hidden="true">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+
+                {/* Name */}
+                <h3 className="font-serif font-bold uppercase text-[clamp(1.6rem,4vw,3.5rem)] text-[#F5F0E8] leading-none flex-1 group-hover:text-[#FF4D00] transition-colors duration-300 tracking-tight">
+                  {project.name}
+                </h3>
+
+                {/* Category + Client — hidden on mobile */}
+                <div className="hidden md:flex flex-col items-end gap-[5px] flex-shrink-0 min-w-[160px]" aria-hidden="true">
+                  <span className="font-sans font-light text-[10px] uppercase tracking-[0.22em] text-[#F5F0E8]/40 text-right">
+                    {project.category}
+                  </span>
+                  <span className="font-sans font-light text-[10px] text-[#F5F0E8]/25 text-right">
+                    {project.client}
+                  </span>
+                </div>
+
+                {/* Color swatch for projects without images (visible only on hover) */}
+                {!project.images?.length && (
+                  <div
+                    className="hidden md:block w-6 h-6 flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                    style={{ backgroundColor: project.bg }}
+                    aria-hidden="true"
+                  />
+                )}
+
+                {/* Arrow */}
+                <span className="project-card-arrow font-sans text-base text-[#F5F0E8]/20 group-hover:text-[#FF4D00] group-hover:translate-x-2 transition-all duration-300 flex-shrink-0 select-none" aria-hidden="true">
+                  →
+                </span>
+              </div>
+            </motion.div>
+          ))}
+        </div>
       </section>
+
+      {/* 3. ABOUT */}
+      <section id="about" className="w-full border-t border-[#1a1a1a] rounded-none">
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          className="grid grid-cols-1 md:grid-cols-12 rounded-none"
+        >
+          {/* LEFT — photo flush */}
+          <div className="md:col-span-5 overflow-hidden" style={{ background: "#0D0D0D", minHeight: "420px" }}>
+            <img
+              src="/profile-photo.png"
+              alt="Isaac Figueroa"
+              style={{
+                width: "100%",
+                height: "100%",
+                display: "block",
+                objectFit: "cover",
+                objectPosition: "center top",
+                filter: "grayscale(100%)",
+              }}
+              loading="lazy"
+            />
+          </div>
+
+          {/* RIGHT */}
+          <div className="md:col-span-7 flex flex-col justify-start rounded-none px-8 md:px-16 pt-10 pb-10 md:pt-12 md:pb-12">
+            <div className="font-sans font-light text-xs text-muted-foreground uppercase tracking-[0.2em] mb-2" aria-hidden="true">
+              03
+            </div>
+            <div className="font-sans font-light text-xs text-muted-foreground uppercase tracking-[0.2em] mb-6">
+              ABOUT ISAAC
+            </div>
+            <p className="font-sans font-light text-lg md:text-xl text-[#F5F0E8] leading-loose max-w-xl mb-8">
+              Creative designer with 5+ years building high-impact visuals for non-profits, brands, and digital communities. I specialize in brand identity, campaign design, and social content that drives real engagement — and I bring the same level of craft whether the work lives on a screen, in print, or on a stage.
+            </p>
+            <p className="font-sans font-light italic text-sm md:text-base text-muted-foreground max-w-xl mb-12">Currently freelancing and designing at The Squad.</p>
+
+            <div className="flex flex-wrap gap-3 rounded-none">
+              {[
+                "Brand Identity", "Campaign Design", "Social Media Graphics",
+                "Web Design", "Print & Marketing", "Typography",
+                "Layout & Composition", "Merch Design", "YouTube Thumbnails", "Event Promotion"
+              ].map((tag, i) => (
+                <div
+                  key={i}
+                  className="font-sans font-light text-xs uppercase tracking-[0.15em] text-[#F5F0E8] border border-[#2a2a2a] px-4 py-2 hover:border-[#FF4D00] hover:text-[#FF4D00] transition-colors cursor-default rounded-none"
+                >
+                  {tag}
+                </div>
+              ))}
+            </div>
+          </div>
+        </motion.div>
+      </section>
+
       {/* 5. EXPERIENCE */}
       <section id="experience" className="w-full py-32 px-8 md:px-16 border-t border-[#1a1a1a] rounded-none">
         <motion.div 
