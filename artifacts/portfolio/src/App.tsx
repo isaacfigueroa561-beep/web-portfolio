@@ -767,26 +767,6 @@ function Home() {
       },
     },
     {
-      name: "Non-Profits",
-      client: "Churches & Non-Profits",
-      category: "Event Design / Sermon Series",
-      bg: "#0f1f3d",
-      labelColor: "#FF4D00",
-      nameColor: "#fff",
-      clientColor: "rgba(255,255,255,0.5)",
-      desc: "Sermon series, event graphics, and campaign visuals for churches and non-profit organizations.",
-      caseStudy: {
-        challenge: "Churches and non-profits operate on tight budgets but have some of the most ambitious communication goals — they need graphics that inspire, inform, and mobilize communities, often on a weekly cadence. Each sermon series or event requires its own distinct visual world, while still feeling like it belongs to the same organization.",
-        approach: "I treated each series like a short-run editorial campaign. Rather than reusing templates, I built a unique visual language for each theme — distinct typography, color palette, and graphic system — so every series felt like an event worth showing up for. The goal was always to make the congregation feel like their community was doing something worth paying attention to, because it is.",
-      },
-      images: [
-        "/np-1.png", "/np-2.png", "/np-3.png", "/np-4.png",
-        "/np-5.png", "/np-6.png", "/np-7.png", "/np-8.png",
-        "/np-9.png", "/np-10.png", "/np-11.png", "/np-12.png",
-        "/np-13.png", "/np-14.png"
-      ],
-    },
-    {
       name: "Fynance — Wallet UI",
       client: "Practice Project",
       category: "UX/UI Design / Figma",
@@ -804,6 +784,26 @@ function Home() {
         "/wallet-01.png", "/wallet-02.png", "/wallet-03.png",
         "/wallet-04.png", "/wallet-05.png", "/wallet-06.png",
         "/wallet-07.png", "/wallet-08.png", "/wallet-09.png",
+      ],
+    },
+    {
+      name: "Non-Profits",
+      client: "Churches & Non-Profits",
+      category: "Event Design / Sermon Series",
+      bg: "#0f1f3d",
+      labelColor: "#FF4D00",
+      nameColor: "#fff",
+      clientColor: "rgba(255,255,255,0.5)",
+      desc: "Sermon series, event graphics, and campaign visuals for churches and non-profit organizations.",
+      caseStudy: {
+        challenge: "Churches and non-profits operate on tight budgets but have some of the most ambitious communication goals — they need graphics that inspire, inform, and mobilize communities, often on a weekly cadence. Each sermon series or event requires its own distinct visual world, while still feeling like it belongs to the same organization.",
+        approach: "I treated each series like a short-run editorial campaign. Rather than reusing templates, I built a unique visual language for each theme — distinct typography, color palette, and graphic system — so every series felt like an event worth showing up for. The goal was always to make the congregation feel like their community was doing something worth paying attention to, because it is.",
+      },
+      images: [
+        "/np-1.png", "/np-2.png", "/np-3.png", "/np-4.png",
+        "/np-5.png", "/np-6.png", "/np-7.png", "/np-8.png",
+        "/np-9.png", "/np-10.png", "/np-11.png", "/np-12.png",
+        "/np-13.png", "/np-14.png"
       ],
     },
   ];
