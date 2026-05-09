@@ -654,8 +654,7 @@ function Home() {
       nameColor: "#5c3fff",
       clientColor: "rgba(255,255,255,0.4)",
       desc: "Concept fintech app — crypto portfolio, NFT vault, send/receive flows. Designed in Figma.",
-      images: ["/wallet-1.svg", "/wallet-2.svg", "/wallet-3.svg"],
-      phoneFrame: true,
+      images: ["/wallet-1.png", "/wallet-2.png", "/wallet-3.png"],
     },
     {
       name: "Spark Pro Services",
