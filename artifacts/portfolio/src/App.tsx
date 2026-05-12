@@ -418,8 +418,26 @@ function CarouselModal({
 }
 
 
+const SERVICES = [
+  "Brand Identity",
+  "Social Media & Content",
+  "Merch / Apparel",
+  "Campaign Design",
+  "Web Design",
+  "Print & Signage",
+  "Something else",
+];
+
+const BUDGETS = ["< $500", "$500–$2,500", "$2,500–$5k", "$5k–$20k", "$20k+", "Not sure yet"];
+
+// Replace with your actual Calendly or Google Calendar booking URL
+const BOOKING_URL = "https://calendly.com/isaacfigueroa";
+
 function ContactFormModal({ onClose }: { onClose: () => void }) {
-  const [form, setForm] = useState({ name: "", email: "", project: "", message: "" });
+  const [tab, setTab] = useState<"message" | "call">("message");
+  const [form, setForm] = useState({ name: "", email: "", company: "", message: "" });
+  const [services, setServices] = useState<string[]>([]);
+  const [budget, setBudget] = useState("");
   const [sent, setSent] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -447,18 +465,26 @@ function ContactFormModal({ onClose }: { onClose: () => void }) {
     return () => document.removeEventListener("keydown", handleKey);
   }, [onClose]);
 
+  const toggleService = (s: string) =>
+    setServices(prev => prev.includes(s) ? prev.filter(x => x !== s) : [...prev, s]);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSubmitting(true);
     setError(null);
     try {
+      const projectParts = [
+        services.length ? services.join(", ") : null,
+        budget ? `Budget: ${budget}` : null,
+        form.company ? `Company: ${form.company}` : null,
+      ].filter(Boolean);
       const res = await fetch("/api/contacts", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           name: form.name,
           email: form.email,
-          project: form.project || null,
+          project: projectParts.join(" · ") || null,
           message: form.message,
         }),
       });
@@ -475,6 +501,7 @@ function ContactFormModal({ onClose }: { onClose: () => void }) {
   };
 
   const inputClass = "w-full bg-transparent border-b border-[#2a2a2a] focus:border-[#FF4D00] outline-none font-sans font-light text-[#F5F0E8] text-sm py-3 placeholder:text-[#444] transition-colors";
+  const labelClass = "font-sans font-light text-[10px] uppercase tracking-[0.2em] text-[#666] mb-2 block";
 
   return (
     <motion.div
@@ -492,75 +519,179 @@ function ContactFormModal({ onClose }: { onClose: () => void }) {
         ref={dialogRef}
         tabIndex={-1}
         className="relative w-full bg-[#0D0D0D] flex flex-col focus:outline-none"
-        style={{ maxHeight: "90vh", overflowY: "auto" }}
+        style={{ maxHeight: "92vh", overflowY: "auto" }}
         initial={{ y: "100%" }}
         animate={{ y: 0, transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] } }}
         exit={{ y: "100%", transition: { duration: 0.3, ease: [0.4, 0, 1, 1] } }}
         onClick={e => e.stopPropagation()}
       >
+        {/* drag handle */}
         <div className="flex justify-center pt-4 pb-2 flex-shrink-0" onClick={onClose} aria-hidden="true" style={{ cursor: "pointer" }}>
           <div className="w-10 h-[3px] bg-[#2a2a2a]" />
         </div>
-        <div className="px-8 md:px-16 pt-4 pb-12">
-          <div className="flex items-start justify-between mb-10">
+
+        <div className="px-6 md:px-14 pt-4 pb-14">
+          {/* header */}
+          <div className="flex items-start justify-between mb-6">
             <div>
-              <div className="font-sans font-light text-[10px] uppercase tracking-[0.25em] text-[#FF4D00] mb-1" aria-hidden="true">Get In Touch</div>
-              <h3 id="contact-form-title" className="font-serif font-bold text-3xl md:text-4xl text-[#F5F0E8] uppercase m-0">Start A Project</h3>
+              <div className="font-sans font-light text-[10px] uppercase tracking-[0.25em] text-[#FF4D00] mb-1">Start A Project</div>
+              <h3 id="contact-form-title" className="font-serif font-bold text-3xl md:text-5xl text-[#F5F0E8] uppercase leading-none m-0">
+                Let's Make Something<br />
+                <span className="text-[#FF4D00] italic normal-case">worth</span> It.
+              </h3>
             </div>
-            <button onClick={onClose} aria-label="Close contact form" className="text-muted-foreground hover:text-[#F5F0E8] transition-colors text-2xl font-light leading-none mt-1" style={{ cursor: "none" }}>
-              <span aria-hidden="true">×</span>
+            <button onClick={onClose} aria-label="Close" className="w-9 h-9 flex items-center justify-center border border-[#2a2a2a] text-[#F5F0E8] hover:border-[#F5F0E8] transition-colors text-lg leading-none flex-shrink-0 mt-1" style={{ cursor: "none" }}>
+              ×
+            </button>
+          </div>
+
+          {/* tab switcher */}
+          <div className="flex gap-2 mb-8">
+            <button
+              onClick={() => setTab("message")}
+              className={`font-sans font-light text-xs uppercase tracking-widest px-5 py-2.5 border transition-colors ${tab === "message" ? "bg-[#F5F0E8] text-[#0D0D0D] border-[#F5F0E8]" : "border-[#2a2a2a] text-[#666] hover:border-[#666]"}`}
+              style={{ cursor: "none" }}
+            >
+              Send a message
+            </button>
+            <button
+              onClick={() => setTab("call")}
+              className={`font-sans font-light text-xs uppercase tracking-widest px-5 py-2.5 border transition-colors ${tab === "call" ? "bg-[#F5F0E8] text-[#0D0D0D] border-[#F5F0E8]" : "border-[#2a2a2a] text-[#666] hover:border-[#666]"}`}
+              style={{ cursor: "none" }}
+            >
+              Book a call
             </button>
           </div>
 
           <div aria-live="polite" aria-atomic="true">
-            {sent ? (
-              <div className="py-16 text-center">
-                <div className="text-[#FF4D00] font-serif font-bold text-4xl mb-4" aria-hidden="true">✓</div>
-                <p className="font-sans font-light text-[#F5F0E8] text-lg mb-2">Email client opened!</p>
-                <p className="font-sans font-light text-muted-foreground text-sm">Send the email and Isaac will get back to you soon.</p>
-                <button onClick={onClose} className="mt-8 border border-[#2a2a2a] text-[#F5F0E8] font-sans font-light text-xs uppercase tracking-widest px-6 py-3 hover:border-[#F5F0E8] transition-colors" style={{ cursor: "none" }}>Close</button>
-              </div>
-            ) : (
-              <form onSubmit={handleSubmit} className="flex flex-col gap-8 max-w-xl" noValidate>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                  <div className="flex flex-col gap-1">
-                    <label htmlFor="cf-name" className="font-sans font-light text-[10px] uppercase tracking-[0.2em] text-muted-foreground">Your Name *</label>
-                    <input id="cf-name" required className={inputClass} placeholder="Jane Smith" value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))} />
+            {/* ── SEND A MESSAGE TAB ── */}
+            {tab === "message" && (
+              <>
+                {sent ? (
+                  <div className="py-16 text-center max-w-lg">
+                    <div className="text-[#FF4D00] font-serif font-bold text-5xl mb-4">✓</div>
+                    <p className="font-sans font-light text-[#F5F0E8] text-lg mb-2">Message received.</p>
+                    <p className="font-sans font-light text-[#666] text-sm">Isaac will get back to you within 24 hours.</p>
+                    <button onClick={onClose} className="mt-8 border border-[#2a2a2a] text-[#F5F0E8] font-sans font-light text-xs uppercase tracking-widest px-6 py-3 hover:border-[#F5F0E8] transition-colors" style={{ cursor: "none" }}>Close</button>
                   </div>
-                  <div className="flex flex-col gap-1">
-                    <label htmlFor="cf-email" className="font-sans font-light text-[10px] uppercase tracking-[0.2em] text-muted-foreground">Email *</label>
-                    <input id="cf-email" required type="email" className={inputClass} placeholder="jane@example.com" value={form.email} onChange={e => setForm(f => ({ ...f, email: e.target.value }))} />
-                  </div>
-                </div>
-                <div className="flex flex-col gap-1">
-                  <label htmlFor="cf-project" className="font-sans font-light text-[10px] uppercase tracking-[0.2em] text-muted-foreground">Project Type</label>
-                  <select id="cf-project" className={inputClass + " bg-[#0D0D0D]"} value={form.project} onChange={e => setForm(f => ({ ...f, project: e.target.value }))}>
-                    <option value="">Select a service...</option>
-                    <option value="Brand Identity">Brand Identity</option>
-                    <option value="Social Content">Social Content</option>
-                    <option value="Campaign Design">Campaign Design</option>
-                    <option value="Merch / Apparel">Merch / Apparel</option>
-                    <option value="Web Design">Web Design</option>
-                    <option value="Print / Signage">Print / Signage</option>
-                    <option value="Other">Other</option>
-                  </select>
-                </div>
-                <div className="flex flex-col gap-1">
-                  <label htmlFor="cf-message" className="font-sans font-light text-[10px] uppercase tracking-[0.2em] text-muted-foreground">Tell Me About Your Project *</label>
-                  <textarea id="cf-message" required rows={4} className={inputClass + " resize-none"} placeholder="Describe your project, timeline, and budget..." value={form.message} onChange={e => setForm(f => ({ ...f, message: e.target.value }))} />
-                </div>
-                {error && (
-                  <p className="font-sans font-light text-sm text-red-400">{error}</p>
+                ) : (
+                  <form onSubmit={handleSubmit} className="flex flex-col gap-7 max-w-2xl" noValidate>
+                    {/* name + email */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div>
+                        <label htmlFor="cf-name" className={labelClass}>Your Name *</label>
+                        <input id="cf-name" required className={inputClass} placeholder="Jane Smith" value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))} />
+                      </div>
+                      <div>
+                        <label htmlFor="cf-email" className={labelClass}>Email Address *</label>
+                        <input id="cf-email" required type="email" className={inputClass} placeholder="jane@example.com" value={form.email} onChange={e => setForm(f => ({ ...f, email: e.target.value }))} />
+                      </div>
+                    </div>
+
+                    {/* company */}
+                    <div>
+                      <label htmlFor="cf-company" className={labelClass}>Company or Project Name <span className="normal-case text-[#444]">(optional)</span></label>
+                      <input id="cf-company" className={inputClass} placeholder="Acme Inc." value={form.company} onChange={e => setForm(f => ({ ...f, company: e.target.value }))} />
+                    </div>
+
+                    {/* services */}
+                    <div>
+                      <label className={labelClass}>What Do You Need? <span className="normal-case text-[#444]">(pick any)</span></label>
+                      <div className="flex flex-wrap gap-2 mt-1">
+                        {SERVICES.map(s => (
+                          <button
+                            key={s}
+                            type="button"
+                            onClick={() => toggleService(s)}
+                            className={`font-sans font-light text-xs px-4 py-2 border transition-colors ${services.includes(s) ? "border-[#FF4D00] text-[#FF4D00]" : "border-[#2a2a2a] text-[#666] hover:border-[#444]"}`}
+                            style={{ cursor: "none" }}
+                          >
+                            {s}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* budget */}
+                    <div>
+                      <label className={labelClass}>Rough Budget</label>
+                      <div className="flex flex-wrap gap-2 mt-1">
+                        {BUDGETS.map(b => (
+                          <button
+                            key={b}
+                            type="button"
+                            onClick={() => setBudget(prev => prev === b ? "" : b)}
+                            className={`font-sans font-light text-xs px-4 py-2 border transition-colors ${budget === b ? "border-[#FF4D00] text-[#FF4D00]" : "border-[#2a2a2a] text-[#666] hover:border-[#444]"}`}
+                            style={{ cursor: "none" }}
+                          >
+                            {b}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* message */}
+                    <div>
+                      <label htmlFor="cf-message" className={labelClass}>Tell Me About It *</label>
+                      <textarea id="cf-message" required rows={4} className={inputClass + " resize-none"} placeholder="Describe your project, timeline, and any key details..." value={form.message} onChange={e => setForm(f => ({ ...f, message: e.target.value }))} />
+                    </div>
+
+                    {error && (
+                      <p className="font-sans font-light text-sm text-red-400">{error}</p>
+                    )}
+
+                    <button
+                      type="submit"
+                      disabled={submitting}
+                      className="self-start bg-[#FF4D00] text-black font-serif font-semibold uppercase tracking-wide px-10 py-4 text-sm hover:opacity-90 transition-opacity disabled:opacity-50"
+                      style={{ cursor: "none" }}
+                    >
+                      {submitting ? "Sending..." : "Send Message →"}
+                    </button>
+                  </form>
                 )}
-                <button
-                  type="submit"
-                  disabled={submitting}
-                  className="self-start bg-[#FF4D00] text-black font-serif font-semibold uppercase tracking-wide px-10 py-4 text-sm hover:opacity-90 transition-opacity disabled:opacity-50"
-                  style={{ cursor: "none" }}
-                >
-                  {submitting ? "Sending..." : "Send Message →"}
-                </button>
-              </form>
+              </>
+            )}
+
+            {/* ── BOOK A CALL TAB ── */}
+            {tab === "call" && (
+              <div className="max-w-2xl">
+                <div className="flex flex-col md:flex-row gap-8 md:gap-12 items-start">
+                  <div className="flex-1">
+                    <p className="font-sans font-light text-[#F5F0E8] text-base md:text-lg leading-relaxed mb-6">
+                      A <strong className="font-semibold">20-minute intro call</strong> — no pitch, no pressure. We'll figure out if there's a fit and what working together would actually look like.
+                    </p>
+                    <ul className="flex flex-col gap-3 mb-8">
+                      {[
+                        "20 min · Google Meet or phone",
+                        "Mon–Fri, 9 AM–5 PM PT (Las Vegas)",
+                        "Confirmation sent within an hour",
+                      ].map(item => (
+                        <li key={item} className="flex items-start gap-3 font-sans font-light text-sm text-[#999]">
+                          <span className="text-[#FF4D00] mt-0.5 flex-shrink-0">▸</span>
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
+                    <a
+                      href={BOOKING_URL}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-3 bg-[#F5F0E8] text-[#0D0D0D] font-serif font-semibold uppercase tracking-wide px-10 py-4 text-sm hover:opacity-90 transition-opacity"
+                      style={{ cursor: "none" }}
+                    >
+                      Open scheduling page →
+                    </a>
+                    <p className="font-sans font-light text-[10px] uppercase tracking-widest text-[#444] mt-4">Powered by Calendly</p>
+                  </div>
+
+                  {/* avatar card */}
+                  <div className="flex-shrink-0 w-36 h-36 md:w-44 md:h-44 bg-[#FF4D00] flex flex-col items-center justify-center self-start">
+                    <div className="w-14 h-14 bg-[#0D0D0D] mb-3" style={{ borderRadius: "50%" }} />
+                    <span className="font-sans font-light text-[10px] uppercase tracking-widest text-[#0D0D0D]">Isaac Figueroa</span>
+                  </div>
+                </div>
+              </div>
             )}
           </div>
         </div>
