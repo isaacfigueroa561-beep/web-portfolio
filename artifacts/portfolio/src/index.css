@@ -196,6 +196,28 @@ a, button, [role="button"], select, input, textarea, label {
   cursor: none !important;
 }
 
+/* Custom cursor — scale wrapper + rotation inner, no JS animation loops */
+.cursor-scale-wrapper {
+  display: block;
+  transition: transform 0.18s ease-out;
+  transform: scale(1);
+}
+.cursor-hovered .cursor-scale-wrapper {
+  transform: scale(1.6);
+}
+.cursor-inner {
+  display: block;
+  font-size: 26px;
+  color: #FF4D00;
+  font-weight: 900;
+  line-height: 1;
+  font-family: sans-serif;
+  animation: cursor-spin 7s linear infinite;
+}
+@keyframes cursor-spin {
+  to { transform: rotate(360deg); }
+}
+
 /* Accessible focus-visible outlines — orange brand colour, visible on dark bg */
 :focus-visible {
   outline: 2px solid #FF4D00 !important;

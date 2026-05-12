@@ -26,55 +26,51 @@ type Project = {
 };
 
 function CustomCursor() {
-  const [hovered, setHovered] = useState(false);
-  const [visible, setVisible] = useState(false);
   const cursorRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    const el = cursorRef.current;
+    if (!el) return;
+    let revealed = false;
+
     const onMove = (e: MouseEvent) => {
-      if (cursorRef.current) {
-        cursorRef.current.style.transform = `translate(calc(${e.clientX}px - 50%), calc(${e.clientY}px - 50%))`;
+      el.style.transform = `translate(calc(${e.clientX}px - 50%), calc(${e.clientY}px - 50%))`;
+      if (!revealed) {
+        revealed = true;
+        el.style.opacity = "1";
       }
-      if (!visible) setVisible(true);
     };
+
     const onOver = (e: MouseEvent) => {
-      const el = e.target as HTMLElement;
-      setHovered(
-        !!(el.closest("button") || el.closest("a") || el.closest("[data-cursor-hover]") || el.closest(".group"))
+      const t = e.target as HTMLElement;
+      const isHovered = !!(
+        t.closest("button") ||
+        t.closest("a") ||
+        t.closest("[data-cursor-hover]") ||
+        t.closest(".group")
       );
+      el.classList.toggle("cursor-hovered", isHovered);
     };
-    document.addEventListener("mousemove", onMove);
-    document.addEventListener("mouseover", onOver);
+
+    document.addEventListener("mousemove", onMove, { passive: true });
+    document.addEventListener("mouseover", onOver, { passive: true });
     return () => {
       document.removeEventListener("mousemove", onMove);
       document.removeEventListener("mouseover", onOver);
     };
-  }, [visible]);
+  }, []);
 
   return (
-    <motion.div
+    <div
       ref={cursorRef}
       aria-hidden="true"
       className="custom-cursor fixed top-0 left-0 pointer-events-none z-[99999] select-none"
-      style={{ willChange: "transform" }}
-      animate={{ opacity: visible ? 1 : 0, scale: hovered ? 1.6 : 1 }}
-      transition={{ scale: { duration: 0.18, ease: "easeOut" }, opacity: { duration: 0.3 } }}
+      style={{ opacity: 0, willChange: "transform" }}
     >
-      <motion.span
-        animate={{ rotate: 360 }}
-        transition={{ duration: 7, repeat: Infinity, ease: "linear" }}
-        style={{
-          display: "block",
-          fontSize: 26,
-          color: "#FF4D00",
-          fontWeight: 900,
-          lineHeight: 1,
-          fontFamily: "sans-serif",
-        }}
-      >
-        ✳
-      </motion.span>
-    </motion.div>
+      <span className="cursor-scale-wrapper">
+        <span className="cursor-inner">✳</span>
+      </span>
+    </div>
   );
 }
 
@@ -760,6 +756,16 @@ function ResumeModal({ onClose }: { onClose: () => void }) {
   );
 }
 
+const HERO_STAGGER = {
+  hidden: { opacity: 0 },
+  show: { opacity: 1, transition: { staggerChildren: 0.15 } },
+};
+
+const HERO_ITEM = {
+  hidden: { opacity: 0, y: 20 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] } },
+};
+
 function Home() {
   const [scrolled, setScrolled] = useState(false);
   const [resumeOpen, setResumeOpen] = useState(false);
@@ -836,29 +842,22 @@ function Home() {
   const videoBgOpacity = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
 
   useEffect(() => {
+    let ticking = false;
     const handleScroll = () => {
-      if (window.scrollY > 80) {
-        setScrolled(true);
-      } else {
-        setScrolled(false);
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(() => {
+          setScrolled(window.scrollY > 80);
+          ticking = false;
+        });
       }
     };
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const heroStagger = {
-    hidden: { opacity: 0 },
-    show: {
-      opacity: 1,
-      transition: { staggerChildren: 0.15 }
-    }
-  };
-
-  const heroItem = {
-    hidden: { opacity: 0, y: 20 },
-    show: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] } }
-  };
+  const heroStagger = HERO_STAGGER;
+  const heroItem = HERO_ITEM;
 
   const projects: Project[] = [
     {
