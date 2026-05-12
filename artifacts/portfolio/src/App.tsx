@@ -22,6 +22,7 @@ type Project = {
   caseStudy?: {
     challenge: string;
     approach: string;
+    stats?: { value: string; label: string }[];
   };
 };
 
@@ -228,11 +229,15 @@ function CarouselModal({
                 <button
                   onClick={() => setCaseStudyOpen(o => !o)}
                   aria-expanded={caseStudyOpen}
-                  className="flex items-center gap-3 font-sans font-light text-[10px] uppercase tracking-[0.25em] text-[#F5F0E8]/40 hover:text-[#FF4D00] transition-colors duration-200 focus:outline-none group"
+                  style={{ cursor: "none" }}
+                  className="flex items-center gap-3 bg-[#FF4D00] text-black font-sans font-semibold text-[11px] uppercase tracking-[0.2em] px-5 py-3 hover:opacity-90 transition-opacity duration-200 focus:outline-none"
                 >
-                  <span className="w-4 h-[1px] bg-current transition-colors duration-200" aria-hidden="true" />
-                  Case Study
-                  <span className="text-[10px] transition-transform duration-300" style={{ display: "inline-block", transform: caseStudyOpen ? "rotate(45deg)" : "rotate(0deg)" }} aria-hidden="true">+</span>
+                  <span>Case Study</span>
+                  <span
+                    className="text-base font-bold transition-transform duration-300 leading-none"
+                    style={{ display: "inline-block", transform: caseStudyOpen ? "rotate(45deg)" : "rotate(0deg)" }}
+                    aria-hidden="true"
+                  >+</span>
                 </button>
                 <AnimatePresence>
                   {caseStudyOpen && (
@@ -241,17 +246,31 @@ function CarouselModal({
                       initial={{ opacity: 0, height: 0 }}
                       animate={{ opacity: 1, height: "auto" }}
                       exit={{ opacity: 0, height: 0 }}
-                      transition={{ duration: 0.28, ease: [0.25, 0.46, 0.45, 0.94] }}
+                      transition={{ duration: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
                       className="overflow-hidden"
                     >
-                      <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-px bg-[#1a1a1a] border border-[#1a1a1a]">
-                        <div className="bg-[#0a0a0a] p-6">
-                          <div className="font-sans font-light text-[10px] uppercase tracking-[0.25em] text-[#FF4D00] mb-3">The Challenge</div>
-                          <p className="font-sans font-light text-sm text-[#F5F0E8]/70 leading-relaxed">{project.caseStudy.challenge}</p>
-                        </div>
-                        <div className="bg-[#0a0a0a] p-6">
-                          <div className="font-sans font-light text-[10px] uppercase tracking-[0.25em] text-[#FF4D00] mb-3">The Approach</div>
-                          <p className="font-sans font-light text-sm text-[#F5F0E8]/70 leading-relaxed">{project.caseStudy.approach}</p>
+                      <div className="mt-3 border border-[#1a1a1a]">
+                        {/* Stats bar */}
+                        {project.caseStudy.stats && project.caseStudy.stats.length > 0 && (
+                          <div className="grid border-b border-[#1a1a1a]" style={{ gridTemplateColumns: `repeat(${project.caseStudy.stats.length}, 1fr)` }}>
+                            {project.caseStudy.stats.map((stat, i) => (
+                              <div key={i} className={`bg-[#111] px-5 py-4 flex flex-col gap-1 ${i < project.caseStudy!.stats!.length - 1 ? "border-r border-[#1a1a1a]" : ""}`}>
+                                <span className="font-serif font-bold text-2xl text-[#FF4D00] leading-none">{stat.value}</span>
+                                <span className="font-sans font-light text-[10px] uppercase tracking-[0.2em] text-[#F5F0E8]/40">{stat.label}</span>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                        {/* Challenge / Approach */}
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-[#1a1a1a]">
+                          <div className="bg-[#0a0a0a] p-6">
+                            <div className="font-sans font-light text-[10px] uppercase tracking-[0.25em] text-[#FF4D00] mb-3">The Challenge</div>
+                            <p className="font-sans font-light text-sm text-[#F5F0E8]/70 leading-relaxed">{project.caseStudy.challenge}</p>
+                          </div>
+                          <div className="bg-[#0a0a0a] p-6">
+                            <div className="font-sans font-light text-[10px] uppercase tracking-[0.25em] text-[#FF4D00] mb-3">The Approach</div>
+                            <p className="font-sans font-light text-sm text-[#F5F0E8]/70 leading-relaxed">{project.caseStudy.approach}</p>
+                          </div>
                         </div>
                       </div>
                     </motion.div>
@@ -870,8 +889,13 @@ function Home() {
       desc: "Construction company full rebrand — logo, web, apparel, signage",
       images: ["/spark-1.png", "/spark-2.png", "/spark-3.png", "/spark-4.png", "/spark-5.png", "/spark-6.png"],
       caseStudy: {
-        challenge: "Spark Pro Services had been operating for years under a forgettable name and no real visual identity. They were losing bids to competitors who simply looked more established and professional. They needed a full rebrand that communicated trust, strength, and capability — without losing the scrappy, hard-working spirit that defines their crew.",
-        approach: "I built the identity around tension: raw industrial energy meets precision craft. The name 'Spark' gave me a clear visual direction — fire, ignition, momentum. I chose a high-contrast palette anchored in bold orange-red, paired with heavy-weight type that commands authority on a work site or a business proposal. Every touchpoint from the logo to the work shirts was designed to make them look like the biggest contractor in the room.",
+        stats: [
+          { value: "6+", label: "Brand Deliverables" },
+          { value: "100%", label: "Identity from Scratch" },
+          { value: "4", label: "Touchpoints Covered" },
+        ],
+        challenge: "Spark Pro Services had been operating for years under a forgettable name with no real visual identity. They were losing bids to competitors who simply looked more established and professional — not because of the quality of their work, but because their brand didn't reflect it. They needed a full rebrand that communicated trust, strength, and capability across every touchpoint: proposals, job site apparel, signage, and digital.",
+        approach: "I built the identity around tension: raw industrial energy meets precision craft. The name 'Spark' gave me an immediate visual direction — fire, ignition, momentum. I chose a high-contrast palette anchored in bold orange-red paired with heavy condensed type that commands authority whether it's on a work truck or a contract PDF. Every asset — logo, web layout, work shirts, signage — was designed to make them look like the most established contractor in the room before they say a word.",
       },
     },
     {
@@ -888,8 +912,13 @@ function Home() {
         "/billy-new-5.png", "/billy-new-6.png", "/billy-new-7.png", "/billy-new-8.png", "/billy-new-9.png"
       ],
       caseStudy: {
-        challenge: "Billy Brunch NYC wanted a brand that felt as warm and inviting as their food — something that would translate effortlessly from Instagram to a hoodie someone actually wants to wear outside. The challenge was carving out a distinct identity in a city oversaturated with brunch spots all fighting for the same aesthetic.",
-        approach: "I anchored the brand in a soft, muted teal that feels comfortable and approachable — warm enough for a weekend morning, refined enough to stand out. The logomark leans into casual confidence: loose letterforms with just enough structure to feel intentional. For merch, I prioritized wearability over branding volume — the pieces feel like something you'd buy at a boutique, not just a restaurant.",
+        stats: [
+          { value: "9", label: "Assets Delivered" },
+          { value: "3", label: "Merch Formats" },
+          { value: "1", label: "Cohesive Brand System" },
+        ],
+        challenge: "Billy Brunch NYC needed a brand identity that could live in two very different places at once — on a New York City Instagram feed competing against hundreds of brunch spots, and on a hoodie someone actually wants to wear outside the restaurant. The challenge was finding a visual voice distinct enough to own a lane in an oversaturated market, while staying warm and unpretentious enough to match the vibe of the space itself.",
+        approach: "I anchored the brand in a soft muted teal — warm enough for a Sunday morning, refined enough to not look like every other food brand on the explore page. The logomark uses loose, confident letterforms with just enough structure to feel intentional rather than amateur. For merch — hoodie, tote, and cap — I prioritized wearability over branding volume. Every piece was designed to feel like something you'd find at a boutique, not just a freebie from a restaurant.",
       },
     },
     {
@@ -906,8 +935,13 @@ function Home() {
         "/chino-new-5.png", "/chino-new-6.png", "/chino-new-7.png", "/chino-new-8.png", "/chino-new-9.png"
       ],
       caseStudy: {
-        challenge: "Chino Club needed an identity that could do a lot of heavy lifting — work on a 10-foot banner outside a venue, read instantly on a social post, and look sharp on a tote bag someone carries around the city. The brand had to be loud enough to own a room but polished enough to build real recognition over time.",
-        approach: "High-voltage yellow and electric blue was the obvious move once I understood the energy they wanted — it's impossible to ignore and creates instant recall. I leaned into rave-era graphic language: bold condensed type, blocky layouts, graphic shapes that print cleanly at any size. Every deliverable was designed to feel like a collectable piece, not just a branded item — so people actually want to hold onto it.",
+        stats: [
+          { value: "9", label: "Deliverables" },
+          { value: "3", label: "Merch Types" },
+          { value: "2", label: "Event Series" },
+        ],
+        challenge: "Chino Club needed an identity that could do serious heavy lifting — work on a 10-foot banner outside a venue, read instantly in a 1-second scroll on Instagram, and look sharp on a tote bag someone carries around the city for months. The brand had to be loud enough to own a room but deliberate enough to build real recognition and feel collectible over time.",
+        approach: "High-voltage yellow and electric blue was the call the moment I understood their energy — that combination is impossible to ignore and creates instant, sticky recall. I leaned hard into rave-era graphic language: bold condensed type, blocky grid layouts, and graphic shapes that print cleanly at any scale. Every deliverable — posters, tote bags, signage, social graphics — was designed to feel like a limited-run piece someone keeps, not just another branded handout.",
       },
     },
     {
@@ -924,8 +958,13 @@ function Home() {
         "/clh-6.png", "/clh-7.png", "/clh-8.png", "/clh-9.png"
       ],
       caseStudy: {
-        challenge: "Cold Little Heart wanted a graphic tee that felt genuinely worn-in and authentic — not a slogan shirt, not a logo drop. The kind of piece that looks like it came from a vintage store, carries emotional weight, and sells itself without needing an explanation. The name alone set a specific emotional tone that the visual had to match.",
-        approach: "I went straight to illustration — a flaming heart rendered with the kind of hand-drawn imperfection that reads as vintage without trying too hard. Distressed textures, a tight color palette, and intentionally aged typography gave the shirt that lived-in quality from day one. The design sits in the center of the chest where it belongs: confident, self-contained, and meaningful without being loud.",
+        stats: [
+          { value: "1", label: "Hero Illustration" },
+          { value: "3", label: "Colorways" },
+          { value: "100%", label: "Hand-drawn Feel" },
+        ],
+        challenge: "Cold Little Heart wanted a graphic tee that felt genuinely worn-in and emotionally authentic — not a slogan shirt, not a logo drop. The kind of piece that looks like it surfaced from a vintage store, carries real weight, and sells itself without needing a caption. The name set a very specific emotional tone — melancholy, raw, a little romantic — and the visual had to earn that without being on the nose.",
+        approach: "I went straight to illustration — a flaming heart rendered with intentional hand-drawn imperfection that reads vintage without trying too hard. Distressed textures, a tight 3-color palette, and aged typography gave the shirt that lived-in quality from day one. The graphic sits center-chest: confident, self-contained, and meaningful without competing for attention. Three colorway options were presented so the client could choose what felt right for their audience.",
       },
     },
     {
@@ -939,8 +978,13 @@ function Home() {
       desc: "Product launch campaign, cup mockups, social media graphics",
       images: ["/aware-coffee-1.png", "/aware-coffee-2.png", "/aware-coffee-3.png", "/aware-coffee-4.png", "/aware-coffee-5.png"],
       caseStudy: {
-        challenge: "Aware Coffee was launching from scratch with no existing brand equity — just a name, a product, and the ambition to compete in a space dominated by established specialty coffee brands. They needed visual language that felt premium and intentional on social media from day one, without the budget of a big agency campaign.",
-        approach: "I kept the art direction restrained on purpose — clean off-white backgrounds, minimal type, and a single accent color used sparingly. The name 'Aware' pointed me toward mindfulness and clarity, so I stripped away anything that felt noisy or decorative. The cup mockups were shot and styled to feel editorial rather than promotional, giving them content that performs whether a customer is scrolling or standing in front of a shelf.",
+        stats: [
+          { value: "5", label: "Campaign Visuals" },
+          { value: "0→1", label: "Brand Built from Scratch" },
+          { value: "3", label: "Platform Formats" },
+        ],
+        challenge: "Aware Coffee was launching from zero — no existing brand equity, no visual language, just a name, a product, and the ambition to compete in a specialty coffee market full of established, well-funded brands. They needed to look premium and intentional on Instagram from day one, build enough credibility to justify their price point, and do it all without an agency budget.",
+        approach: "I made restraint the strategy. Clean off-white backgrounds, minimal type, and a single warm accent used sparingly — nothing that would date the brand or distract from the product. 'Aware' pushed me toward clarity and mindfulness, so I stripped anything decorative. The cup mockups were styled to feel editorial rather than promotional — the kind of content that performs whether someone's scrolling at 7am or seeing it on a shelf. Every asset was built to work across feed posts, stories, and print without modification.",
       },
     },
     {
@@ -954,8 +998,13 @@ function Home() {
       desc: "Personal UX/UI practice project — a concept finance app designed entirely in Figma. Not a real client project.",
       phoneFrame: true,
       caseStudy: {
-        challenge: "This was a self-initiated practice project to sharpen my UX/UI skills in Figma. The goal was to design a full end-to-end finance app — covering core flows like portfolio tracking, transactions, markets, and money transfers — while keeping the experience clean, modern, and genuinely usable.",
-        approach: "I focused on information hierarchy and dark-mode readability first, since finance apps live or die by how quickly users can parse numbers. Each screen was built as a standalone component in Figma, then connected into a full prototype flow. The purple accent palette was chosen to feel premium without mimicking existing fintech brands.",
+        stats: [
+          { value: "9", label: "UI Screens" },
+          { value: "5", label: "Core User Flows" },
+          { value: "1", label: "Full Figma Prototype" },
+        ],
+        challenge: "Self-initiated practice project to push my UX/UI skills deeper in Figma. The goal was to design a full end-to-end finance app — portfolio tracking, transactions, markets, transfers, and settings — while keeping every screen genuinely usable, not just visually polished. Finance apps fail when the hierarchy is off: users need to parse numbers instantly, not hunt for them.",
+        approach: "I started with information hierarchy and dark-mode readability before touching visual style. Each screen was built as a reusable component in Figma, then wired into a fully clickable prototype flow covering 5 core journeys. The purple accent palette was chosen to feel premium and distinct without mimicking the aesthetic of existing fintech brands like Robinhood or Cash App. Typography scale and spacing were treated as seriously as the UI chrome — every number on every screen had to read at a glance.",
       },
       images: [
         "/wallet-01.png", "/wallet-02.png", "/wallet-03.png",
@@ -973,8 +1022,13 @@ function Home() {
       clientColor: "rgba(255,255,255,0.5)",
       desc: "Sermon series, event graphics, and campaign visuals for churches and non-profit organizations.",
       caseStudy: {
-        challenge: "Churches and non-profits operate on tight budgets but have some of the most ambitious communication goals — they need graphics that inspire, inform, and mobilize communities, often on a weekly cadence. Each sermon series or event requires its own distinct visual world, while still feeling like it belongs to the same organization.",
-        approach: "I treated each series like a short-run editorial campaign. Rather than reusing templates, I built a unique visual language for each theme — distinct typography, color palette, and graphic system — so every series felt like an event worth showing up for. The goal was always to make the congregation feel like their community was doing something worth paying attention to, because it is.",
+        stats: [
+          { value: "14+", label: "Graphics Delivered" },
+          { value: "10+", label: "Orgs Served" },
+          { value: "4 yrs", label: "Ongoing Work" },
+        ],
+        challenge: "Churches and non-profits operate on some of the tightest budgets in any sector, yet they have among the most ambitious communication goals — inspire, inform, and mobilize communities, often on a weekly cadence with zero room for missed deadlines. Each sermon series or fundraising campaign requires its own distinct visual world that feels fresh and purposeful, while remaining cohesive with the organization's existing identity.",
+        approach: "I treated every series like a short-run editorial campaign rather than a templated graphic job. Each project got its own unique typographic system, color palette, and graphic language built around the theme — so every launch felt like a real event worth attending, not recycled artwork with swapped text. Over 4 years and 10+ organizations, I've developed a process that delivers fast without cutting corners on craft — because communities deserve design that takes them seriously.",
       },
       images: [
         "/np-1.png", "/np-2.png", "/np-3.png", "/np-4.png",
