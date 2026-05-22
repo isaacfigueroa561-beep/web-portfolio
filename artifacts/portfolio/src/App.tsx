@@ -932,11 +932,12 @@ function Home() {
       desc: "Full visual identity — signage, merch, posters, tote bags",
       images: [
         "/chino-new-1.png", "/chino-new-2.png", "/chino-new-3.png", "/chino-new-4.png",
-        "/chino-new-5.png", "/chino-new-6.png", "/chino-new-7.png", "/chino-new-8.png", "/chino-new-9.png"
+        "/chino-new-5.png", "/chino-new-6.png", "/chino-new-7.png", "/chino-new-8.png", "/chino-new-9.png",
+        "/chino-new-10.png", "/chino-new-11.png", "/chino-new-12.png"
       ],
       caseStudy: {
         stats: [
-          { value: "9", label: "Deliverables" },
+          { value: "12", label: "Deliverables" },
           { value: "3", label: "Merch Types" },
           { value: "2", label: "Event Series" },
         ],
@@ -986,31 +987,6 @@ function Home() {
         challenge: "Aware Coffee was launching from zero — no existing brand equity, no visual language, just a name, a product, and the ambition to compete in a specialty coffee market full of established, well-funded brands. They needed to look premium and intentional on Instagram from day one, build enough credibility to justify their price point, and do it all without an agency budget.",
         approach: "I made restraint the strategy. Clean off-white backgrounds, minimal type, and a single warm accent used sparingly — nothing that would date the brand or distract from the product. 'Aware' pushed me toward clarity and mindfulness, so I stripped anything decorative. The cup mockups were styled to feel editorial rather than promotional — the kind of content that performs whether someone's scrolling at 7am or seeing it on a shelf. Every asset was built to work across feed posts, stories, and print without modification.",
       },
-    },
-    {
-      name: "Fynance — Wallet UI",
-      client: "Practice Project",
-      category: "UX/UI Design / Figma",
-      bg: "#12091f",
-      labelColor: "#a78bfa",
-      nameColor: "#fff",
-      clientColor: "rgba(255,255,255,0.4)",
-      desc: "Personal UX/UI practice project — a concept finance app designed entirely in Figma. Not a real client project.",
-      phoneFrame: true,
-      caseStudy: {
-        stats: [
-          { value: "9", label: "UI Screens" },
-          { value: "5", label: "Core User Flows" },
-          { value: "1", label: "Full Figma Prototype" },
-        ],
-        challenge: "Self-initiated practice project to push my UX/UI skills deeper in Figma. The goal was to design a full end-to-end finance app — portfolio tracking, transactions, markets, transfers, and settings — while keeping every screen genuinely usable, not just visually polished. Finance apps fail when the hierarchy is off: users need to parse numbers instantly, not hunt for them.",
-        approach: "I started with information hierarchy and dark-mode readability before touching visual style. Each screen was built as a reusable component in Figma, then wired into a fully clickable prototype flow covering 5 core journeys. The purple accent palette was chosen to feel premium and distinct without mimicking the aesthetic of existing fintech brands like Robinhood or Cash App. Typography scale and spacing were treated as seriously as the UI chrome — every number on every screen had to read at a glance.",
-      },
-      images: [
-        "/wallet-01.png", "/wallet-02.png", "/wallet-03.png",
-        "/wallet-04.png", "/wallet-05.png", "/wallet-06.png",
-        "/wallet-07.png", "/wallet-08.png", "/wallet-09.png",
-      ],
     },
     {
       name: "Non-Profits",
@@ -1197,7 +1173,7 @@ function Home() {
               </div>
             </div>
           </div>
-          <div className="font-sans font-light text-sm text-muted-foreground tracking-widest">(07)</div>
+          <div className="font-sans font-light text-sm text-muted-foreground tracking-widest">(06)</div>
         </motion.div>
 
         {/* Editorial list */}
