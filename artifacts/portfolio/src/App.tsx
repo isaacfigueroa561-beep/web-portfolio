@@ -284,95 +284,155 @@ function CarouselModal({
             {project.deviceMockup ? (
               /* ── Device mockup — live app in premium frames ── */
               <div className="pb-16">
-                {/* Dark stage */}
-                <div
-                  className="flex flex-col lg:flex-row items-center lg:items-start justify-center"
-                  style={{
-                    background: "linear-gradient(180deg,#0a0a0a 0%,#060606 100%)",
-                    borderTop: "1px solid #161616",
-                    borderBottom: "1px solid #161616",
-                    padding: "40px 20px 36px",
-                    gap: 28,
-                  }}
-                >
-                  {/* ── Laptop / browser frame — desktop only ── */}
-                  <div className="hidden lg:block" style={{ flexShrink: 0 }}>
-                    <div style={{
-                      border: "1px solid #1e1e1e",
-                      background: "#080808",
-                      boxShadow: "0 32px 80px rgba(0,0,0,.75), 0 8px 24px rgba(0,0,0,.5)",
-                      overflow: "hidden",
-                      width: 720,
-                    }}>
-                      {/* Chrome bar */}
+                {/* ── Premium device stage ── */}
+                <div style={{
+                  background: "#050505",
+                  borderTop: "1px solid #111",
+                  borderBottom: "1px solid #111",
+                  padding: "64px 32px 56px",
+                  position: "relative",
+                  overflow: "hidden",
+                }}>
+                  {/* Warm radial glow — Meridian brand color */}
+                  <div aria-hidden="true" style={{
+                    position: "absolute", inset: 0, pointerEvents: "none",
+                    background: "radial-gradient(ellipse 70% 55% at 45% 0%, rgba(251,250,246,0.05) 0%, transparent 70%)",
+                  }} />
+
+                  {/* ── Desktop layout ── */}
+                  <div className="hidden lg:flex items-start justify-center" style={{ gap: 0, position: "relative" }}>
+
+                    {/* Browser / laptop */}
+                    <div style={{ flexShrink: 0, position: "relative", zIndex: 1 }}>
                       <div style={{
-                        height: 36, background: "#101010",
-                        borderBottom: "1px solid #1a1a1a",
-                        display: "flex", alignItems: "center",
-                        padding: "0 14px", gap: 7, flexShrink: 0,
+                        width: 760,
+                        border: "1px solid rgba(255,255,255,0.07)",
+                        borderRadius: 10,
+                        background: "#0c0c0c",
+                        overflow: "hidden",
+                        boxShadow: "0 0 0 1px rgba(0,0,0,0.8), 0 40px 100px rgba(0,0,0,0.9), 0 12px 40px rgba(0,0,0,0.6)",
                       }}>
-                        <div style={{ width: 10, height: 10, borderRadius: "50%", background: "#252525" }} />
-                        <div style={{ width: 10, height: 10, borderRadius: "50%", background: "#252525" }} />
-                        <div style={{ width: 10, height: 10, borderRadius: "50%", background: "#252525" }} />
+                        {/* macOS chrome bar */}
                         <div style={{
-                          flex: 1, textAlign: "center",
-                          fontFamily: "'Inter',system-ui,sans-serif",
-                          fontSize: 11, color: "#333",
-                          background: "#0D0D0D",
-                          padding: "3px 12px", margin: "0 20px",
-                          letterSpacing: "0.01em",
+                          height: 38, background: "#161616",
+                          borderBottom: "1px solid rgba(255,255,255,0.05)",
+                          display: "flex", alignItems: "center",
+                          padding: "0 16px", gap: 8, flexShrink: 0,
                         }}>
-                          meridian.app
+                          {/* Real macOS traffic lights */}
+                          <div style={{ width: 12, height: 12, borderRadius: "50%", background: "#FF5F57", boxShadow: "0 0 0 0.5px rgba(0,0,0,0.3)" }} />
+                          <div style={{ width: 12, height: 12, borderRadius: "50%", background: "#FEBC2E", boxShadow: "0 0 0 0.5px rgba(0,0,0,0.3)" }} />
+                          <div style={{ width: 12, height: 12, borderRadius: "50%", background: "#28C840", boxShadow: "0 0 0 0.5px rgba(0,0,0,0.3)" }} />
+                          {/* URL bar */}
+                          <div style={{
+                            flex: 1, display: "flex", alignItems: "center", justifyContent: "center",
+                          }}>
+                            <div style={{
+                              background: "#0e0e0e",
+                              border: "1px solid rgba(255,255,255,0.06)",
+                              borderRadius: 6,
+                              padding: "3px 14px",
+                              fontFamily: "'Inter',system-ui,sans-serif",
+                              fontSize: 11, color: "#444",
+                              letterSpacing: "0.01em",
+                              minWidth: 180, textAlign: "center",
+                            }}>
+                              🔒 meridian.app
+                            </div>
+                          </div>
+                          <div style={{ width: 60 }} />
+                        </div>
+                        {/* Screen — 1280px scaled to 760px = 0.59375 */}
+                        <div style={{ overflow: "hidden", height: 474, position: "relative", boxShadow: "inset 0 1px 0 rgba(0,0,0,0.5)" }}>
+                          <iframe
+                            src="/meridian/index.html"
+                            title="Meridian — live desktop"
+                            style={{
+                              width: 1280, height: 800, border: "none",
+                              transform: "scale(0.59375)",
+                              transformOrigin: "top left",
+                              display: "block", pointerEvents: "none",
+                            }}
+                            loading="lazy"
+                          />
                         </div>
                       </div>
-                      {/* Iframe — 1280px scaled to 720px */}
-                      <div style={{ overflow: "hidden", height: 450, position: "relative" }}>
-                        <iframe
-                          src="/meridian/index.html"
-                          title="Meridian — live desktop"
-                          style={{
-                            width: 1280, height: 800, border: "none",
-                            transform: "scale(0.5625)",
-                            transformOrigin: "top left",
-                            display: "block", pointerEvents: "none",
-                          }}
-                          loading="lazy"
-                        />
-                      </div>
+                      <p style={{ fontFamily: "sans-serif", fontSize: 10, letterSpacing: "0.14em", textTransform: "uppercase", color: "rgba(245,240,232,0.18)", marginTop: 14, textAlign: "center" }}>Desktop</p>
                     </div>
-                    <p style={{ fontFamily: "sans-serif", fontSize: 10, letterSpacing: "0.15em", textTransform: "uppercase", color: "rgba(245,240,232,0.2)", marginTop: 10, textAlign: "center" }}>Desktop</p>
+
+                    {/* Phone — offset right, slightly overlapping, lower */}
+                    <div style={{ flexShrink: 0, marginTop: 48, marginLeft: -32, position: "relative", zIndex: 2 }}>
+                      {/* Outer ring */}
+                      <div style={{
+                        width: 248,
+                        background: "linear-gradient(145deg,#1c1c1e,#0a0a0a)",
+                        border: "1px solid rgba(255,255,255,0.1)",
+                        borderRadius: 50,
+                        padding: "12px 12px 22px",
+                        boxShadow: "0 0 0 1px rgba(0,0,0,0.9), inset 0 0 0 1px rgba(255,255,255,0.04), 0 40px 100px rgba(0,0,0,0.95), 0 12px 32px rgba(0,0,0,0.7)",
+                      }}>
+                        {/* Screen with dynamic island inside */}
+                        <div style={{ borderRadius: 38, overflow: "hidden", height: 492, background: "#FBFAF6", position: "relative" }}>
+                          {/* 390px scaled to 224px = 0.5744 */}
+                          <iframe
+                            src="/meridian/index.html"
+                            title="Meridian — live mobile"
+                            style={{
+                              width: 390, height: 844, border: "none",
+                              transform: "scale(0.5744)",
+                              transformOrigin: "top left",
+                              display: "block", pointerEvents: "none",
+                            }}
+                            loading="lazy"
+                          />
+                          {/* Dynamic island overlay */}
+                          <div aria-hidden="true" style={{
+                            position: "absolute", top: 14, left: "50%",
+                            transform: "translateX(-50%)",
+                            width: 94, height: 11,
+                            background: "#000",
+                            borderRadius: 99,
+                            zIndex: 10,
+                          }} />
+                        </div>
+                      </div>
+                      <p style={{ fontFamily: "sans-serif", fontSize: 10, letterSpacing: "0.14em", textTransform: "uppercase", color: "rgba(245,240,232,0.18)", marginTop: 14, textAlign: "center" }}>Mobile</p>
+                    </div>
                   </div>
 
-                  {/* ── Phone frame — always visible ── */}
-                  <div className="flex flex-col items-center" style={{ flexShrink: 0 }}>
-                    {/* On mobile show a mini browser above the phone */}
-                    <div className="block lg:hidden w-full mb-5" style={{ maxWidth: 340 }}>
+                  {/* ── Mobile layout — stacked ── */}
+                  <div className="flex lg:hidden flex-col items-center gap-8">
+                    {/* Mini browser */}
+                    <div style={{ width: "100%", maxWidth: 340 }}>
                       <div style={{
-                        border: "1px solid #1e1e1e",
-                        background: "#080808",
-                        boxShadow: "0 16px 48px rgba(0,0,0,.7)",
+                        border: "1px solid rgba(255,255,255,0.07)",
+                        borderRadius: 8,
+                        background: "#0c0c0c",
                         overflow: "hidden",
+                        boxShadow: "0 24px 64px rgba(0,0,0,0.9)",
                       }}>
                         <div style={{
-                          height: 30, background: "#101010",
-                          borderBottom: "1px solid #1a1a1a",
+                          height: 32, background: "#161616",
+                          borderBottom: "1px solid rgba(255,255,255,0.05)",
                           display: "flex", alignItems: "center",
-                          padding: "0 10px", gap: 6,
+                          padding: "0 12px", gap: 6,
                         }}>
-                          <div style={{ width: 8, height: 8, borderRadius: "50%", background: "#252525" }} />
-                          <div style={{ width: 8, height: 8, borderRadius: "50%", background: "#252525" }} />
-                          <div style={{ width: 8, height: 8, borderRadius: "50%", background: "#252525" }} />
+                          <div style={{ width: 10, height: 10, borderRadius: "50%", background: "#FF5F57" }} />
+                          <div style={{ width: 10, height: 10, borderRadius: "50%", background: "#FEBC2E" }} />
+                          <div style={{ width: 10, height: 10, borderRadius: "50%", background: "#28C840" }} />
                           <div style={{
                             flex: 1, textAlign: "center",
                             fontFamily: "'Inter',system-ui,sans-serif",
-                            fontSize: 10, color: "#333",
-                            background: "#0D0D0D",
-                            padding: "2px 8px", margin: "0 12px",
+                            fontSize: 10, color: "#3a3a3a",
+                            background: "#0e0e0e",
+                            border: "1px solid rgba(255,255,255,0.05)",
+                            borderRadius: 4,
+                            padding: "2px 8px", margin: "0 10px",
                           }}>
-                            meridian.app
+                            🔒 meridian.app
                           </div>
                         </div>
-                        {/* 1280 → 340px = scale 0.265625, height = 800 * 0.265625 = 212px */}
+                        {/* 1280 → 340px = scale 0.265625 */}
                         <div style={{ overflow: "hidden", height: 212, position: "relative" }}>
                           <iframe
                             src="/meridian/index.html"
@@ -387,37 +447,43 @@ function CarouselModal({
                           />
                         </div>
                       </div>
-                      <p style={{ fontFamily: "sans-serif", fontSize: 10, letterSpacing: "0.15em", textTransform: "uppercase", color: "rgba(245,240,232,0.2)", marginTop: 8, textAlign: "center" }}>Desktop</p>
+                      <p style={{ fontFamily: "sans-serif", fontSize: 10, letterSpacing: "0.14em", textTransform: "uppercase", color: "rgba(245,240,232,0.18)", marginTop: 10, textAlign: "center" }}>Desktop</p>
                     </div>
 
                     {/* Phone */}
-                    <div style={{
-                      width: 220,
-                      background: "#0a0a0a",
-                      border: "1.5px solid #1e1e1e",
-                      borderRadius: 40,
-                      padding: "9px 9px 18px",
-                      boxShadow: "0 0 0 4px #0a0a0a, 0 0 0 5px #1a1a1a, 0 28px 64px rgba(0,0,0,.9)",
-                    }}>
-                      <div style={{ textAlign: "center", marginBottom: 5 }}>
-                        <div style={{ display: "inline-block", width: 64, height: 5, background: "#181818", borderRadius: 99 }} />
+                    <div>
+                      <div style={{
+                        width: 230,
+                        background: "linear-gradient(145deg,#1c1c1e,#0a0a0a)",
+                        border: "1px solid rgba(255,255,255,0.09)",
+                        borderRadius: 46,
+                        padding: "11px 11px 20px",
+                        boxShadow: "0 0 0 1px rgba(0,0,0,0.9), inset 0 0 0 1px rgba(255,255,255,0.04), 0 32px 80px rgba(0,0,0,0.95)",
+                      }}>
+                        <div style={{ borderRadius: 34, overflow: "hidden", height: 454, background: "#FBFAF6", position: "relative" }}>
+                          {/* 390px scaled to 208px = 0.5333 */}
+                          <iframe
+                            src="/meridian/index.html"
+                            title="Meridian — live mobile"
+                            style={{
+                              width: 390, height: 844, border: "none",
+                              transform: "scale(0.5333)",
+                              transformOrigin: "top left",
+                              display: "block", pointerEvents: "none",
+                            }}
+                            loading="lazy"
+                          />
+                          {/* Dynamic island */}
+                          <div aria-hidden="true" style={{
+                            position: "absolute", top: 13, left: "50%",
+                            transform: "translateX(-50%)",
+                            width: 86, height: 10,
+                            background: "#000", borderRadius: 99, zIndex: 10,
+                          }} />
+                        </div>
                       </div>
-                      {/* 390px scaled to 202px = 0.518 */}
-                      <div style={{ borderRadius: 28, overflow: "hidden", height: 436, background: "#FBFAF6", position: "relative" }}>
-                        <iframe
-                          src="/meridian/index.html"
-                          title="Meridian — live mobile"
-                          style={{
-                            width: 390, height: 844, border: "none",
-                            transform: "scale(0.518)",
-                            transformOrigin: "top left",
-                            display: "block", pointerEvents: "none",
-                          }}
-                          loading="lazy"
-                        />
-                      </div>
+                      <p style={{ fontFamily: "sans-serif", fontSize: 10, letterSpacing: "0.14em", textTransform: "uppercase", color: "rgba(245,240,232,0.18)", marginTop: 10, textAlign: "center" }}>Mobile</p>
                     </div>
-                    <p style={{ fontFamily: "sans-serif", fontSize: 10, letterSpacing: "0.15em", textTransform: "uppercase", color: "rgba(245,240,232,0.2)", marginTop: 10, textAlign: "center" }}>Mobile</p>
                   </div>
                 </div>
 
