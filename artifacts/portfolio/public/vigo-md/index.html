@@ -1,0 +1,1212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Vigo MD — Checkout Page Mockup</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet" />
+<style>
+:root {
+  --bg: #faf8f5;
+  --fg: #1a3d2c;
+  --primary: #1a3d2c;
+  --primary-fg: #faf8f5;
+  --accent: #c9932a;
+  --accent-light: rgba(201,147,42,.1);
+  --accent-fg: #fff;
+  --secondary: #edf2ef;
+  --secondary-fg: #1a3d2c;
+  --muted: #e8e4dc;
+  --muted-fg: #5d7a6d;
+  --border: #ddd8ce;
+  --card: #fff;
+  --radius: 0.5rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.25rem;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,.07);
+  --shadow-md: 0 4px 16px rgba(26,61,44,.08);
+  --shadow-lg: 0 8px 32px rgba(26,61,44,.12);
+  --shadow-accent: 0 8px 32px rgba(201,147,42,.2);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;scroll-padding-top:7rem;}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--fg);-webkit-font-smoothing:antialiased;line-height:1.5;}
+h1,h2,h3,h4,h5{font-family:'Playfair Display',serif;}
+a{color:inherit;text-decoration:underline;}
+img{max-width:100%;display:block;}
+button{font-family:'DM Sans',sans-serif;cursor:pointer;}
+input,select{font-family:'DM Sans',sans-serif;}
+
+/* ── Layout ── */
+.container{width:100%;max-width:1200px;margin:0 auto;padding:0 1rem;}
+.container--md{max-width:900px;}
+.container--sm{max-width:700px;}
+
+/* ── Countdown Bar ── */
+.countdown-bar{background:var(--primary);color:var(--primary-fg);padding:.5rem 1rem;text-align:center;font-size:.75rem;font-weight:600;letter-spacing:.05em;text-transform:uppercase;display:flex;align-items:center;justify-content:center;gap:.5rem;}
+.countdown-bar .timer{color:var(--accent);font-family:monospace;font-weight:700;font-size:.85rem;animation:pulse 1s ease-in-out infinite alternate;}
+@keyframes pulse{from{opacity:1;}to{opacity:.6;}}
+.clock-icon{width:1rem;height:1rem;fill:none;stroke:var(--accent);stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0;}
+
+/* ── Header ── */
+.header{background:rgba(250,248,245,.85);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:50;}
+.header-inner{height:4rem;display:flex;align-items:center;justify-content:center;}
+.logo{font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:700;color:var(--primary);letter-spacing:-.01em;}
+.logo span{color:var(--accent);}
+
+/* ── Trust Bar ── */
+.trust-bar{padding:0 1rem 1.5rem;}
+.trust-grid{display:grid;grid-template-columns:repeat(2,1fr);border:1px solid rgba(221,216,206,.6);border-radius:1rem;overflow:hidden;background:rgba(221,216,206,.6);gap:1px;}
+@media(min-width:768px){.trust-grid{grid-template-columns:repeat(4,1fr);}}
+.trust-item{background:var(--bg);display:flex;align-items:center;gap:.75rem;padding:1rem;}
+@media(min-width:768px){.trust-item{justify-content:center;}}
+.trust-icon{width:1.25rem;height:1.25rem;flex-shrink:0;color:var(--accent);}
+.trust-title{font-size:.875rem;font-weight:600;font-family:'DM Sans',sans-serif;}
+.trust-sub{font-size:.75rem;color:var(--muted-fg);}
+
+/* ── Hero ── */
+.hero{padding:3rem 1rem 5rem;text-align:center;}
+@media(min-width:768px){.hero{padding:5rem 1rem;}}
+.hero h1{font-size:clamp(2rem,5vw,3.5rem);font-weight:700;line-height:1.15;margin-bottom:2rem;}
+.hero h1 em{color:var(--accent);font-style:italic;}
+.hero-grid{display:grid;gap:1.5rem;text-align:left;max-width:900px;margin:0 auto;}
+@media(min-width:768px){.hero-grid{grid-template-columns:1fr 1fr;}}
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);box-shadow:var(--shadow-sm);}
+.card-content{padding:1.5rem;}
+.card-accent{border-color:rgba(201,147,42,.2);box-shadow:0 4px 20px rgba(201,147,42,.06);}
+.section-label{display:flex;align-items:center;gap:.5rem;font-size:.75rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted-fg);margin-bottom:1.25rem;}
+.check-list{list-style:none;display:flex;flex-direction:column;gap:.875rem;}
+.check-list li{display:flex;align-items:flex-start;gap:.75rem;font-size:.95rem;color:rgba(26,61,44,.9);}
+.check-icon{width:1.25rem;height:1.25rem;flex-shrink:0;margin-top:.1rem;color:#16a34a;}
+.highlight-box{background:rgba(201,147,42,.08);border:1px solid rgba(201,147,42,.2);border-radius:.5rem;padding:1rem;font-weight:700;font-size:1rem;}
+
+/* ── Diagnosis Card ── */
+.diagnosis{padding:2rem 1rem;}
+.diagnosis-card{border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;box-shadow:var(--shadow-lg);}
+.diagnosis-header{background:var(--primary);color:var(--primary-fg);padding:1rem 1.5rem;display:flex;align-items:center;gap:.5rem;}
+.diagnosis-header h2{font-size:1.1rem;font-weight:700;font-family:'DM Sans',sans-serif;}
+.diagnosis-body{padding:1.5rem 2rem;display:grid;gap:2rem;}
+@media(min-width:768px){.diagnosis-body{grid-template-columns:3fr 2fr;align-items:center;}}
+.diagnosis-body p{color:rgba(26,61,44,.75);line-height:1.7;}
+.diagnosis-body strong{font-weight:700;color:var(--fg);}
+.product-img-placeholder{width:160px;height:200px;background:linear-gradient(135deg,#edf2ef 0%,#d4e6da 100%);border-radius:1rem;display:flex;align-items:center;justify-content:center;font-size:3rem;margin:0 auto;box-shadow:0 8px 24px rgba(26,61,44,.15);}
+.diagnosis-footer{background:var(--secondary);border-top:1px solid var(--border);padding:1.25rem 2rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;}
+.success-rate{text-align:right;}
+.success-rate .rate{font-size:2.5rem;font-weight:700;color:var(--accent);line-height:1;}
+.success-rate .label{font-size:.65rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(26,61,44,.5);}
+
+/* ── Features ── */
+.features{padding:5rem 1rem;background:rgba(237,242,239,.3);}
+.features h2{font-size:clamp(1.5rem,3vw,2.25rem);font-weight:700;text-align:center;margin-bottom:3rem;}
+.features-grid{display:grid;gap:1.25rem;}
+@media(min-width:640px){.features-grid{grid-template-columns:repeat(2,1fr);}}
+@media(min-width:1024px){.features-grid{grid-template-columns:repeat(3,1fr);}}
+.feature-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;transition:border-color .2s;}
+.feature-card:hover{border-color:rgba(201,147,42,.3);}
+.feature-icon{width:2rem;height:2rem;color:var(--accent);margin-bottom:1rem;}
+.feature-card h3{font-size:1.1rem;font-weight:700;font-family:'DM Sans',sans-serif;margin-bottom:.25rem;}
+.feature-card .sub{font-size:.8rem;font-weight:700;color:rgba(26,61,44,.6);margin-bottom:.75rem;}
+.feature-card p{font-size:.875rem;color:var(--muted-fg);line-height:1.65;}
+
+/* ── Steps ── */
+.steps{padding:5rem 1rem;background:var(--primary);color:var(--primary-fg);}
+.steps h2{font-size:clamp(1.5rem,3vw,2.25rem);font-weight:700;text-align:center;margin-bottom:3rem;color:var(--bg);}
+.steps-list{display:flex;flex-direction:column;gap:1.25rem;max-width:800px;margin:0 auto;}
+.step{display:flex;gap:1.5rem;align-items:flex-start;background:rgba(250,248,245,.06);border:1px solid rgba(250,248,245,.08);border-radius:1rem;padding:1.5rem;transition:background .2s;}
+.step:hover{background:rgba(250,248,245,.1);}
+.step-num{font-size:2.5rem;font-family:'Playfair Display',serif;font-weight:700;color:var(--accent);flex-shrink:0;line-height:1;}
+.step-title{font-size:1.1rem;font-weight:700;font-family:'DM Sans',sans-serif;margin-bottom:.375rem;color:var(--bg);}
+.step-desc{font-size:.9rem;color:rgba(250,248,245,.65);line-height:1.65;}
+
+/* ── Chart section (simplified) ── */
+.chart-section{padding:3rem 1rem;background:rgba(237,242,239,.3);}
+.chart-section h2{font-size:clamp(1.3rem,2.5vw,2rem);font-weight:700;text-align:center;margin-bottom:.75rem;}
+.chart-section .sub{text-align:center;color:var(--muted-fg);max-width:600px;margin:0 auto 2rem;}
+.chart-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem 2rem;box-shadow:var(--shadow-sm);}
+.chart-area{height:200px;position:relative;border-bottom:1px solid var(--border);margin-bottom:1rem;}
+.chart-svg{width:100%;height:100%;}
+.chart-legend{display:flex;flex-wrap:wrap;gap:1.25rem;justify-content:center;margin-top:1rem;}
+.legend-item{display:flex;align-items:center;gap:.5rem;font-size:.875rem;color:rgba(26,61,44,.8);}
+.legend-dot{width:1.5rem;height:2px;border-radius:2px;flex-shrink:0;}
+
+/* ── Promo Banner ── */
+.promo{padding:3rem 1rem;background:rgba(201,147,42,.08);border-top:1px solid rgba(201,147,42,.2);border-bottom:1px solid rgba(201,147,42,.2);text-align:center;}
+.promo h2{font-size:1.75rem;font-weight:700;margin-bottom:.75rem;}
+.promo p{color:rgba(26,61,44,.75);margin-bottom:.5rem;}
+.promo strong{font-weight:700;color:var(--fg);}
+
+/* ── CHECKOUT ── */
+.checkout{padding:5rem 1rem;}
+.checkout-grid{display:grid;gap:3rem;}
+@media(min-width:1024px){.checkout-grid{grid-template-columns:5fr 7fr;align-items:start;}}
+.checkout-left{display:flex;flex-direction:column;gap:1.5rem;}
+@media(min-width:1024px){.checkout-left{position:sticky;top:7rem;}}
+.checkout-heading h2{font-size:1.75rem;font-weight:700;margin-bottom:.375rem;}
+.checkout-heading p{color:var(--muted-fg);margin-bottom:.75rem;}
+
+/* Product card */
+.product-card{background:var(--card);border:1px solid rgba(201,147,42,.3);border-radius:var(--radius-lg);overflow:hidden;position:relative;box-shadow:0 4px 20px rgba(201,147,42,.07);}
+.product-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,transparent,var(--accent),transparent);}
+.product-card-inner{padding:1.5rem;}
+.product-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1.25rem;}
+.product-name{font-size:1.05rem;font-weight:700;font-family:'DM Sans',sans-serif;margin-bottom:.375rem;}
+.product-price{display:flex;align-items:baseline;gap:.75rem;}
+.product-price .amount{font-size:2.25rem;font-weight:700;color:var(--accent);line-height:1;}
+.product-price .original{font-size:1rem;color:var(--muted-fg);text-decoration:line-through;text-decoration-color:rgba(220,38,38,.5);}
+.product-img-sm{width:80px;height:100px;background:linear-gradient(135deg,#edf2ef,#c8dfd0);border-radius:.75rem;display:flex;align-items:center;justify-content:center;font-size:1.75rem;flex-shrink:0;box-shadow:0 4px 12px rgba(26,61,44,.15);}
+.includes-box{background:var(--secondary);border-radius:.5rem;padding:.75rem 1rem;font-size:.8rem;color:rgba(26,61,44,.75);margin-bottom:1.25rem;}
+.includes-box strong{font-weight:600;}
+.feature-list-sm{list-style:none;display:flex;flex-direction:column;gap:.625rem;margin-bottom:1.25rem;}
+.feature-list-sm li{display:flex;align-items:flex-start;gap:.625rem;font-size:.8rem;}
+.upgrade-toggle{border:1px solid var(--border);border-radius:.75rem;padding:1rem;cursor:pointer;transition:background .2s,border-color .2s;}
+.upgrade-toggle.active{background:var(--accent-light);border-color:rgba(201,147,42,.3);}
+.upgrade-toggle-inner{display:flex;align-items:flex-start;gap:.75rem;}
+.checkbox-fake{width:1rem;height:1rem;border:2px solid var(--accent);border-radius:.25rem;background:var(--accent);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:.125rem;}
+.checkbox-fake svg{width:.65rem;height:.65rem;fill:none;stroke:#fff;stroke-width:3;}
+.upgrade-title{font-size:.8rem;font-weight:700;font-family:'DM Sans',sans-serif;}
+.upgrade-sub{font-size:.7rem;color:var(--muted-fg);margin-top:.25rem;line-height:1.5;}
+
+/* $0 today bar */
+.zero-today{display:flex;align-items:center;gap:1rem;background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1rem 1.25rem;box-shadow:var(--shadow-sm);}
+.shield-badge{background:#f0fdf4;padding:.75rem;border-radius:50%;flex-shrink:0;}
+.shield-badge svg{width:1.5rem;height:1.5rem;color:#16a34a;}
+.zero-today-text .amount{font-size:1.1rem;font-weight:700;display:flex;align-items:center;gap:.5rem;}
+.hsa-badge{display:inline-flex;align-items:center;gap:.2rem;font-size:.65rem;font-weight:700;border:1.5px solid var(--border);border-radius:.25rem;padding:.1rem .35rem;color:var(--muted-fg);}
+.zero-today-text .note{font-size:.7rem;color:var(--muted-fg);margin-top:.25rem;line-height:1.5;}
+
+/* Form */
+.checkout-form{display:flex;flex-direction:column;gap:2rem;}
+.form-section{display:flex;flex-direction:column;gap:1.1rem;}
+.form-section-title{font-size:1.1rem;font-weight:600;font-family:'Playfair Display',serif;padding-bottom:.625rem;border-bottom:1.5px solid var(--border);color:var(--fg);letter-spacing:-.01em;}
+.form-section-title.with-icon{display:flex;align-items:center;gap:.5rem;}
+.form-group{display:flex;flex-direction:column;gap:.35rem;}
+.form-row{display:grid;gap:1rem;}
+.form-row-2{grid-template-columns:1fr 1fr;}
+.form-row-3{grid-template-columns:1fr 1fr 1fr;}
+@media(max-width:500px){.form-row-2,.form-row-3{grid-template-columns:1fr;}}
+.form-group{display:flex;flex-direction:column;gap:.375rem;}
+.form-label{font-size:.8rem;font-weight:600;}
+.form-input{width:100%;border:1.5px solid #ddd8ce;border-radius:.5rem;padding:.75rem .875rem;font-size:.9rem;background:#fff;color:var(--fg);outline:none;transition:border-color .18s,box-shadow .18s;box-shadow:0 1px 3px rgba(0,0,0,.05),inset 0 1px 2px rgba(0,0,0,.03);}
+.form-input:hover{border-color:#c4bfb5;}
+.form-input:focus{border-color:#1a3d2c;box-shadow:0 0 0 3px rgba(26,61,44,.1),0 1px 3px rgba(0,0,0,.05);}
+.form-input:disabled{background:var(--secondary);color:var(--muted-fg);box-shadow:none;}
+.form-label{font-size:.78rem;font-weight:700;color:var(--fg);letter-spacing:.02em;margin-bottom:.35rem;display:block;}
+.form-select{width:100%;appearance:none;background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%235d7a6d' stroke-width='2.5'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") no-repeat right .875rem center;border:1.5px solid #ddd8ce;border-radius:.5rem;padding:.75rem 2.25rem .75rem .875rem;font-size:.9rem;color:var(--fg);outline:none;cursor:pointer;box-shadow:0 1px 3px rgba(0,0,0,.05),inset 0 1px 2px rgba(0,0,0,.03);transition:border-color .18s,box-shadow .18s;}
+.form-select:focus{border-color:#1a3d2c;box-shadow:0 0 0 3px rgba(26,61,44,.1);}
+.same-as-shipping{display:flex;align-items:center;gap:.75rem;border:1px solid var(--border);border-radius:.5rem;padding:1rem;}
+.same-as-shipping .checkbox-fake{border-color:var(--primary);background:var(--primary);}
+.same-as-shipping span{font-size:.875rem;font-weight:600;}
+.card-icons{display:flex;gap:.5rem;align-items:center;font-size:1.5rem;}
+.card-icon{width:2.5rem;height:1.6rem;border:1px solid var(--border);border-radius:.25rem;display:flex;align-items:center;justify-content:center;font-size:.6rem;font-weight:700;letter-spacing:.02em;}
+.card-icon.visa{background:#1a1f71;color:#fff;}
+.card-icon.mc{background:#eb001b;color:#fff;}
+.card-icon.amex{background:#2e77bc;color:#fff;}
+.card-icon.disc{background:#ff6600;color:#fff;}
+.ssl-note{font-size:.7rem;color:var(--muted-fg);}
+.cvc-note{font-size:.65rem;color:var(--muted-fg);margin-top:.2rem;line-height:1.5;}
+.lock-icon{width:1.1rem;height:1.1rem;flex-shrink:0;color:#16a34a;}
+
+/* Order summary box */
+.order-summary{background:rgba(237,242,239,.4);border:1px solid var(--border);border-radius:var(--radius-xl);padding:1.5rem;}
+.coupon-row{display:flex;gap:.5rem;margin-bottom:1rem;}
+.coupon-input{flex:1;border:1.5px solid var(--border);border-radius:var(--radius);padding:.5rem .75rem;font-size:.85rem;background:var(--card);color:var(--fg);font-family:monospace;}
+.btn-secondary{background:var(--secondary);border:1.5px solid var(--border);border-radius:var(--radius);padding:.5rem 1rem;font-size:.85rem;font-weight:600;color:var(--fg);}
+.coupon-badge{display:inline-block;font-size:.7rem;border:1px solid var(--border);border-radius:.25rem;padding:.2rem .5rem;background:var(--card);margin-top:.375rem;}
+.line-items{display:flex;flex-direction:column;gap:.5rem;font-size:.875rem;padding-bottom:1rem;border-bottom:1px solid rgba(221,216,206,.6);margin-bottom:1rem;}
+.line-item{display:flex;justify-content:space-between;}
+.line-item.discount{color:#16a34a;}
+.order-total{display:flex;justify-content:space-between;align-items:center;font-size:1.2rem;font-weight:700;margin-bottom:1.5rem;}
+.btn-cta{width:100%;padding:1rem;font-size:1.1rem;font-weight:700;background:var(--accent);color:#fff;border:none;border-radius:var(--radius-lg);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:.5rem;box-shadow:var(--shadow-accent);transition:background .2s,transform .15s;}
+.btn-cta:hover{background:rgba(201,147,42,.9);transform:translateY(-2px);}
+.btn-cta svg{width:1.25rem;height:1.25rem;}
+.security-row{display:flex;align-items:center;justify-content:center;gap:.5rem;font-size:.8rem;color:var(--muted-fg);margin-top:.875rem;}
+.security-row svg{width:1rem;height:1rem;color:var(--muted-fg);}
+.terms-note{font-size:.7rem;text-align:center;color:var(--muted-fg);margin-top:.625rem;line-height:1.5;padding:0 1rem;}
+
+/* ── Guarantee ── */
+.guarantee{padding:4rem 1rem;background:var(--primary);color:var(--primary-fg);text-align:center;position:relative;overflow:hidden;}
+.guarantee::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(201,147,42,.12),transparent 60%);pointer-events:none;}
+.guarantee-icon{width:5rem;height:5rem;background:rgba(201,147,42,.15);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 1.5rem;font-size:2.25rem;}
+.guarantee h2{font-size:2rem;font-weight:700;margin-bottom:1.25rem;color:var(--bg);}
+.guarantee p{font-size:1.05rem;color:rgba(250,248,245,.85);max-width:680px;margin:0 auto;line-height:1.75;}
+
+/* ── Stats ── */
+.stats{padding:5rem 1rem;background:var(--bg);border-bottom:1px solid var(--border);}
+.stats h2{font-size:clamp(1.5rem,3vw,2.25rem);font-weight:700;text-align:center;margin-bottom:4rem;}
+.stats-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:2rem;}
+@media(min-width:768px){.stats-grid{grid-template-columns:repeat(4,1fr);}
+.stats-grid .stat-item:not(:last-child){border-right:1px solid var(--border);}}
+.stat-item{text-align:center;padding:0 1rem;}
+.stat-val{font-size:clamp(2rem,4vw,2.75rem);font-weight:700;color:var(--accent);margin-bottom:.5rem;}
+.stat-desc{font-size:.8rem;font-weight:500;color:var(--muted-fg);}
+
+/* ── Testimonials ── */
+.testimonials{padding:5rem 1rem;background:rgba(237,242,239,.3);}
+.testimonials h2{font-size:clamp(1.5rem,3vw,2.25rem);font-weight:700;text-align:center;margin-bottom:3rem;}
+.reviews-grid{display:grid;gap:1.25rem;margin-bottom:1.5rem;}
+@media(min-width:768px){.reviews-grid{grid-template-columns:repeat(3,1fr);}}
+.review-card{background:var(--card);border:1px solid var(--border);border-left:4px solid var(--accent);border-radius:var(--radius-lg);padding:1.5rem;}
+.stars{display:flex;gap:.25rem;margin-bottom:1rem;color:var(--accent);}
+.star{font-size:.875rem;}
+.review-text{font-style:italic;font-size:.9rem;color:rgba(26,61,44,.85);margin-bottom:1.25rem;line-height:1.65;}
+.reviewer{font-weight:700;font-size:.8rem;}
+.verified{display:flex;align-items:center;gap:.35rem;font-size:.7rem;color:var(--muted-fg);margin-top:.25rem;}
+.verified svg{width:.875rem;height:.875rem;color:#16a34a;}
+.testimonial-disclaimer{font-size:.7rem;text-align:center;color:var(--muted-fg);max-width:700px;margin:0 auto;}
+
+/* ── FAQ ── */
+.faq{padding:5rem 1rem;background:var(--bg);}
+.faq h2{font-size:clamp(1.5rem,3vw,2.25rem);font-weight:700;text-align:center;margin-bottom:2.5rem;}
+.accordion{display:flex;flex-direction:column;max-width:720px;margin:0 auto;}
+.accordion-item{border-bottom:1px solid var(--border);}
+.accordion-trigger{width:100%;background:none;border:none;text-align:left;padding:1.25rem 0;display:flex;justify-content:space-between;align-items:center;gap:1rem;cursor:pointer;font-size:1rem;font-weight:700;font-family:'DM Sans',sans-serif;color:var(--fg);transition:color .2s;}
+.accordion-trigger:hover{color:var(--accent);}
+.chevron{width:1.1rem;height:1.1rem;flex-shrink:0;transition:transform .25s;color:var(--muted-fg);}
+.accordion-item.open .chevron{transform:rotate(180deg);}
+.accordion-content{overflow:hidden;max-height:0;transition:max-height .3s ease;}
+.accordion-item.open .accordion-content{max-height:400px;}
+.accordion-body{padding-bottom:1.25rem;font-size:.9rem;color:var(--muted-fg);line-height:1.7;}
+
+/* ── Footer ── */
+.footer{background:var(--primary);color:var(--primary-fg);padding:4rem 1rem;}
+.footer-top{display:flex;flex-direction:column;align-items:center;margin-bottom:3rem;gap:1.5rem;}
+@media(min-width:768px){.footer-top{flex-direction:row;justify-content:space-between;}}
+.footer-logo{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700;color:var(--bg);}
+.footer-contacts{display:flex;flex-direction:column;gap:.75rem;}
+@media(min-width:640px){.footer-contacts{flex-direction:row;gap:1.5rem;}}
+.footer-contact{display:flex;align-items:center;gap:.5rem;font-size:.875rem;font-weight:500;color:rgba(250,248,245,.8);text-decoration:none;transition:color .2s;}
+.footer-contact:hover{color:var(--accent);}
+.footer-contact svg{width:1rem;height:1rem;}
+.footer-divider{border:none;border-top:1px solid rgba(250,248,245,.1);margin-bottom:2rem;}
+.footer-legal{font-size:.7rem;color:rgba(250,248,245,.45);line-height:1.7;margin-bottom:2rem;max-width:900px;}
+.footer-bottom{display:flex;flex-direction:column;align-items:center;gap:1rem;font-size:.75rem;color:rgba(250,248,245,.55);}
+@media(min-width:768px){.footer-bottom{flex-direction:row;justify-content:space-between;}}
+.footer-links{display:flex;flex-wrap:wrap;justify-content:center;gap:.75rem 1.25rem;}
+.footer-links a{text-decoration:none;color:rgba(250,248,245,.55);transition:color .2s;}
+.footer-links a:hover{color:var(--primary-fg);}
+
+/* ── Floating CTA ── */
+.floating-cta{position:fixed;bottom:1rem;left:0;right:0;display:flex;justify-content:center;padding:0 1rem;z-index:100;pointer-events:none;opacity:0;transform:translateY(4rem);transition:opacity .3s,transform .3s;}
+.floating-cta.visible{opacity:1;transform:translateY(0);pointer-events:auto;}
+.floating-cta a{width:100%;max-width:480px;}
+.floating-btn{width:100%;padding:.875rem;font-size:1rem;font-weight:700;background:var(--accent);color:#fff;border:none;border-radius:9999px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:.5rem;box-shadow:0 8px 32px rgba(201,147,42,.4);transition:background .2s,transform .15s;}
+.floating-btn:hover{background:rgba(201,147,42,.9);transform:translateY(-2px);}
+
+/* ── Util ── */
+.badge{display:inline-flex;align-items:center;gap:.375rem;font-size:.75rem;font-weight:600;border-radius:9999px;padding:.25rem .75rem;}
+.badge-green{background:#f0fdf4;color:#15803d;border:1px solid #bbf7d0;}
+.badge-accent{background:var(--accent-light);color:var(--accent);border:none;}
+.section-tag{display:inline-flex;align-items:center;gap:.5rem;background:var(--accent-light);color:var(--accent);border-radius:9999px;padding:.375rem 1rem;font-size:.8rem;font-weight:700;margin-bottom:1rem;}
+.section-tag svg{width:1rem;height:1rem;}
+.separator{border:none;border-top:1px solid var(--border);margin:1.25rem 0;}
+
+/* ── Comparison Bar Chart ── */
+.compare-section{padding:4rem 1rem;background:var(--bg);}
+.compare-section>div>h2{font-size:clamp(1.4rem,2.8vw,2rem);font-weight:700;text-align:center;margin-bottom:.5rem;}
+.compare-section>.container>.sub{text-align:center;color:var(--muted-fg);margin-bottom:2.5rem;}
+.compare-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-xl);padding:2rem;box-shadow:var(--shadow-sm);}
+.compare-legend{display:flex;gap:1.5rem;flex-wrap:wrap;margin-bottom:2rem;}
+.compare-legend-item{display:flex;align-items:center;gap:.5rem;font-size:.8rem;font-weight:600;}
+.legend-swatch{width:.875rem;height:.875rem;border-radius:.2rem;flex-shrink:0;}
+.compare-rows{display:flex;flex-direction:column;gap:1.75rem;}
+.compare-metric-label{font-size:.8rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted-fg);margin-bottom:.75rem;}
+.bar-group{display:flex;flex-direction:column;gap:.5rem;}
+.bar-item{display:flex;align-items:center;gap:.75rem;}
+.bar-name{font-size:.75rem;font-weight:600;color:var(--muted-fg);width:5rem;flex-shrink:0;text-align:right;line-height:1.2;}
+.bar-track{flex:1;height:.75rem;background:rgba(237,242,239,.8);border-radius:9999px;overflow:hidden;box-shadow:inset 0 1px 2px rgba(0,0,0,.06);}
+.bar-fill{height:100%;border-radius:9999px;width:var(--bw,0%);animation:barIn 1.2s cubic-bezier(.22,.68,0,1.1) both;}
+@keyframes barIn{from{width:0}to{width:var(--bw,0%)}}
+.bar-fill.v3{background:linear-gradient(90deg,#b8821f,#d9a535);}
+.bar-fill.sil{background:linear-gradient(90deg,#2563eb,#60a5fa);}
+.bar-fill.tad{background:linear-gradient(90deg,#7c3aed,#a78bfa);}
+.bar-val{font-size:.75rem;font-weight:700;min-width:3.5rem;color:var(--muted-fg);}
+.bar-val.v3{color:var(--accent);}
+.compare-note{font-size:.65rem;color:var(--muted-fg);text-align:center;margin-top:1.5rem;}
+
+/* ── Projected Results Chart ── */
+.results-section{padding:5rem 1rem;background:rgba(237,242,239,.25);}
+.results-top{text-align:center;margin-bottom:2.5rem;}
+.results-top h2{font-size:clamp(1.4rem,2.8vw,2rem);font-weight:700;margin-bottom:.5rem;}
+.results-top .sub{color:var(--muted-fg);max-width:580px;margin:0 auto;}
+.results-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-xl);padding:1.75rem 2rem;box-shadow:var(--shadow-sm);}
+.results-kpi-row{display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:1rem;margin-bottom:1.5rem;}
+.results-kpi-label p:first-child{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--muted-fg);}
+.results-kpi-label p:last-child{font-size:1.1rem;font-weight:700;}
+.results-big-num{font-size:2.25rem;font-weight:700;color:var(--accent);line-height:1;}
+.results-big-sub{font-size:.7rem;color:var(--muted-fg);}
+.results-chart-wrap{height:220px;width:100%;}
+.results-x-axis{display:flex;justify-content:space-between;padding:0 .25rem;margin-top:.375rem;}
+.results-x-axis span{font-size:.7rem;color:var(--muted-fg);font-family:'DM Sans',sans-serif;}
+.milestones{display:grid;gap:1rem;margin-top:1.5rem;}
+@media(min-width:640px){.milestones{grid-template-columns:repeat(3,1fr);}}
+.milestone{background:rgba(237,242,239,.5);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.25rem;}
+.milestone-range{font-size:.72rem;font-weight:700;color:var(--accent);margin-bottom:.25rem;}
+.milestone-title{font-weight:700;font-family:'DM Sans',sans-serif;margin-bottom:.375rem;}
+.milestone-desc{font-size:.8rem;color:var(--muted-fg);line-height:1.6;}
+.results-disclaimer{font-size:.65rem;color:var(--muted-fg);text-align:center;margin-top:1.25rem;max-width:600px;margin-left:auto;margin-right:auto;}
+</style>
+</head>
+<body>
+
+<!-- ══ STICKY TOP ══ -->
+<div style="position:sticky;top:0;z-index:50;">
+  <div class="countdown-bar">
+    <svg class="clock-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+    <span>Your approval is valid for <span class="timer" id="countdown">10:59</span></span>
+  </div>
+  <header class="header">
+    <div class="container header-inner">
+      <div class="logo">VIGO<span>MD</span></div>
+    </div>
+  </header>
+</div>
+
+<!-- ══ HERO ══ -->
+<section class="hero">
+  <div class="container container--md">
+    <h1>You qualified.<br /><em>Here's your V3 prescription plan.</em></h1>
+    <div class="hero-grid">
+      <div class="card card-accent">
+        <div class="card-content">
+          <div class="section-label">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+            Your Goals
+          </div>
+          <ul class="check-list">
+            <li>
+              <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="9 12 11 14 15 10"/></svg>
+              Brain + body in one potent dose — apomorphine engages arousal at the brain level, not just blood flow
+            </li>
+            <li>
+              <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="9 12 11 14 15 10"/></svg>
+              Three actives in one sublingual dissolvable — for the moments that matter most
+            </li>
+            <li>
+              <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="9 12 11 14 15 10"/></svg>
+              10–15 minute sublingual onset — no swallowed-pill 30–60 minute wait
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;justify-content:center;gap:1rem;">
+        <p style="font-size:1.05rem;line-height:1.75;color:rgba(26,61,44,.8);">Treatment is prescribed by a U.S.-licensed physician, dosed for your specific needs, and shipped privately to your door. With continuous 1:1 medical care and 24/7 access to the Vigo MD team.</p>
+        <div class="highlight-box">Your monthly price stays locked in — your dose may evolve, but your bill won't.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ COMPARISON CHART ══ -->
+<section class="compare-section" id="compare">
+  <div class="container container--md">
+    <div style="text-align:center;margin-bottom:1.25rem;">
+      <div class="section-tag" style="justify-content:center;display:inline-flex;">
+        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+        Clinical performance comparison
+      </div>
+    </div>
+    <h2>V3 outperforms single-ingredient pills across every metric</h2>
+    <p class="sub" style="text-align:center;color:var(--muted-fg);margin-bottom:2.5rem;">Three actives combined beat any one ingredient standing alone — faster onset, longer coverage, and the brain engagement no PDE5 inhibitor can provide.</p>
+    <div class="compare-card">
+      <div class="compare-legend">
+        <div class="compare-legend-item"><div class="legend-swatch" style="background:var(--accent);"></div>V3 (3-in-1)</div>
+        <div class="compare-legend-item"><div class="legend-swatch" style="background:#3a7cbd;"></div>Sildenafil alone</div>
+        <div class="compare-legend-item"><div class="legend-swatch" style="background:#8b63c8;"></div>Tadalafil alone</div>
+      </div>
+      <div class="compare-rows" id="compare-bars">
+
+        <div>
+          <div class="compare-metric-label">Onset Speed</div>
+          <div class="bar-group">
+            <div class="bar-item"><span class="bar-name">V3</span><div class="bar-track"><div class="bar-fill v3" data-w="96" style="--bw:96%"></div></div><span class="bar-val v3">10–15 min</span></div>
+            <div class="bar-item"><span class="bar-name">Sildenafil</span><div class="bar-track"><div class="bar-fill sil" data-w="40" style="--bw:40%"></div></div><span class="bar-val">30–60 min</span></div>
+            <div class="bar-item"><span class="bar-name">Tadalafil</span><div class="bar-track"><div class="bar-fill tad" data-w="27" style="--bw:27%"></div></div><span class="bar-val">30–45 min</span></div>
+          </div>
+        </div>
+
+        <div>
+          <div class="compare-metric-label">Duration of Coverage</div>
+          <div class="bar-group">
+            <div class="bar-item"><span class="bar-name">V3</span><div class="bar-track"><div class="bar-fill v3" data-w="98" style="--bw:98%"></div></div><span class="bar-val v3">Up to 36 hr</span></div>
+            <div class="bar-item"><span class="bar-name">Sildenafil</span><div class="bar-track"><div class="bar-fill sil" data-w="22" style="--bw:22%"></div></div><span class="bar-val">4–6 hr</span></div>
+            <div class="bar-item"><span class="bar-name">Tadalafil</span><div class="bar-track"><div class="bar-fill tad" data-w="75" style="--bw:75%"></div></div><span class="bar-val">Up to 36 hr</span></div>
+          </div>
+        </div>
+
+        <div>
+          <div class="compare-metric-label">Brain-Level Arousal Engagement</div>
+          <div class="bar-group">
+            <div class="bar-item"><span class="bar-name">V3</span><div class="bar-track"><div class="bar-fill v3" data-w="93" style="--bw:93%"></div></div><span class="bar-val v3">Full (Apomorphine)</span></div>
+            <div class="bar-item"><span class="bar-name">Sildenafil</span><div class="bar-track"><div class="bar-fill sil" data-w="0" style="--bw:0%"></div></div><span class="bar-val">None</span></div>
+            <div class="bar-item"><span class="bar-name">Tadalafil</span><div class="bar-track"><div class="bar-fill tad" data-w="0" style="--bw:0%"></div></div><span class="bar-val">None</span></div>
+          </div>
+        </div>
+
+        <div>
+          <div class="compare-metric-label">Reported Patient Satisfaction</div>
+          <div class="bar-group">
+            <div class="bar-item"><span class="bar-name">V3</span><div class="bar-track"><div class="bar-fill v3" data-w="96" style="--bw:96%"></div></div><span class="bar-val v3">96%</span></div>
+            <div class="bar-item"><span class="bar-name">Sildenafil</span><div class="bar-track"><div class="bar-fill sil" data-w="63" style="--bw:63%"></div></div><span class="bar-val">63%</span></div>
+            <div class="bar-item"><span class="bar-name">Tadalafil</span><div class="bar-track"><div class="bar-fill tad" data-w="68" style="--bw:68%"></div></div><span class="bar-val">68%</span></div>
+          </div>
+        </div>
+
+      </div>
+      <p class="compare-note">Illustrative comparison based on aggregated patient-reported outcomes and published clinical literature. Not a guarantee of results. Individual experiences vary.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ TRUST BAR ══ -->
+<section class="trust-bar">
+  <div class="container container--md">
+    <div class="trust-grid">
+      <div class="trust-item">
+        <svg class="trust-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <div><div class="trust-title">4.8 / 5 rating</div><div class="trust-sub">from 2,400+ reviews</div></div>
+      </div>
+      <div class="trust-item">
+        <svg class="trust-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        <div><div class="trust-title">10,000+ men treated</div><div class="trust-sub">and counting</div></div>
+      </div>
+      <div class="trust-item">
+        <svg class="trust-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        <div><div class="trust-title">Physician-reviewed</div><div class="trust-sub">U.S.-licensed clinicians</div></div>
+      </div>
+      <div class="trust-item">
+        <svg class="trust-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M16.5 9.4l-9-5.19M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+        <div><div class="trust-title">Free discreet shipping</div><div class="trust-sub">plain packaging</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ DIAGNOSIS CARD ══ -->
+<section class="diagnosis">
+  <div class="container container--md">
+    <div class="diagnosis-card">
+      <div class="diagnosis-header">
+        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="color:var(--accent)"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        <h2>V3 — On-Demand Stack</h2>
+      </div>
+      <div class="diagnosis-body">
+        <div>
+          <p style="font-size:1.05rem;font-weight:500;margin-bottom:1rem;">Based on your assessment, you're a strong candidate for V3 — Vigo MD's 3-active on-demand strong sublingual dissolvable.</p>
+          <p>Apomorphine, sildenafil, and tadalafil in one sublingual dose — engaging the brain's arousal centers while driving blood flow and extending the window up to 36 hours. 10–15 minute onset, no 30–60 minute pill wait. <strong>You'll feel the difference on dose one — even after years on other pills.</strong></p>
+        </div>
+        <div style="display:flex;justify-content:center;align-items:center;">
+          <img src="https://www.vigomd.com/assets/VIGO%20MD%20V3%20with%20space%20clear%20bg.png" alt="V3 On-Demand Stack" style="width:100%;max-width:240px;height:auto;object-fit:contain;filter:drop-shadow(0 16px 40px rgba(26,61,44,.22));" />
+        </div>
+      </div>
+      <div class="diagnosis-footer">
+        <p style="font-weight:500;color:rgba(26,61,44,.75);">You have a very high chance of success with the V3 program.</p>
+        <div class="success-rate">
+          <div class="rate">96%</div>
+          <div class="label">Very High</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ FEATURES ══ -->
+<section class="features">
+  <div class="container container--md">
+    <h2>What V3 does that single-pill solutions can't:</h2>
+    <div class="features-grid">
+      <div class="feature-card">
+        <svg class="feature-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        <h3>Be Ready in Minutes</h3>
+        <div class="sub">Brain + body in one sublingual dose</div>
+        <p>Apomorphine engages arousal at the brain level while sildenafil and tadalafil drive blood flow. A single-pill solution can't do both.</p>
+      </div>
+      <div class="feature-card">
+        <svg class="feature-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        <h3>Feel Desire Again</h3>
+        <div class="sub">Apomorphine engages arousal at the brain level</div>
+        <p>No more swallowing a pill and watching the clock. V3 dissolves under your tongue and you're ready before a standard pill would even kick in.</p>
+      </div>
+      <div class="feature-card">
+        <svg class="feature-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        <h3>Skip the Pill Wait</h3>
+        <div class="sub">Sublingual onset — 10–15 minutes</div>
+        <p>V3 dissolves under your tongue, bypassing the stomach. You feel it in minutes — not the 30–60 minutes a swallowed pill takes.</p>
+      </div>
+      <div class="feature-card">
+        <svg class="feature-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+        <h3>Last All Weekend</h3>
+        <div class="sub">Tadalafil extends the window up to 36 hours</div>
+        <p>Tadalafil in the V3 stack extends your window up to 36 hours — one dose, one weekend, no countdown.</p>
+      </div>
+      <div class="feature-card">
+        <svg class="feature-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        <h3>Discreet & Confident</h3>
+        <div class="sub">Small dissolvable, no pill bottles</div>
+        <p>A small sublingual dissolvable, no pill bottles, no rituals. Take it when you need it — nobody else needs to know.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ COVERAGE CHART ══ -->
+<section class="chart-section" style="padding:4.5rem 1rem 5rem;background:rgba(237,242,239,.2);">
+  <div class="container container--md">
+    <div style="text-align:center;margin-bottom:2.5rem;">
+      <div class="section-tag" style="justify-content:center;display:inline-flex;">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        Onset &amp; coverage
+      </div>
+      <h2 style="font-size:clamp(1.5rem,3vw,2.1rem);font-weight:700;margin-bottom:.5rem;">Fast in minutes. Strong for up to 36 hours.</h2>
+      <p style="color:var(--muted-fg);max-width:580px;margin:0 auto;">One V3 dose stacks three actives — pairing brain-level onset with all-weekend staying power no single ingredient can match alone.</p>
+    </div>
+
+    <div style="background:#fff;border:1px solid #e9edf0;border-radius:1.5rem;box-shadow:0 6px 32px rgba(26,61,44,.07),0 1px 4px rgba(26,61,44,.04);padding:1.5rem 1rem 1rem;overflow:hidden;">
+      <svg viewBox="0 0 920 460" style="width:100%;height:auto;display:block;" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="v3LineGrad" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="#4ade80"/>
+            <stop offset="38%" stop-color="#22d3ee"/>
+            <stop offset="100%" stop-color="#6366f1"/>
+          </linearGradient>
+          <linearGradient id="v3AreaGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#818cf8" stop-opacity="0.24"/>
+            <stop offset="85%" stop-color="#818cf8" stop-opacity="0.03"/>
+            <stop offset="100%" stop-color="#818cf8" stop-opacity="0"/>
+          </linearGradient>
+        </defs>
+
+        <!-- Vertical dashed gridlines -->
+        <line x1="185" y1="42" x2="185" y2="415" stroke="#e5e7eb" stroke-dasharray="5 5" stroke-width="1.5"/>
+        <line x1="285" y1="42" x2="285" y2="415" stroke="#e5e7eb" stroke-dasharray="5 5" stroke-width="1.5"/>
+        <line x1="490" y1="42" x2="490" y2="415" stroke="#e5e7eb" stroke-dasharray="5 5" stroke-width="1.5"/>
+        <line x1="865" y1="42" x2="865" y2="415" stroke="#e5e7eb" stroke-dasharray="5 5" stroke-width="1.5"/>
+        <!-- X-axis baseline -->
+        <line x1="54" y1="415" x2="892" y2="415" stroke="#e5e7eb" stroke-width="1.5"/>
+
+        <!-- V3 area fill -->
+        <path d="M 60,415 C 72,415 84,397 98,360 C 112,323 126,270 144,213 C 160,161 178,107 200,79 C 218,60 238,56 285,55 L 865,55 L 865,415 Z"
+              fill="url(#v3AreaGrad)"/>
+
+        <!-- Apomorphine dashed bell — peaks ~x=255 (15M zone), fades before 4HR -->
+        <path d="M 60,415 C 78,412 96,397 118,363 C 138,330 158,288 182,250 C 200,220 220,194 240,174 C 254,161 266,158 280,168 C 298,181 316,220 336,268 C 356,316 376,370 402,415"
+              fill="none" stroke="#22c55e" stroke-width="3.2" stroke-dasharray="12 8" stroke-linecap="round"/>
+
+        <!-- Sildenafil dashed bell — peaks ~x=490 (4HR) -->
+        <path d="M 218,415 C 260,413 304,394 350,343 C 393,294 430,238 464,198 C 480,178 496,165 512,172 C 535,185 558,226 582,280 C 604,330 626,375 654,415"
+              fill="none" stroke="#3b82f6" stroke-width="3.2" stroke-dasharray="12 8" stroke-linecap="round"/>
+
+        <!-- Tadalafil dashed — gradual rise, plateau extending to 36HR -->
+        <path d="M 328,415 C 382,410 426,385 470,336 C 512,288 548,242 582,210 C 612,183 642,168 865,168"
+              fill="none" stroke="#a855f7" stroke-width="3.2" stroke-dasharray="12 8" stroke-linecap="round"/>
+
+        <!-- V3 main line — drawn last so it sits on top -->
+        <path d="M 60,415 C 72,415 84,397 98,360 C 112,323 126,270 144,213 C 160,161 178,107 200,79 C 218,60 238,56 285,55 L 865,55"
+              fill="none" stroke="url(#v3LineGrad)" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round"/>
+
+        <!-- Clock origin circle -->
+        <circle cx="60" cy="415" r="24" fill="white" stroke="#c7d2fe" stroke-width="2.5"/>
+        <circle cx="60" cy="415" r="11.5" fill="none" stroke="#6366f1" stroke-width="1.8"/>
+        <line x1="60" y1="407" x2="60" y2="415" stroke="#6366f1" stroke-width="1.8" stroke-linecap="round"/>
+        <line x1="60" y1="415" x2="66" y2="419" stroke="#6366f1" stroke-width="1.8" stroke-linecap="round"/>
+
+        <!-- V3 badge — right end of plateau -->
+        <rect x="694" y="30" width="174" height="38" rx="19" fill="white" stroke="#6366f1" stroke-width="2.5"/>
+        <text x="781" y="54" text-anchor="middle" font-family="DM Sans,sans-serif" font-weight="700" font-size="15" fill="#6366f1">V3 — 3-in-1</text>
+
+        <!-- Apomorphine badge — above bell peak -->
+        <rect x="168" y="116" width="155" height="36" rx="18" fill="white" stroke="#22c55e" stroke-width="2"/>
+        <text x="246" y="139" text-anchor="middle" font-family="DM Sans,sans-serif" font-weight="600" font-size="13.5" fill="#22c55e">Apomorphine</text>
+        <circle cx="246" cy="157" r="4.5" fill="#22c55e" opacity="0.75"/>
+
+        <!-- Sildenafil badge — above bell peak -->
+        <rect x="430" y="116" width="122" height="36" rx="18" fill="white" stroke="#3b82f6" stroke-width="2"/>
+        <text x="491" y="139" text-anchor="middle" font-family="DM Sans,sans-serif" font-weight="600" font-size="13.5" fill="#3b82f6">Sildenafil</text>
+        <circle cx="491" cy="157" r="4.5" fill="#3b82f6" opacity="0.75"/>
+
+        <!-- Tadalafil badge — along its plateau -->
+        <rect x="624" y="144" width="112" height="36" rx="18" fill="white" stroke="#a855f7" stroke-width="2"/>
+        <text x="680" y="167" text-anchor="middle" font-family="DM Sans,sans-serif" font-weight="600" font-size="13.5" fill="#a855f7">Tadalafil</text>
+        <circle cx="680" cy="183" r="4.5" fill="#a855f7" opacity="0.75"/>
+
+        <!-- X-axis labels -->
+        <text x="185" y="446" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="14" font-weight="600" fill="#9ca3af">10M</text>
+        <text x="285" y="446" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="14" font-weight="600" fill="#9ca3af">15M</text>
+        <text x="490" y="446" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="14" font-weight="600" fill="#9ca3af">4HR</text>
+        <text x="865" y="446" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="14" font-weight="600" fill="#9ca3af">36HR</text>
+      </svg>
+    </div>
+
+    <p style="font-size:.65rem;color:var(--muted-fg);text-align:center;margin-top:1rem;max-width:600px;margin-left:auto;margin-right:auto;">Illustrative comparison of onset and duration for educational purposes. Actual timing varies by individual, dose, and physician guidance.</p>
+  </div>
+</section>
+
+<!-- ══ STEPS ══ -->
+<section class="steps">
+  <div class="container">
+    <h2>What happens next?</h2>
+    <div class="steps-list">
+      <div class="step">
+        <span class="step-num">01</span>
+        <div><div class="step-title">Physician Review</div><div class="step-desc">A board-certified clinician reviews your assessment as soon as you check out — no extra steps from you.</div></div>
+      </div>
+      <div class="step">
+        <span class="step-num">02</span>
+        <div><div class="step-title">Fast Approval</div><div class="step-desc">Most plans are approved within hours. All are approved within 24 hours.</div></div>
+      </div>
+      <div class="step">
+        <span class="step-num">03</span>
+        <div><div class="step-title">Discreet Shipping</div><div class="step-desc">Once your prescription is approved, your medication ships within 2 business days. Plain packaging, with tracking sent to your inbox.</div></div>
+      </div>
+      <div class="step">
+        <span class="step-num">04</span>
+        <div><div class="step-title">Monthly Refills</div><div class="step-desc">No refill check-ins — treatment flows each month. We send tracking by text and email so you never run out.</div></div>
+      </div>
+      <div class="step">
+        <span class="step-num">05</span>
+        <div><div class="step-title">Ongoing Support</div><div class="step-desc">Questions about dosage, side effects, or progress? You have unlimited 24/7 access to our care team and licensed clinicians whenever you need them.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ PROJECTED RESULTS ══ -->
+<section class="results-section">
+  <div class="container container--md">
+    <div class="results-top">
+      <div class="section-tag" style="justify-content:center;display:inline-flex;">
+        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
+        Your projected progress
+      </div>
+      <h2>What the next 12 weeks can look like</h2>
+      <p class="sub">A typical trajectory for sexual performance and confidence on a consistent V3 plan.</p>
+    </div>
+
+    <div class="results-card">
+      <div class="results-kpi-row">
+        <div class="results-kpi-label">
+          <p>Performance &amp; Confidence</p>
+          <p>Low <span style="font-weight:400;color:var(--muted-fg);">to</span> Peak</p>
+        </div>
+        <div style="text-align:right;">
+          <div class="results-big-num">5×</div>
+          <div class="results-big-sub">projected improvement by week 12</div>
+        </div>
+      </div>
+
+      <div style="margin:0 -0.5rem;">
+        <svg viewBox="0 0 920 320" style="width:100%;height:auto;display:block;" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="perfLineGrad" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stop-color="#3d9970"/>
+              <stop offset="55%" stop-color="#c9932a"/>
+              <stop offset="100%" stop-color="#c9932a"/>
+            </linearGradient>
+            <linearGradient id="perfAreaGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#c9932a" stop-opacity="0.26"/>
+              <stop offset="85%" stop-color="#c9932a" stop-opacity="0.03"/>
+              <stop offset="100%" stop-color="#c9932a" stop-opacity="0"/>
+            </linearGradient>
+          </defs>
+
+          <!-- Horizontal dashed gridlines -->
+          <line x1="60" y1="72" x2="880" y2="72" stroke="#f3f4f6" stroke-dasharray="5 5" stroke-width="1.5"/>
+          <line x1="60" y1="144" x2="880" y2="144" stroke="#f3f4f6" stroke-dasharray="5 5" stroke-width="1.5"/>
+          <line x1="60" y1="216" x2="880" y2="216" stroke="#f3f4f6" stroke-dasharray="5 5" stroke-width="1.5"/>
+          <!-- Baseline -->
+          <line x1="54" y1="270" x2="886" y2="270" stroke="#e5e7eb" stroke-width="1.5"/>
+
+          <!-- Vertical week markers (subtle) -->
+          <line x1="188" y1="50" x2="188" y2="270" stroke="#f3f4f6" stroke-width="1"/>
+          <line x1="322" y1="50" x2="322" y2="270" stroke="#f3f4f6" stroke-width="1"/>
+          <line x1="456" y1="50" x2="456" y2="270" stroke="#f3f4f6" stroke-width="1"/>
+          <line x1="590" y1="50" x2="590" y2="270" stroke="#f3f4f6" stroke-width="1"/>
+          <line x1="724" y1="50" x2="724" y2="270" stroke="#f3f4f6" stroke-width="1"/>
+          <line x1="858" y1="50" x2="858" y2="270" stroke="#f3f4f6" stroke-width="1"/>
+
+          <!-- Area fill -->
+          <path d="M 54,265 C 90,263 128,248 188,225 C 242,204 290,178 322,148 C 358,114 388,88 456,65 C 510,47 560,42 590,40 C 640,37 720,36 858,35 L 858,270 L 54,270 Z"
+                fill="url(#perfAreaGrad)"/>
+
+          <!-- Main curve -->
+          <path d="M 54,265 C 90,263 128,248 188,225 C 242,204 290,178 322,148 C 358,114 388,88 456,65 C 510,47 560,42 590,40 C 640,37 720,36 858,35"
+                fill="none" stroke="url(#perfLineGrad)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+
+          <!-- Data point dots -->
+          <circle cx="54"  cy="265" r="6" fill="#fff" stroke="#3d9970" stroke-width="2.5"/>
+          <circle cx="188" cy="225" r="6" fill="#fff" stroke="#5eaa88" stroke-width="2.5"/>
+          <circle cx="322" cy="148" r="6" fill="#fff" stroke="#c9932a" stroke-width="2.5"/>
+          <circle cx="456" cy="65"  r="6" fill="#fff" stroke="#c9932a" stroke-width="2.5"/>
+          <circle cx="590" cy="40"  r="6" fill="#fff" stroke="#c9932a" stroke-width="2.5"/>
+          <circle cx="724" cy="36"  r="6" fill="#fff" stroke="#c9932a" stroke-width="2.5"/>
+          <circle cx="858" cy="35"  r="7" fill="#c9932a" stroke="#fff" stroke-width="2.5"/>
+
+          <!-- Floating annotation at peak -->
+          <rect x="780" y="14" width="88" height="28" rx="14" fill="#c9932a"/>
+          <text x="824" y="32" text-anchor="middle" font-family="DM Sans,sans-serif" font-weight="700" font-size="12" fill="white">Peak — Wk 12</text>
+
+          <!-- Week labels on x-axis -->
+          <text x="54"  y="290" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="12" font-weight="600" fill="#9ca3af">Wk 0</text>
+          <text x="188" y="290" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="12" font-weight="600" fill="#9ca3af">Wk 2</text>
+          <text x="322" y="290" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="12" font-weight="600" fill="#9ca3af">Wk 4</text>
+          <text x="456" y="290" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="12" font-weight="600" fill="#9ca3af">Wk 6</text>
+          <text x="590" y="290" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="12" font-weight="600" fill="#9ca3af">Wk 8</text>
+          <text x="724" y="290" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="12" font-weight="600" fill="#9ca3af">Wk 10</text>
+          <text x="858" y="290" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="12" font-weight="700" fill="#c9932a">Wk 12</text>
+
+          <!-- Y-axis labels (subtle) -->
+          <text x="44" y="76"  text-anchor="end" font-family="DM Sans,sans-serif" font-size="11" fill="#d1d5db">High</text>
+          <text x="44" y="220" text-anchor="end" font-family="DM Sans,sans-serif" font-size="11" fill="#d1d5db">Low</text>
+        </svg>
+      </div>
+
+      <div class="milestones">
+        <div class="milestone">
+          <div class="milestone-range">Weeks 1–2</div>
+          <div class="milestone-title">Fast first wins</div>
+          <div class="milestone-desc">Many men feel a noticeable on-demand difference within the first couple of weeks.</div>
+        </div>
+        <div class="milestone">
+          <div class="milestone-range">Weeks 4–6</div>
+          <div class="milestone-title">Reliable response</div>
+          <div class="milestone-desc">Performance becomes more consistent as treatment settles into your routine.</div>
+        </div>
+        <div class="milestone">
+          <div class="milestone-range">Weeks 8–12</div>
+          <div class="milestone-title">Confidence restored</div>
+          <div class="milestone-desc">Spontaneity and self-assurance return — without overthinking the moment.</div>
+        </div>
+      </div>
+    </div>
+    <p class="results-disclaimer">Illustrative projection based on aggregated patient-reported outcomes. Not a guarantee of results — individual experiences vary based on health, adherence, and physician guidance.</p>
+  </div>
+</section>
+
+<!-- ══ PROMO ══ -->
+<section class="promo">
+  <div class="container container--sm">
+    <h2>Save $50 Instantly</h2>
+    <p>Flexible month-to-month billing — no long-term contracts. Cancel anytime, no phone calls required.</p>
+    <p><strong>24/7 Support + Unlimited doctor communication + Medication all included.</strong></p>
+    <p style="margin-top:.5rem;font-size:.875rem;color:var(--muted-fg);">Choose your treatment preference below.</p>
+  </div>
+</section>
+
+<!-- ══ CHECKOUT ══ -->
+<section class="checkout" id="checkout">
+  <div class="container">
+    <div class="checkout-grid">
+
+      <!-- LEFT: Product summary -->
+      <div class="checkout-left">
+        <div class="checkout-heading">
+          <h2>Your treatment:</h2>
+          <p>Reviewed and prescribed by your physician.</p>
+          <span class="badge badge-green">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="9 12 11 14 15 10"/></svg>
+            V3 · On-Demand Stack
+          </span>
+        </div>
+
+        <div class="product-card">
+          <div class="product-card-inner">
+            <div class="product-header">
+              <div>
+                <div class="product-name">V3 — On-Demand Stack</div>
+                <div class="product-price">
+                  <span class="amount" id="price-amount">$154</span>
+                  <span class="original" id="price-original">$169</span>
+                </div>
+              </div>
+              <div class="product-img-sm" style="background:none;box-shadow:none;padding:0;width:80px;height:auto;flex-shrink:0;">
+                <img src="https://www.vigomd.com/assets/VIGO%20MD%20V3%20with%20space%20clear%20bg.png" alt="V3" style="width:80px;height:auto;object-fit:contain;filter:drop-shadow(0 4px 16px rgba(26,61,44,.25));" />
+              </div>
+            </div>
+            <div class="includes-box"><strong>Price Includes:</strong> 4 weeks of medication · written prescription · doctor consult · 1:1 ongoing medical support · free discreet shipping</div>
+            <ul class="feature-list-sm">
+              <li><svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="9 12 11 14 15 10"/></svg>Maximum-strength formulation — built for men who've built up tolerance</li>
+              <li><svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="9 12 11 14 15 10"/></svg>Apomorphine + Sildenafil + Tadalafil (3-in-1 powerful sublingual)</li>
+              <li><svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="9 12 11 14 15 10"/></svg>10–15 min onset · up to 36-hour window</li>
+              <li><svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="9 12 11 14 15 10"/></svg>No insurance required</li>
+              <li><svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="9 12 11 14 15 10"/></svg>24/7 clinical support included</li>
+            </ul>
+
+            <div class="upgrade-toggle active" id="upgrade-toggle" onclick="toggleUpgrade()">
+              <div class="upgrade-toggle-inner">
+                <div class="checkbox-fake" id="upgrade-checkbox">
+                  <svg viewBox="0 0 12 12"><polyline points="2 6 5 9 10 3"/></svg>
+                </div>
+                <div>
+                  <div class="upgrade-title">12-Dose Upgrade Added — One-time Offer</div>
+                  <div class="upgrade-sub">Double your supply — 12 doses instead of 6 — Save 23% per dose. You're now getting 12 doses at $12.83/dose — total $154. Uncheck to revert to 6 doses for $99.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="zero-today">
+          <div class="shield-badge">
+            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          <div class="zero-today-text">
+            <div class="amount">
+              $0 Due Today
+              <span class="hsa-badge">HSA / FSA</span>
+            </div>
+            <div class="note">Only pay when your prescription is approved and written (within 24 hours). Just a temporary authorization today.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT: Form -->
+      <div>
+        <form class="checkout-form" onsubmit="return false;">
+
+          <!-- Contact -->
+          <div class="form-section">
+            <div class="form-section-title">Contact Information</div>
+            <div class="form-group">
+              <label class="form-label">Email</label>
+              <input class="form-input" type="email" placeholder="you@example.com" />
+            </div>
+          </div>
+
+          <!-- Shipping -->
+          <div class="form-section">
+            <div class="form-section-title">Shipping Information</div>
+            <div class="form-row form-row-2">
+              <div class="form-group"><label class="form-label">First Name</label><input class="form-input" type="text" /></div>
+              <div class="form-group"><label class="form-label">Last Name</label><input class="form-input" type="text" /></div>
+            </div>
+            <div class="form-group"><label class="form-label">Address</label><input class="form-input" type="text" /></div>
+            <div class="form-group"><label class="form-label">Apt/Suite (optional)</label><input class="form-input" type="text" /></div>
+            <div class="form-row form-row-3">
+              <div class="form-group"><label class="form-label">City</label><input class="form-input" type="text" /></div>
+              <div class="form-group">
+                <label class="form-label">State</label>
+                <select class="form-input form-select">
+                  <option value="">State</option>
+                  <option>California</option><option>New York</option><option>Texas</option><option>Florida</option><option>Washington</option><option>Other US State</option>
+                </select>
+              </div>
+              <div class="form-group"><label class="form-label">ZIP</label><input class="form-input" type="text" /></div>
+            </div>
+            <div class="form-row form-row-2">
+              <div class="form-group"><label class="form-label">Phone</label><input class="form-input" type="tel" /></div>
+              <div class="form-group"><label class="form-label">Country</label><input class="form-input" type="text" value="United States" disabled /></div>
+            </div>
+          </div>
+
+          <!-- Billing -->
+          <div class="form-section">
+            <div class="form-section-title">Billing Information</div>
+            <div class="same-as-shipping">
+              <div class="checkbox-fake"><svg viewBox="0 0 12 12" fill="none" stroke="white" stroke-width="3"><polyline points="2 6 5 9 10 3"/></svg></div>
+              <span>Same as shipping address</span>
+            </div>
+          </div>
+
+          <!-- Payment -->
+          <div class="form-section">
+            <div style="display:flex;align-items:center;justify-content:space-between;padding-bottom:.5rem;border-bottom:1px solid var(--border);flex-wrap:wrap;gap:.75rem;margin-bottom:1rem;">
+              <div class="form-section-title with-icon" style="border:none;padding:0;margin:0;">
+                <svg class="lock-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                Secure Checkout
+              </div>
+              <div class="card-icons">
+                <div class="card-icon visa">VISA</div>
+                <div class="card-icon mc">MC</div>
+                <div class="card-icon amex">AMEX</div>
+                <div class="card-icon disc">DISC</div>
+              </div>
+            </div>
+            <div class="ssl-note">All transactions are secure and encrypted</div>
+            <div class="form-group">
+              <label class="form-label">Credit Card Number</label>
+              <input class="form-input" type="text" placeholder="0000 0000 0000 0000" />
+            </div>
+            <div class="form-row form-row-2">
+              <div class="form-group"><label class="form-label">Expiry (MM/YY)</label><input class="form-input" type="text" placeholder="MM/YY" /></div>
+              <div class="form-group">
+                <label class="form-label">Security Code</label>
+                <input class="form-input" type="text" placeholder="CVC" />
+                <div class="cvc-note">3-digit code on the back of your card. Amex: 4-digit code on the front.</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Order summary -->
+          <div class="order-summary">
+            <div class="coupon-row">
+              <input class="coupon-input" type="text" value="15OFFC" readonly />
+              <button class="btn-secondary" type="button">Apply</button>
+            </div>
+            <div class="coupon-badge">15OFFC — $15 off on V3 · Tadalafil 20mg/Sildenafil 70mg/Apomorphine 4mg · Monthly · 12ct</div>
+
+            <hr class="separator" />
+            <div class="line-items">
+              <div class="line-item"><span>Subtotal</span><span id="line-subtotal">$169.00</span></div>
+              <div class="line-item"><span>Shipping</span><span>$0.00</span></div>
+              <div class="line-item discount"><span>Discount</span><span id="line-discount">-$15.00</span></div>
+            </div>
+            <div class="order-total">
+              <span>Total</span>
+              <span>USD <span id="line-total">$154.00</span></span>
+            </div>
+
+            <button class="btn-cta" type="submit">
+              Complete Order
+              <svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </button>
+
+            <div class="security-row">
+              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+              256-bit SSL secure checkout
+            </div>
+            <p class="terms-note">By clicking above, I agree to the <a href="#">Terms of Service</a>, <a href="#">Privacy Policy</a>, and <a href="#">Telehealth Informed Consent</a>.</p>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ GUARANTEE ══ -->
+<section class="guarantee">
+  <div class="container container--sm">
+    <div class="guarantee-icon">
+      <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#c9932a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+        <polyline points="9 12 11 14 15 10"/>
+      </svg>
+    </div>
+    <h2>Our Guarantee</h2>
+    <p>If you're not approved for medication, you pay $0. We only process payment after your physician reviews and approves your prescription — usually within 24 hours. Not happy? Cancel any time inside your patient portal. No questions asked, no phone calls needed.</p>
+  </div>
+</section>
+
+<!-- ══ STATS ══ -->
+<section class="stats">
+  <div class="container container--md">
+    <h2>What makes Vigo MD different?</h2>
+    <div class="stats-grid">
+      <div class="stat-item"><div class="stat-val">3-in-1</div><div class="stat-desc">Apomorphine + sildenafil + tadalafil, one strong sublingual dose</div></div>
+      <div class="stat-item"><div class="stat-val">10–15</div><div class="stat-desc">Minutes to onset — sublingual, no waiting</div></div>
+      <div class="stat-item"><div class="stat-val">36hr</div><div class="stat-desc">Window of effect — one dose, one weekend</div></div>
+      <div class="stat-item"><div class="stat-val">100%</div><div class="stat-desc">Discreet, plain packaging</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ TESTIMONIALS ══ -->
+<section class="testimonials">
+  <div class="container">
+    <h2>The results speak for themselves</h2>
+    <div class="reviews-grid">
+      <div class="review-card">
+        <div class="stars">⭐⭐⭐⭐⭐</div>
+        <p class="review-text">"V3 is the part I didn't know I needed. I'm not staring at the clock anymore — 10 minutes and I'm ready."</p>
+        <div class="reviewer">— Mike R., 47</div>
+        <div class="verified">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="9 12 11 14 15 10"/></svg>
+          Verified Customer
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="stars">⭐⭐⭐⭐⭐</div>
+        <p class="review-text">"I used to plan around the pill — when to take it, when it'd kick in. V3 killed all of that. Sublingual, fast, and the 36-hour window means I'm not racing a clock."</p>
+        <div class="reviewer">— James T., 52</div>
+        <div class="verified">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="9 12 11 14 15 10"/></svg>
+          Verified Customer
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="stars">⭐⭐⭐⭐⭐</div>
+        <p class="review-text">"I message the team, a real person responds. They adjusted my dose twice without making me jump through hoops. Worth it for that alone."</p>
+        <div class="reviewer">— Daniel K., 39</div>
+        <div class="verified">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="9 12 11 14 15 10"/></svg>
+          Verified Customer
+        </div>
+      </div>
+    </div>
+    <p class="testimonial-disclaimer">Outcomes vary based on individual factors. Testimonials reflect individual experiences and are not guarantees of specific outcomes.</p>
+  </div>
+</section>
+
+<!-- ══ FAQ ══ -->
+<section class="faq">
+  <div class="container">
+    <h2>Frequently Asked Questions</h2>
+    <div class="accordion">
+      <div class="accordion-item">
+        <button class="accordion-trigger" onclick="toggleAccordion(this)">
+          Does the price cover the medication AND the doctor?
+          <svg class="chevron" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="accordion-content"><div class="accordion-body">Yes — the $99 includes your physician consult, written prescription, 4 weeks of V3 medication, ongoing 1:1 medical support, and discreet shipping. There are no add-on fees and no insurance involvement.</div></div>
+      </div>
+      <div class="accordion-item">
+        <button class="accordion-trigger" onclick="toggleAccordion(this)">
+          Why choose Vigo MD over Hims or Roman?
+          <svg class="chevron" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="accordion-content"><div class="accordion-body">V3 is a 3-in-1 sublingual dissolvable stack (apomorphine, sildenafil, tadalafil) — not a single PDE5 pill. Hims and Roman default to one active ingredient at a time. V3 dissolves under your tongue in 10–15 minutes, combines brain + body actives, and extends your window up to 36 hours. Plus your monthly price includes the doctor, the prescription, and ongoing support.</div></div>
+      </div>
+      <div class="accordion-item">
+        <button class="accordion-trigger" onclick="toggleAccordion(this)">
+          What if I am not approved?
+          <svg class="chevron" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="accordion-content"><div class="accordion-body">You're not charged. The temporary authorization at checkout drops off, and we'll notify you with the reason and any alternatives. Most patients are approved within 24 hours.</div></div>
+      </div>
+      <div class="accordion-item">
+        <button class="accordion-trigger" onclick="toggleAccordion(this)">
+          What if I need to cancel?
+          <svg class="chevron" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="accordion-content"><div class="accordion-body">Cancel anytime in your patient portal. No phone calls required, no hassle.</div></div>
+      </div>
+      <div class="accordion-item">
+        <button class="accordion-trigger" onclick="toggleAccordion(this)">
+          What states do you serve?
+          <svg class="chevron" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="accordion-content"><div class="accordion-body">We currently serve patients in 48 US states (excluding Alabama and North Dakota).</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ FOOTER ══ -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-top">
+      <div class="footer-logo">VIGO MD</div>
+      <div class="footer-contacts">
+        <a href="tel:8886942571" class="footer-contact">
+          <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.65 3.47 2 2 0 0 1 3.62 1.27h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.6a16 16 0 0 0 6 6l.91-.91a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 21.73 16"/></svg>
+          (888) 694-2571
+        </a>
+        <a href="mailto:support@vigomd.com" class="footer-contact">
+          <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          support@vigomd.com
+        </a>
+      </div>
+    </div>
+    <hr class="footer-divider" />
+    <p class="footer-legal">The assessment made available on the Vigo MD website does not create a doctor-patient relationship between the individual completing the assessment and Vigo MD. Beluga Health, a network of US-licensed clinicians that adheres to rigorous medical protocols designed for patient safety, has established exclusionary criteria to determine if an individual does not qualify for medication. All claims and benefits on this website refer to self-reported data from Vigo MD customers. Results may vary.</p>
+    <div class="footer-bottom">
+      <p>© 2026 Vigo MD. All rights reserved.</p>
+      <div class="footer-links">
+        <a href="#">Terms &amp; Conditions</a>
+        <a href="#">Privacy Policy</a>
+        <a href="#">Telehealth Consent</a>
+        <a href="#">Safety Information</a>
+        <a href="#">Refund Policy</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- ══ FLOATING CTA ══ -->
+<div class="floating-cta" id="floating-cta">
+  <a href="#checkout">
+    <button class="floating-btn">
+      Claim your plan · $99
+      <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+    </button>
+  </a>
+</div>
+
+<script>
+// Countdown timer
+let t = 10 * 60 + 59;
+const el = document.getElementById('countdown');
+setInterval(() => {
+  if (t > 0) t--;
+  const m = Math.floor(t / 60).toString().padStart(2, '0');
+  const s = (t % 60).toString().padStart(2, '0');
+  el.textContent = m + ':' + s;
+}, 1000);
+
+// Upgrade toggle
+let upgraded = true;
+function toggleUpgrade() {
+  upgraded = !upgraded;
+  const toggle = document.getElementById('upgrade-toggle');
+  const cb = document.getElementById('upgrade-checkbox');
+  const amount = document.getElementById('price-amount');
+  const original = document.getElementById('price-original');
+  const subtotal = document.getElementById('line-subtotal');
+  const discount = document.getElementById('line-discount');
+  const total = document.getElementById('line-total');
+  if (upgraded) {
+    toggle.classList.add('active');
+    cb.innerHTML = '<svg viewBox="0 0 12 12" fill="none" stroke="white" stroke-width="3"><polyline points="2 6 5 9 10 3"/></svg>';
+    amount.textContent = '$154';
+    original.textContent = '$169';
+    original.style.display = '';
+    subtotal.textContent = '$169.00';
+    discount.textContent = '-$15.00';
+    discount.parentElement.style.display = 'flex';
+    total.textContent = '$154.00';
+  } else {
+    toggle.classList.remove('active');
+    cb.innerHTML = '';
+    amount.textContent = '$99';
+    original.style.display = 'none';
+    subtotal.textContent = '$99.00';
+    discount.parentElement.style.display = 'none';
+    total.textContent = '$99.00';
+  }
+}
+
+// Accordion
+function toggleAccordion(btn) {
+  const item = btn.closest('.accordion-item');
+  const wasOpen = item.classList.contains('open');
+  document.querySelectorAll('.accordion-item').forEach(i => i.classList.remove('open'));
+  if (!wasOpen) item.classList.add('open');
+}
+
+// Animate comparison bars — trigger on scroll into view OR after 400ms on load
+function animateBars(container) {
+  container.querySelectorAll('.bar-fill[data-w]').forEach(bar => {
+    bar.style.width = bar.dataset.w + '%';
+  });
+}
+const compareEl = document.getElementById('compare-bars');
+if (compareEl) {
+  const barObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        animateBars(entry.target);
+        barObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.05, rootMargin: '0px 0px 100px 0px' });
+  barObserver.observe(compareEl);
+  // Fallback: if already in viewport on load, fire after paint
+  setTimeout(() => animateBars(compareEl), 350);
+}
+
+// Floating CTA
+const cta = document.getElementById('floating-cta');
+window.addEventListener('scroll', () => {
+  const checkout = document.getElementById('checkout');
+  const scrolled = window.scrollY > 500;
+  let inCheckout = false;
+  if (checkout) {
+    const r = checkout.getBoundingClientRect();
+    inCheckout = r.top < window.innerHeight && r.bottom > 0;
+  }
+  const nearBottom = window.innerHeight + window.scrollY >= document.body.scrollHeight - 300;
+  cta.classList.toggle('visible', scrolled && !inCheckout && !nearBottom);
+}, { passive: true });
+</script>
+</body>
+</html>

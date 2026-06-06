@@ -38,6 +38,30 @@ type Project = {
     approach: string;
     stats?: { value: string; label: string }[];
   };
+  brandGuide?: {
+    manifesto: string;
+    manifestoSub: string;
+    manifestoBody: string;
+    pillars: string[];
+    colors: { name: string; hex: string; role: string; pantone?: string }[];
+    display: { family: string; weights: string; tracking: string; substitute: string };
+    body: { family: string; weights: string; minSize: string };
+    typeScale: { label: string; size: string }[];
+    mark: { specs: string[]; meaning: string };
+    patterns: { id: string; name: string; use: string }[];
+    photography: string;
+    logoVariants: { id: string; name: string; use: string }[];
+    applications: string[];
+  };
+  presentation?: {
+    label: string;
+    tagline: string;
+    domain: string;
+    stats: { value: string; label: string }[];
+    features: { label: string; sub: string; desc: string }[];
+    tokens?: { role: string; sample: string; family: string; sampleStyle: React.CSSProperties }[];
+    tags: string[];
+  };
 };
 
 function CustomCursor() {
@@ -102,6 +126,7 @@ function CarouselModal({
   const [direction, setDirection] = useState(0);
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
   const [caseStudyOpen, setCaseStudyOpen] = useState(false);
+  const [brandGuideOpen, setBrandGuideOpen] = useState(false);
   const dialogRef = useRef<HTMLDivElement>(null);
   const touchStartX = useRef<number | null>(null);
   const project = projects[currentIndex];
@@ -111,6 +136,7 @@ function CarouselModal({
     setDirection(dir);
     setLightboxIndex(null);
     setCaseStudyOpen(false);
+    setBrandGuideOpen(false);
     setCurrentIndex((i) => (i + dir + projects.length) % projects.length);
   }, [projects.length]);
 
@@ -293,9 +319,278 @@ function CarouselModal({
               </div>
             )}
 
+            {/* ── Brand Guide ── */}
+            {project.brandGuide && (
+              <div className="px-14 md:px-24 pb-2 mt-1">
+                <button
+                  onClick={() => setBrandGuideOpen(o => !o)}
+                  aria-expanded={brandGuideOpen}
+                  style={{ cursor: "none" }}
+                  className="flex items-center gap-3 border border-[#222] text-[#F4F0E8]/50 font-sans font-semibold text-[11px] uppercase tracking-[0.2em] px-5 py-3 hover:border-[#F2541C] hover:text-[#F2541C] transition-all duration-200 focus:outline-none"
+                >
+                  <span>Brand Guidelines</span>
+                  <span
+                    className="text-base font-bold transition-transform duration-300 leading-none"
+                    style={{ display: "inline-block", transform: brandGuideOpen ? "rotate(45deg)" : "rotate(0deg)" }}
+                    aria-hidden="true"
+                  >+</span>
+                </button>
+                <AnimatePresence>
+                  {brandGuideOpen && (
+                    <motion.div
+                      key="brand-guide"
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: "auto" }}
+                      exit={{ opacity: 0, height: 0 }}
+                      transition={{ duration: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }}
+                      className="overflow-hidden"
+                    >
+                      <div className="mt-3 border border-[#222] overflow-hidden">
+
+                        {/* ── Doc header ── */}
+                        <div className="flex items-center justify-between px-6 py-3 bg-[#111315] border-b border-[#222]">
+                          <span className="font-sans font-light text-[9px] uppercase tracking-[0.35em] text-[#F4F0E8]/30">Brand Guidelines · Vol. 01</span>
+                          <span className="font-sans font-light text-[9px] uppercase tracking-[0.3em] text-[#F4F0E8]/20">SPS / BG / 01.26</span>
+                        </div>
+
+                        {/* ── 01 Manifesto ── */}
+                        <div className="bg-[#111315] border-b border-[#222] px-8 py-12 md:py-16">
+                          <div className="font-sans font-light text-[9px] uppercase tracking-[0.35em] text-[#F2541C] mb-7">01 — Brand Essence</div>
+                          <div className="mb-7">
+                            <div className="font-serif font-black uppercase leading-[0.88] tracking-[-0.03em] text-[#F4F0E8]" style={{ fontSize: "clamp(2.4rem,5.5vw,4.5rem)" }}>
+                              {project.brandGuide!.manifesto}
+                            </div>
+                            <div className="font-serif font-black uppercase leading-[0.88] tracking-[-0.03em] text-[#F2541C]" style={{ fontSize: "clamp(2.4rem,5.5vw,4.5rem)" }}>
+                              {project.brandGuide!.manifestoSub}
+                            </div>
+                          </div>
+                          <p className="font-sans font-light text-sm text-[#F4F0E8]/45 leading-relaxed max-w-xl mb-8">
+                            {project.brandGuide!.manifestoBody}
+                          </p>
+                          <div className="flex flex-col gap-2.5 border-l-2 border-[#F2541C] pl-5">
+                            {project.brandGuide!.pillars.map((pillar, i) => (
+                              <div key={i} className="font-sans font-medium text-xs text-[#F4F0E8]/60 uppercase tracking-[0.18em]">{pillar}</div>
+                            ))}
+                          </div>
+                        </div>
+
+                        {/* ── 05 Color System ── */}
+                        <div className="border-b border-[#222]">
+                          <div className="flex items-center justify-between px-8 py-4 border-b border-[#222] bg-[#0D0D0D]">
+                            <span className="font-sans font-light text-[9px] uppercase tracking-[0.35em] text-[#F2541C]">05 — Color System</span>
+                            <span className="font-sans font-light text-[9px] uppercase tracking-[0.3em] text-[#F4F0E8]/20">Six colors, sequenced.</span>
+                          </div>
+                          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6">
+                            {project.brandGuide!.colors.map((color, i) => (
+                              <div key={i} className={`flex flex-col ${i < project.brandGuide!.colors.length - 1 ? "border-r border-[#222]" : ""}`}>
+                                <div className="w-full" style={{ backgroundColor: color.hex, height: 72 }} aria-hidden="true" />
+                                <div className="bg-[#0D0D0D] px-4 py-4 flex flex-col gap-1 flex-1">
+                                  <span className="font-sans font-semibold text-[10px] text-[#F4F0E8] uppercase tracking-[0.1em]">{color.name}</span>
+                                  <span className="font-mono text-[9px] text-[#F4F0E8]/40">{color.hex}</span>
+                                  <span className="font-sans font-light text-[9px] uppercase tracking-[0.2em] text-[#F2541C] mt-0.5">{color.role}</span>
+                                  {color.pantone && (
+                                    <span className="font-sans font-light text-[9px] text-[#F4F0E8]/22 mt-0.5">{color.pantone}</span>
+                                  )}
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+
+                        {/* ── 06 Typography ── */}
+                        <div className="border-b border-[#222]">
+                          <div className="flex items-center justify-between px-8 py-4 border-b border-[#222] bg-[#0D0D0D]">
+                            <span className="font-sans font-light text-[9px] uppercase tracking-[0.35em] text-[#F2541C]">06 — Typography</span>
+                            <span className="font-sans font-light text-[9px] uppercase tracking-[0.3em] text-[#F4F0E8]/20">Halyard Display + Inter</span>
+                          </div>
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-[#222]">
+                            <div className="bg-[#0D0D0D] px-8 py-8">
+                              <div className="font-sans font-light text-[9px] uppercase tracking-[0.3em] text-[#F4F0E8]/30 mb-5">Display / Headlines</div>
+                              <div className="font-serif font-black text-[#F4F0E8] leading-[0.88] mb-5 uppercase tracking-[-0.025em]" style={{ fontSize: "clamp(2.5rem,5vw,4rem)" }}>Aa.</div>
+                              <div className="flex flex-col gap-1.5">
+                                <div className="font-sans font-semibold text-sm text-[#F4F0E8]">{project.brandGuide!.display.family}</div>
+                                <div className="font-sans font-light text-[10px] text-[#F4F0E8]/40">Weights: {project.brandGuide!.display.weights}</div>
+                                <div className="font-sans font-light text-[10px] text-[#F4F0E8]/40">Tracking: {project.brandGuide!.display.tracking}</div>
+                                <div className="font-sans font-light text-[10px] text-[#F2541C]">Substitute: {project.brandGuide!.display.substitute}</div>
+                              </div>
+                            </div>
+                            <div className="bg-[#0D0D0D] px-8 py-8">
+                              <div className="font-sans font-light text-[9px] uppercase tracking-[0.3em] text-[#F4F0E8]/30 mb-5">Body & Scale</div>
+                              <div className="font-sans font-semibold text-sm text-[#F4F0E8] mb-1">{project.brandGuide!.body.family}</div>
+                              <div className="font-sans font-light text-[10px] text-[#F4F0E8]/40 mb-5">{project.brandGuide!.body.weights} · {project.brandGuide!.body.minSize}</div>
+                              <div className="border border-[#1a1a1a]">
+                                {project.brandGuide!.typeScale.map((row, i) => (
+                                  <div key={i} className={`flex items-center justify-between px-4 py-2 ${i < project.brandGuide!.typeScale.length - 1 ? "border-b border-[#1a1a1a]" : ""}`}>
+                                    <span className="font-sans font-light text-[9px] uppercase tracking-[0.2em] text-[#F4F0E8]/30 w-10">{row.label}</span>
+                                    <span className="font-mono text-[10px] text-[#F4F0E8]/45">{row.size}</span>
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* ── 02 The Mark ── */}
+                        <div className="border-b border-[#222]">
+                          <div className="flex items-center justify-between px-8 py-4 border-b border-[#222] bg-[#0D0D0D]">
+                            <span className="font-sans font-light text-[9px] uppercase tracking-[0.35em] text-[#F2541C]">02 — The Spark Mark</span>
+                            <span className="font-sans font-light text-[9px] uppercase tracking-[0.3em] text-[#F4F0E8]/20">A precision burst.</span>
+                          </div>
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-[#222]">
+                            <div className="bg-[#111315] flex items-center justify-center py-14 px-8">
+                              <svg viewBox="0 0 100 100" className="w-36 h-36 md:w-44 md:h-44" aria-label="Spark Pro mark — precision burst" role="img">
+                                <line x1="50" y1="50" x2="50" y2="10" stroke="#F2541C" strokeWidth="6" strokeLinecap="round"/>
+                                <line x1="50" y1="50" x2="50" y2="90" stroke="#F2541C" strokeWidth="6" strokeLinecap="round"/>
+                                <line x1="50" y1="50" x2="90" y2="50" stroke="#F2541C" strokeWidth="6" strokeLinecap="round"/>
+                                <line x1="50" y1="50" x2="10" y2="50" stroke="#F2541C" strokeWidth="6" strokeLinecap="round"/>
+                                <line x1="50" y1="50" x2="67" y2="33" stroke="#F2541C" strokeWidth="6" strokeLinecap="round"/>
+                                <line x1="50" y1="50" x2="67" y2="67" stroke="#F2541C" strokeWidth="6" strokeLinecap="round"/>
+                                <line x1="50" y1="50" x2="33" y2="67" stroke="#F2541C" strokeWidth="6" strokeLinecap="round"/>
+                                <line x1="50" y1="50" x2="33" y2="33" stroke="#F2541C" strokeWidth="6" strokeLinecap="round"/>
+                                <line x1="33" y1="33" x2="33" y2="43" stroke="#F2541C" strokeWidth="6" strokeLinecap="round"/>
+                                <line x1="33" y1="33" x2="43" y2="33" stroke="#F2541C" strokeWidth="6" strokeLinecap="round"/>
+                                <polygon points="50,45.5 54.5,50 50,54.5 45.5,50" fill="#F2541C"/>
+                              </svg>
+                            </div>
+                            <div className="bg-[#0D0D0D] px-8 py-8">
+                              <div className="font-sans font-light text-[9px] uppercase tracking-[0.3em] text-[#F4F0E8]/30 mb-5">Construction</div>
+                              <div className="border border-[#1a1a1a] mb-6">
+                                {project.brandGuide!.mark.specs.map((spec, i) => (
+                                  <div key={i} className={`flex items-center gap-4 px-4 py-2.5 ${i < project.brandGuide!.mark.specs.length - 1 ? "border-b border-[#1a1a1a]" : ""}`}>
+                                    <span className="font-mono text-[10px] text-[#F2541C] w-5 tabular-nums flex-shrink-0">{String(i + 1).padStart(2, "0")}</span>
+                                    <span className="font-sans font-light text-[11px] text-[#F4F0E8]/55">{spec}</span>
+                                  </div>
+                                ))}
+                              </div>
+                              <p className="font-sans font-light text-xs text-[#F4F0E8]/35 leading-relaxed">
+                                {project.brandGuide!.mark.meaning}
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* ── 03 Logo Variants ── */}
+                        <div className="border-b border-[#222]">
+                          <div className="flex items-center justify-between px-8 py-4 border-b border-[#222] bg-[#0D0D0D]">
+                            <span className="font-sans font-light text-[9px] uppercase tracking-[0.35em] text-[#F2541C]">03 — Logo Lockups</span>
+                            <span className="font-sans font-light text-[9px] uppercase tracking-[0.3em] text-[#F4F0E8]/20">Four system lockups.</span>
+                          </div>
+                          <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-[#222]">
+                            {project.brandGuide!.logoVariants.map((v, i) => (
+                              <div key={i} className="bg-[#0D0D0D] px-6 py-6 flex flex-col gap-2">
+                                <span className="font-mono text-[9px] text-[#F2541C]">SPS · {v.id}</span>
+                                <span className="font-sans font-semibold text-sm text-[#F4F0E8] uppercase tracking-[0.05em]">{v.name}</span>
+                                <span className="font-sans font-light text-[9px] uppercase tracking-[0.18em] text-[#F4F0E8]/30 mt-1">{v.use}</span>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+
+                        {/* ── 08 Pattern Library ── */}
+                        <div className="border-b border-[#222]">
+                          <div className="flex items-center justify-between px-8 py-4 border-b border-[#222] bg-[#0D0D0D]">
+                            <span className="font-sans font-light text-[9px] uppercase tracking-[0.35em] text-[#F2541C]">08 — Patterns & Texture</span>
+                            <span className="font-sans font-light text-[9px] uppercase tracking-[0.3em] text-[#F4F0E8]/20">Four marks of the work.</span>
+                          </div>
+                          <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-[#222]">
+                            {project.brandGuide!.patterns.map((pat, i) => {
+                              const bgStyles = [
+                                { backgroundImage: "radial-gradient(#F2541C 1.5px, transparent 1.5px)", backgroundSize: "8px 8px", backgroundColor: "#111315" },
+                                { backgroundImage: "linear-gradient(#1E3A5F 1px, transparent 1px), linear-gradient(90deg, #1E3A5F 1px, transparent 1px)", backgroundSize: "12px 12px", backgroundColor: "#0a1628" },
+                                { backgroundImage: "repeating-linear-gradient(45deg, #F2541C 0, #F2541C 4px, #111315 4px, #111315 14px)" },
+                                { backgroundImage: "radial-gradient(circle, #F2541C 1px, transparent 1px)", backgroundSize: "14px 14px", backgroundColor: "#F4F0E8" },
+                              ];
+                              return (
+                                <div key={i} className="bg-[#0D0D0D] flex flex-col">
+                                  <div className="h-20 w-full" style={bgStyles[i]} aria-hidden="true" />
+                                  <div className="px-5 py-5 flex flex-col gap-1.5 border-t border-[#222]">
+                                    <span className="font-mono text-[9px] text-[#F2541C]">{pat.id}</span>
+                                    <span className="font-sans font-semibold text-[11px] text-[#F4F0E8] uppercase tracking-[0.05em]">{pat.name}</span>
+                                    <span className="font-sans font-light text-[9px] uppercase tracking-[0.2em] text-[#F4F0E8]/30">{pat.use}</span>
+                                  </div>
+                                </div>
+                              );
+                            })}
+                          </div>
+                        </div>
+
+                        {/* ── 09 Photography ── */}
+                        <div className="border-b border-[#222]">
+                          <div className="flex items-center justify-between px-8 py-4 border-b border-[#222] bg-[#0D0D0D]">
+                            <span className="font-sans font-light text-[9px] uppercase tracking-[0.35em] text-[#F2541C]">09 — Photography Direction</span>
+                            <span className="font-sans font-light text-[9px] uppercase tracking-[0.3em] text-[#F4F0E8]/20">Real work. Real light.</span>
+                          </div>
+                          <div className="bg-[#0D0D0D] px-8 py-7">
+                            <p className="font-sans font-light text-sm text-[#F4F0E8]/50 leading-relaxed max-w-xl">
+                              {project.brandGuide!.photography}
+                            </p>
+                          </div>
+                        </div>
+
+                        {/* ── 11 Applications ── */}
+                        <div>
+                          <div className="flex items-center justify-between px-8 py-4 border-b border-[#222] bg-[#0D0D0D]">
+                            <span className="font-sans font-light text-[9px] uppercase tracking-[0.35em] text-[#F2541C]">11 — Applications</span>
+                            <span className="font-sans font-light text-[9px] uppercase tracking-[0.3em] text-[#F4F0E8]/20">The system, in hand.</span>
+                          </div>
+                          <div className="bg-[#0D0D0D] px-8 py-7">
+                            <div className="flex flex-wrap gap-2">
+                              {project.brandGuide!.applications.map((app, i) => (
+                                <span key={i} className="font-sans font-light text-[10px] uppercase tracking-[0.2em] text-[#F4F0E8]/45 border border-[#1f1f1f] px-4 py-2">
+                                  {app}
+                                </span>
+                              ))}
+                            </div>
+                          </div>
+                        </div>
+
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            )}
+
             {project.deviceMockup ? (
-              /* ── Device mockup — live app in premium frames ── */
               <div className="pb-16">
+
+                {/* ── Project intro ── */}
+                {project.presentation && (
+                  <div style={{ borderBottom: "1px solid #111", padding: "32px 48px 28px", background: "#050505" }}>
+                    <div style={{ fontFamily: "sans-serif", fontSize: 9, letterSpacing: "0.35em", textTransform: "uppercase", color: "#FF4D00", marginBottom: 16 }}>
+                      {project.presentation.label}
+                    </div>
+                    <div style={{ fontFamily: "serif", fontWeight: 900, fontSize: "clamp(1.6rem,3.5vw,2.8rem)", color: "#F5F0E8", lineHeight: 1.05, letterSpacing: "-0.02em", maxWidth: 600, marginBottom: 28 }}>
+                      {project.presentation.tagline}
+                    </div>
+                    <div style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", borderTop: "1px solid #1a1a1a", borderLeft: "1px solid #1a1a1a" }}>
+                      {project.presentation.stats.map((stat, i) => (
+                        <div key={i} style={{ borderRight: "1px solid #1a1a1a", borderBottom: "1px solid #1a1a1a", padding: "16px 20px" }}>
+                          <div style={{ fontFamily: "serif", fontWeight: 700, fontSize: "1.5rem", color: "#F5F0E8", lineHeight: 1 }}>{stat.value}</div>
+                          <div style={{ fontFamily: "sans-serif", fontWeight: 300, fontSize: 9, letterSpacing: "0.2em", textTransform: "uppercase", color: "rgba(245,240,232,0.35)", marginTop: 6 }}>{stat.label}</div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* ── Feature highlights ── */}
+                {project.presentation && (
+                  <div style={{ borderBottom: "1px solid #111", display: "grid", gridTemplateColumns: "repeat(2,1fr)", borderLeft: "1px solid #111", background: "#030303" }}>
+                    {project.presentation.features.map((feat, i) => (
+                      <div key={i} style={{
+                        borderRight: i % 2 === 0 ? "1px solid #111" : "none",
+                        borderBottom: "1px solid #111",
+                        padding: "24px 28px",
+                      }}>
+                        <div style={{ fontFamily: "sans-serif", fontWeight: 600, fontSize: 9, letterSpacing: "0.25em", textTransform: "uppercase", color: "rgba(245,240,232,0.22)", marginBottom: 8 }}>{feat.label}</div>
+                        <div style={{ fontFamily: "serif", fontWeight: 700, fontSize: "1rem", color: "#F5F0E8", marginBottom: 8, lineHeight: 1.3 }}>{feat.sub}</div>
+                        <div style={{ fontFamily: "sans-serif", fontWeight: 300, fontSize: 12, color: "rgba(245,240,232,0.4)", lineHeight: 1.65 }}>{feat.desc}</div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+
                 {/* ── Premium device stage ── */}
                 <div style={{
                   background: "#050505",
@@ -305,16 +600,13 @@ function CarouselModal({
                   position: "relative",
                   overflow: "hidden",
                 }}>
-                  {/* Warm radial glow — Meridian brand color */}
                   <div aria-hidden="true" style={{
                     position: "absolute", inset: 0, pointerEvents: "none",
                     background: "radial-gradient(ellipse 70% 55% at 45% 0%, rgba(251,250,246,0.05) 0%, transparent 70%)",
                   }} />
 
-                  {/* ── Desktop layout ── */}
+                  {/* Desktop layout */}
                   <div className="hidden lg:flex items-start justify-center" style={{ gap: 0, position: "relative" }}>
-
-                    {/* Browser / laptop */}
                     <div style={{ flexShrink: 0, position: "relative", zIndex: 1 }}>
                       <div style={{
                         width: 760,
@@ -324,21 +616,16 @@ function CarouselModal({
                         overflow: "hidden",
                         boxShadow: "0 0 0 1px rgba(0,0,0,0.8), 0 40px 100px rgba(0,0,0,0.9), 0 12px 40px rgba(0,0,0,0.6)",
                       }}>
-                        {/* macOS chrome bar */}
                         <div style={{
                           height: 38, background: "#161616",
                           borderBottom: "1px solid rgba(255,255,255,0.05)",
                           display: "flex", alignItems: "center",
                           padding: "0 16px", gap: 8, flexShrink: 0,
                         }}>
-                          {/* Real macOS traffic lights */}
                           <div style={{ width: 12, height: 12, borderRadius: "50%", background: "#FF5F57", boxShadow: "0 0 0 0.5px rgba(0,0,0,0.3)" }} />
                           <div style={{ width: 12, height: 12, borderRadius: "50%", background: "#FEBC2E", boxShadow: "0 0 0 0.5px rgba(0,0,0,0.3)" }} />
                           <div style={{ width: 12, height: 12, borderRadius: "50%", background: "#28C840", boxShadow: "0 0 0 0.5px rgba(0,0,0,0.3)" }} />
-                          {/* URL bar */}
-                          <div style={{
-                            flex: 1, display: "flex", alignItems: "center", justifyContent: "center",
-                          }}>
+                          <div style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center" }}>
                             <div style={{
                               background: "#0e0e0e",
                               border: "1px solid rgba(255,255,255,0.06)",
@@ -348,33 +635,22 @@ function CarouselModal({
                               fontSize: 11, color: "#444",
                               letterSpacing: "0.01em",
                               minWidth: 180, textAlign: "center",
-                            }}>
-                              🔒 meridian.app
-                            </div>
+                            }}>🔒 {project.presentation?.domain ?? project.name.toLowerCase().replace(/\s/g, "") + ".com"}</div>
                           </div>
                           <div style={{ width: 60 }} />
                         </div>
-                        {/* Screen — 1280px scaled to 760px = 0.59375 */}
                         <div style={{ overflow: "hidden", height: 474, position: "relative", boxShadow: "inset 0 1px 0 rgba(0,0,0,0.5)" }}>
                           <iframe
-                            src="/meridian/index.html"
-                            title="Meridian — live desktop"
-                            style={{
-                              width: 1280, height: 800, border: "none",
-                              transform: "scale(0.59375)",
-                              transformOrigin: "top left",
-                              display: "block", pointerEvents: "none",
-                            }}
+                            src={project.liveUrl}
+                            title={`${project.name} — live desktop`}
+                            style={{ width: 1280, height: 800, border: "none", transform: "scale(0.59375)", transformOrigin: "top left", display: "block", pointerEvents: "none" }}
                             loading="lazy"
                           />
                         </div>
                       </div>
                       <p style={{ fontFamily: "sans-serif", fontSize: 10, letterSpacing: "0.14em", textTransform: "uppercase", color: "rgba(245,240,232,0.18)", marginTop: 14, textAlign: "center" }}>Desktop</p>
                     </div>
-
-                    {/* Phone — offset right, slightly overlapping, lower */}
                     <div style={{ flexShrink: 0, marginTop: 48, marginLeft: -32, position: "relative", zIndex: 2 }}>
-                      {/* Outer ring */}
                       <div style={{
                         width: 248,
                         background: "linear-gradient(145deg,#1c1c1e,#0a0a0a)",
@@ -383,28 +659,18 @@ function CarouselModal({
                         padding: "12px 12px 22px",
                         boxShadow: "0 0 0 1px rgba(0,0,0,0.9), inset 0 0 0 1px rgba(255,255,255,0.04), 0 40px 100px rgba(0,0,0,0.95), 0 12px 32px rgba(0,0,0,0.7)",
                       }}>
-                        {/* Screen with dynamic island inside */}
                         <div style={{ borderRadius: 38, overflow: "hidden", height: 492, background: "#FBFAF6", position: "relative" }}>
-                          {/* 390px scaled to 224px = 0.5744 */}
                           <iframe
-                            src="/meridian/index.html"
-                            title="Meridian — live mobile"
-                            style={{
-                              width: 390, height: 844, border: "none",
-                              transform: "scale(0.5744)",
-                              transformOrigin: "top left",
-                              display: "block", pointerEvents: "none",
-                            }}
+                            src={project.liveUrl}
+                            title={`${project.name} — live mobile`}
+                            style={{ width: 390, height: 844, border: "none", transform: "scale(0.5744)", transformOrigin: "top left", display: "block", pointerEvents: "none" }}
                             loading="lazy"
                           />
-                          {/* Dynamic island overlay */}
                           <div aria-hidden="true" style={{
                             position: "absolute", top: 14, left: "50%",
                             transform: "translateX(-50%)",
                             width: 94, height: 11,
-                            background: "#000",
-                            borderRadius: 99,
-                            zIndex: 10,
+                            background: "#000", borderRadius: 99, zIndex: 10,
                           }} />
                         </div>
                       </div>
@@ -412,16 +678,13 @@ function CarouselModal({
                     </div>
                   </div>
 
-                  {/* ── Mobile layout — stacked ── */}
+                  {/* Mobile layout */}
                   <div className="flex lg:hidden flex-col items-center gap-8">
-                    {/* Mini browser */}
                     <div style={{ width: "100%", maxWidth: 340 }}>
                       <div style={{
                         border: "1px solid rgba(255,255,255,0.07)",
-                        borderRadius: 8,
-                        background: "#0c0c0c",
-                        overflow: "hidden",
-                        boxShadow: "0 24px 64px rgba(0,0,0,0.9)",
+                        borderRadius: 8, background: "#0c0c0c",
+                        overflow: "hidden", boxShadow: "0 24px 64px rgba(0,0,0,0.9)",
                       }}>
                         <div style={{
                           height: 32, background: "#161616",
@@ -438,54 +701,35 @@ function CarouselModal({
                             fontSize: 10, color: "#3a3a3a",
                             background: "#0e0e0e",
                             border: "1px solid rgba(255,255,255,0.05)",
-                            borderRadius: 4,
-                            padding: "2px 8px", margin: "0 10px",
-                          }}>
-                            🔒 meridian.app
-                          </div>
+                            borderRadius: 4, padding: "2px 8px", margin: "0 10px",
+                          }}>🔒 {project.presentation?.domain ?? project.name.toLowerCase().replace(/\s/g, "") + ".com"}</div>
                         </div>
-                        {/* 1280 → 340px = scale 0.265625 */}
                         <div style={{ overflow: "hidden", height: 212, position: "relative" }}>
                           <iframe
-                            src="/meridian/index.html"
-                            title="Meridian — desktop preview"
-                            style={{
-                              width: 1280, height: 800, border: "none",
-                              transform: "scale(0.265625)",
-                              transformOrigin: "top left",
-                              display: "block", pointerEvents: "none",
-                            }}
+                            src={project.liveUrl}
+                            title={`${project.name} — desktop preview`}
+                            style={{ width: 1280, height: 800, border: "none", transform: "scale(0.265625)", transformOrigin: "top left", display: "block", pointerEvents: "none" }}
                             loading="lazy"
                           />
                         </div>
                       </div>
                       <p style={{ fontFamily: "sans-serif", fontSize: 10, letterSpacing: "0.14em", textTransform: "uppercase", color: "rgba(245,240,232,0.18)", marginTop: 10, textAlign: "center" }}>Desktop</p>
                     </div>
-
-                    {/* Phone */}
                     <div>
                       <div style={{
                         width: 230,
                         background: "linear-gradient(145deg,#1c1c1e,#0a0a0a)",
                         border: "1px solid rgba(255,255,255,0.09)",
-                        borderRadius: 46,
-                        padding: "11px 11px 20px",
+                        borderRadius: 46, padding: "11px 11px 20px",
                         boxShadow: "0 0 0 1px rgba(0,0,0,0.9), inset 0 0 0 1px rgba(255,255,255,0.04), 0 32px 80px rgba(0,0,0,0.95)",
                       }}>
                         <div style={{ borderRadius: 34, overflow: "hidden", height: 454, background: "#FBFAF6", position: "relative" }}>
-                          {/* 390px scaled to 208px = 0.5333 */}
                           <iframe
-                            src="/meridian/index.html"
-                            title="Meridian — live mobile"
-                            style={{
-                              width: 390, height: 844, border: "none",
-                              transform: "scale(0.5333)",
-                              transformOrigin: "top left",
-                              display: "block", pointerEvents: "none",
-                            }}
+                            src={project.liveUrl}
+                            title={`${project.name} — live mobile`}
+                            style={{ width: 390, height: 844, border: "none", transform: "scale(0.5333)", transformOrigin: "top left", display: "block", pointerEvents: "none" }}
                             loading="lazy"
                           />
-                          {/* Dynamic island */}
                           <div aria-hidden="true" style={{
                             position: "absolute", top: 13, left: "50%",
                             transform: "translateX(-50%)",
@@ -499,10 +743,27 @@ function CarouselModal({
                   </div>
                 </div>
 
+                {/* ── Design system strip ── */}
+                {project.presentation?.tokens && project.presentation.tokens.length > 0 && (
+                  <div style={{ borderBottom: "1px solid #111", display: "grid", gridTemplateColumns: `repeat(${project.presentation.tokens.length},1fr)`, background: "#050505", borderLeft: "1px solid #111" }}>
+                    {project.presentation.tokens.map((t, i) => (
+                      <div key={i} style={{
+                        borderRight: i < project.presentation!.tokens!.length - 1 ? "1px solid #111" : "none",
+                        borderBottom: "1px solid #111",
+                        padding: "20px 24px",
+                      }}>
+                        <div style={{ fontFamily: "sans-serif", fontSize: 9, letterSpacing: "0.3em", textTransform: "uppercase", color: "rgba(245,240,232,0.25)", marginBottom: 10 }}>{t.role}</div>
+                        <div style={{ ...t.sampleStyle, color: "#F5F0E8", marginBottom: 8 }}>{t.sample}</div>
+                        <div style={{ fontFamily: "sans-serif", fontSize: 9, color: "rgba(245,240,232,0.2)", letterSpacing: "0.05em" }}>{t.family}</div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+
                 {/* Bottom row — tags + CTA */}
                 <div className="flex flex-wrap items-center justify-between gap-4 px-6 md:px-14 pt-5">
                   <div className="flex flex-wrap gap-2">
-                    {["Product Design", "UI / UX", "Front-End Dev", "Fintech"].map(tag => (
+                    {(project.presentation?.tags ?? []).map(tag => (
                       <span key={tag} style={{
                         fontFamily: "sans-serif", fontSize: 10,
                         letterSpacing: "0.15em", textTransform: "uppercase",
@@ -520,7 +781,7 @@ function CarouselModal({
                       style={{ cursor: "none" }}
                       className="inline-flex items-center gap-2 bg-[#FF4D00] text-black font-sans font-semibold text-[11px] uppercase tracking-[0.2em] px-5 py-3 hover:opacity-90 transition-opacity duration-200 flex-shrink-0"
                     >
-                      <span>View Live App</span>
+                      <span>View Live</span>
                       <span aria-hidden="true" className="text-base font-bold leading-none">↗</span>
                     </a>
                   )}
@@ -613,7 +874,7 @@ function CarouselModal({
         {projects.map((p, i) => (
           <button
             key={i}
-            onClick={() => { setDirection(i > currentIndex ? 1 : -1); setCurrentIndex(i); setLightboxIndex(null); setCaseStudyOpen(false); }}
+            onClick={() => { setDirection(i > currentIndex ? 1 : -1); setCurrentIndex(i); setLightboxIndex(null); setCaseStudyOpen(false); setBrandGuideOpen(false); }}
             aria-label={`Go to ${p.name}`}
             aria-current={i === currentIndex ? "true" : undefined}
             className={`h-[3px] transition-all duration-300 ${i === currentIndex ? "w-6 bg-[#FF4D00]" : "w-[6px] bg-[#2a2a2a] hover:bg-[#555]"}`}
@@ -1131,7 +1392,7 @@ function Home() {
       nameColor: "#fff",
       clientColor: "rgba(255,255,255,0.7)",
       desc: "Construction company full rebrand — logo, web, apparel, signage",
-      images: ["/spark-1.png", "/spark-2.png", "/spark-3.png", "/spark-4.png", "/spark-5.png", "/spark-6.png"],
+      images: ["/spark-1.png", "/spark-2.png", "/spark-3.png", "/spark-4.png", "/spark-5.png", "/spark-6.png", "/spark-7.png", "/spark-8.png"],
       caseStudy: {
         stats: [
           { value: "6+", label: "Brand Deliverables" },
@@ -1140,6 +1401,72 @@ function Home() {
         ],
         challenge: "Spark Pro Services had been operating for years under a forgettable name with no real visual identity. They were losing bids to competitors who simply looked more established and professional — not because of the quality of their work, but because their brand didn't reflect it. They needed a full rebrand that communicated trust, strength, and capability across every touchpoint: proposals, job site apparel, signage, and digital.",
         approach: "I built the identity around tension: raw industrial energy meets precision craft. The name 'Spark' gave me an immediate visual direction — fire, ignition, momentum. I chose a high-contrast palette anchored in bold orange-red paired with heavy condensed type that commands authority whether it's on a work truck or a contract PDF. Every asset — logo, web layout, work shirts, signage — was designed to make them look like the most established contractor in the room before they say a word.",
+      },
+      brandGuide: {
+        manifesto: "Built on Precision.",
+        manifestoSub: "Engineered for Performance.",
+        manifestoBody: "Spark Pro is a Cincinnati construction company that treats every project like it carries our name — because it does. From preconstruction to closeout, we plan tightly, build cleanly, and finish ahead. The work outlasts the handshake.",
+        pillars: [
+          "01  Precision in the plan.",
+          "02  Discipline on the site.",
+          "03  Performance you can stand on.",
+        ],
+        colors: [
+          { name: "Reddish Orange", hex: "#F2541C", role: "Hero · 70%",   pantone: "Orange 021 C" },
+          { name: "Graphite",       hex: "#111315", role: "Anchor",        pantone: "Black 6 C" },
+          { name: "Cream",          hex: "#F4F0E8", role: "Paper",         pantone: "Warm Gray 1" },
+          { name: "Dark Jungle",    hex: "#202928", role: "Frame" },
+          { name: "Gunsmoke",       hex: "#7C8788", role: "Utility" },
+          { name: "Platinum",       hex: "#E4E4E4", role: "Background",    pantone: "Cool Gray 1 C" },
+        ],
+        display: {
+          family: "Halyard Display",
+          weights: "500 · 600 · 800 · 900",
+          tracking: "−2.5% at 60px+",
+          substitute: "Archivo (open source)",
+        },
+        body: {
+          family: "Inter",
+          weights: "400 / 500 / 600",
+          minSize: "11px min",
+        },
+        typeScale: [
+          { label: "H1",    size: "84 / 88" },
+          { label: "H2",    size: "56 / 60" },
+          { label: "H3",    size: "36 / 42" },
+          { label: "H4",    size: "24 / 30" },
+          { label: "Body",  size: "16 / 24" },
+          { label: "Small", size: "13 / 18" },
+          { label: "Mono",  size: "11 / 16" },
+        ],
+        mark: {
+          specs: [
+            "Grid  10×10 X",
+            "Cardinal  4X length",
+            "Diagonal  2.4X length",
+            "Leader  NW arrow · 1X arms",
+            "Stroke  0.65X round",
+            "Center  0.9×0.9 ♦",
+          ],
+          meaning: "The square at center is a surveyor's mark — where every project starts. The rays are the spark that gets it built. The leader arrow points the way forward.",
+        },
+        patterns: [
+          { id: "P/01", name: "Halftone Burst",  use: "Hero Accent" },
+          { id: "P/02", name: "Blueprint Grid",  use: "Technical Surfaces" },
+          { id: "P/03", name: "Hazard Diagonal", use: "Edges & Signage" },
+          { id: "P/04", name: "Spark Field",     use: "Light Surfaces" },
+        ],
+        photography: "Golden hour preferred · No stock imagery · Subjects: site, structure, hands · Real work. Real light.",
+        logoVariants: [
+          { id: "01", name: "Stacked",     use: "Default / Primary" },
+          { id: "02", name: "Horizontal",  use: "Headers & Banners" },
+          { id: "03", name: "Mark Only",   use: "Icon / Favicon" },
+          { id: "04", name: "Single Line", use: "Tight Horizontals" },
+        ],
+        applications: [
+          "Business Card", "Letterhead", "Envelope", "Hard Hat",
+          "Site Fence Banner 8×4ft", "Vehicle Livery", "Highway Billboard 14×48ft",
+        ],
       },
     },
     {
@@ -1153,6 +1480,29 @@ function Home() {
       desc: "Meridian is a fintech web app for high-income professionals — full product design and front-end development. Dashboard, portfolio, markets, goals, and an AI advisor all in one editorial interface.",
       deviceMockup: true,
       liveUrl: "/meridian/index.html",
+      presentation: {
+        label: "Product Design · UI / UX · Front-End Development",
+        tagline: "Wealth management that doesn't feel like work.",
+        domain: "meridian.app",
+        stats: [
+          { value: "0→1",  label: "Built from Scratch" },
+          { value: "5",    label: "Core Screens" },
+          { value: "2",    label: "Themes" },
+          { value: "100%", label: "Custom Built" },
+        ],
+        features: [
+          { label: "Dashboard",  sub: "Net worth at a glance",           desc: "One chart. One number. The information that actually matters, front and center." },
+          { label: "AI Advisor", sub: "Marisol — your financial partner", desc: "Intelligent guidance built into the interface — always contextual, never interruptive." },
+          { label: "Portfolio",  sub: "Asset breakdown + performance",    desc: "Scannable allocation view with return data and live chart animations." },
+          { label: "Dual Theme", sub: "Light & dark mode",                desc: "Full adaptive color system — every surface, component, and state covered in both modes." },
+        ],
+        tokens: [
+          { role: "Headings",  sample: "Meridian",   family: "Instrument Serif",  sampleStyle: { fontFamily: "'Georgia',serif", fontStyle: "italic", fontSize: "1.5rem", fontWeight: 400 } },
+          { role: "Interface", sample: "Dashboard",  family: "Onest",              sampleStyle: { fontFamily: "system-ui,sans-serif", fontSize: "1.2rem", fontWeight: 700, letterSpacing: "-0.01em" } },
+          { role: "Numbers",   sample: "$1,284,350", family: "JetBrains Mono",     sampleStyle: { fontFamily: "'Courier New',monospace", fontSize: "1rem", fontWeight: 400, letterSpacing: "0.02em" } },
+        ],
+        tags: ["Product Design", "UI / UX", "Front-End Dev", "Fintech"],
+      },
       caseStudy: {
         stats: [
           { value: "0→1", label: "Built from Scratch" },
@@ -1162,6 +1512,46 @@ function Home() {
         ],
         challenge: "Most financial apps treat data like a spreadsheet — dense, cold, and anxiety-inducing. High-income professionals don't need more data; they need clarity. The challenge was designing a fintech interface that felt editorial and calm rather than overwhelming — one that surfaces the right information at the right moment without making wealth management feel like a second job.",
         approach: "I built Meridian around the idea that a great financial interface should feel more like a well-designed magazine than a Bloomberg terminal. Instrument Serif for headings, Onest for UI, and JetBrains Mono for numbers created a typographic hierarchy that's instantly scannable. The dashboard leads with net worth and a single chart — everything else is a layer deeper. Light and dark themes, a living AI advisor panel named Marisol, and animated micro-interactions throughout make the app feel alive without being distracting.",
+      },
+    },
+    {
+      name: "Vigo MD",
+      client: "Vigo MD",
+      category: "UI / UX · Conversion Design",
+      bg: "#1a3d2c",
+      labelColor: "#c9932a",
+      nameColor: "#faf8f5",
+      clientColor: "rgba(250,248,245,0.55)",
+      desc: "A high-converting checkout experience for Vigo MD's V3 men's telehealth product — designed to guide qualified patients from diagnosis to purchase with trust, urgency, and clarity at every step.",
+      deviceMockup: true,
+      liveUrl: "/vigo-md/index.html",
+      presentation: {
+        label: "UI / UX · Conversion Design · Telehealth",
+        tagline: "From diagnosis to checkout in under 60 seconds.",
+        domain: "vigomd.com",
+        stats: [
+          { value: "1-page",  label: "Checkout Flow" },
+          { value: "V3",      label: "Product Generation" },
+          { value: "Trust",   label: "First Principle" },
+          { value: "CRO",     label: "Design Focus" },
+        ],
+        features: [
+          { label: "Qualification",  sub: "You qualified — now what?",         desc: "Opens on a congratulatory frame that converts anxiety into momentum. The patient already knows they're a fit." },
+          { label: "Proof System",   sub: "Comparison charts + social proof",  desc: "Side-by-side bar charts, testimonials, and real patient stats do the persuasion work before the CTA." },
+          { label: "Trust Layer",    sub: "Guarantee + coverage transparency",  desc: "HSA/FSA eligibility, 30-day money-back guarantee, and provider-reviewed badge anchor the close." },
+          { label: "Checkout Form",  sub: "Frictionless single-page purchase", desc: "Sticky CTA, countdown timer, and inline form — engineered to remove every exit point between decision and completion." },
+        ],
+        tags: ["UI / UX", "Conversion Design", "Telehealth", "CRO", "Product Page"],
+      },
+      caseStudy: {
+        stats: [
+          { value: "1-pg",  label: "Checkout Flow" },
+          { value: "CRO",   label: "Primary Objective" },
+          { value: "V3",    label: "Product Version" },
+          { value: "HSA",   label: "Payment Eligible" },
+        ],
+        challenge: "Telehealth checkout is uniquely hard. Patients arrive skeptical, insurance situations are murky, and the product requires trust in a brand they've never heard of. Vigo MD needed a checkout page that could carry a qualified lead all the way to purchase — without a sales rep, without a phone call, and without losing them to doubt halfway through the form.",
+        approach: "I designed the V3 checkout as a linear trust-building sequence rather than a traditional product page. The flow opens with a qualification confirmation ('You qualified') to reaffirm the patient's decision before asking anything of them. Comparison charts and real outcome data handle objection removal. A sticky CTA with countdown timer creates urgency without pressure. The checkout form is embedded inline — no redirects, no new tabs — so the momentum built across the page converts directly into a completed purchase.",
       },
     },
     {
@@ -1254,31 +1644,6 @@ function Home() {
         challenge: "Aware Coffee was launching from zero — no existing brand equity, no visual language, just a name, a product, and the ambition to compete in a specialty coffee market full of established, well-funded brands. They needed to look premium and intentional on Instagram from day one, build enough credibility to justify their price point, and do it all without an agency budget.",
         approach: "I made restraint the strategy. Clean off-white backgrounds, minimal type, and a single warm accent used sparingly — nothing that would date the brand or distract from the product. 'Aware' pushed me toward clarity and mindfulness, so I stripped anything decorative. The cup mockups were styled to feel editorial rather than promotional — the kind of content that performs whether someone's scrolling at 7am or seeing it on a shelf. Every asset was built to work across feed posts, stories, and print without modification.",
       },
-    },
-    {
-      name: "Non-Profits",
-      client: "Churches & Non-Profits",
-      category: "Event Design / Sermon Series",
-      bg: "#0f1f3d",
-      labelColor: "#FF4D00",
-      nameColor: "#fff",
-      clientColor: "rgba(255,255,255,0.5)",
-      desc: "Sermon series, event graphics, and campaign visuals for churches and non-profit organizations.",
-      caseStudy: {
-        stats: [
-          { value: "14+", label: "Graphics Delivered" },
-          { value: "10+", label: "Orgs Served" },
-          { value: "4 yrs", label: "Ongoing Work" },
-        ],
-        challenge: "Churches and non-profits operate on some of the tightest budgets in any sector, yet they have among the most ambitious communication goals — inspire, inform, and mobilize communities, often on a weekly cadence with zero room for missed deadlines. Each sermon series or fundraising campaign requires its own distinct visual world that feels fresh and purposeful, while remaining cohesive with the organization's existing identity.",
-        approach: "I treated every series like a short-run editorial campaign rather than a templated graphic job. Each project got its own unique typographic system, color palette, and graphic language built around the theme — so every launch felt like a real event worth attending, not recycled artwork with swapped text. Over 4 years and 10+ organizations, I've developed a process that delivers fast without cutting corners on craft — because communities deserve design that takes them seriously.",
-      },
-      images: [
-        "/np-1.png", "/np-2.png", "/np-3.png", "/np-4.png",
-        "/np-5.png", "/np-6.png", "/np-7.png", "/np-8.png",
-        "/np-9.png", "/np-10.png", "/np-11.png", "/np-12.png",
-        "/np-13.png", "/np-14.png"
-      ],
     },
   ];
 
