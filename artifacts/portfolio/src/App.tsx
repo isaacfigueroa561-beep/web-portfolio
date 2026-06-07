@@ -64,6 +64,26 @@ type Project = {
   };
 };
 
+function CopyEmail({ email }: { email: string }) {
+  const [copied, setCopied] = useState(false);
+  const handleClick = () => {
+    navigator.clipboard.writeText(email).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    });
+  };
+  return (
+    <button
+      onClick={handleClick}
+      style={{ cursor: "none" }}
+      className="hover:text-[#F5F0E8] transition-colors relative"
+      data-testid="link-email"
+    >
+      {copied ? <span className="text-[#FF4D00]">Copied ✓</span> : email}
+    </button>
+  );
+}
+
 function CustomCursor() {
   const cursorRef = useRef<HTMLDivElement>(null);
 
@@ -1014,7 +1034,8 @@ function ContactFormModal({ onClose }: { onClose: () => void }) {
       );
       setSent(true);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Something went wrong.");
+      console.error("EmailJS error:", err);
+      setError(err instanceof Error ? err.message : typeof err === "object" ? JSON.stringify(err) : "Something went wrong. Please email me directly at isaacfigueroa561@gmail.com");
     } finally {
       setSubmitting(false);
     }
@@ -2259,7 +2280,7 @@ function Home() {
             </div>
 
             <div className="flex flex-wrap gap-8 font-sans font-light text-xs text-muted-foreground tracking-wide rounded-none">
-              <a href="mailto:isaacfigueroa561@gmail.com" className="hover:text-[#F5F0E8] transition-colors" data-testid="link-email">isaacfigueroa561@gmail.com</a>
+              <CopyEmail email="isaacfigueroa561@gmail.com" />
               <a href="tel:+17027880115" className="hover:text-[#F5F0E8] transition-colors" data-testid="link-phone">+1 (702) 788-0115</a>
               <span>English / Spanish</span>
             </div>
