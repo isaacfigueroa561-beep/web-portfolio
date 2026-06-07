@@ -2280,7 +2280,7 @@ function Home() {
             </div>
 
             <div className="flex flex-wrap gap-8 font-sans font-light text-xs text-muted-foreground tracking-wide rounded-none">
-              <CopyEmail email="isaacfigueroa561@gmail.com" />
+              <button onClick={() => setContactFormOpen(true)} style={{ cursor: "none" }} className="hover:text-[#F5F0E8] transition-colors" data-testid="link-email">isaacfigueroa561@gmail.com</button>
               <a href="tel:+17027880115" className="hover:text-[#F5F0E8] transition-colors" data-testid="link-phone">+1 (702) 788-0115</a>
               <span>English / Spanish</span>
             </div>
