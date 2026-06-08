@@ -5,7 +5,9 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/not-found";
 import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
-const WEB3FORMS_KEY = "f9cc7955-7942-48e2-a3c9-ed068cc95923";
+const EMAILJS_SERVICE_ID = "service_9rt3v18";
+const EMAILJS_TEMPLATE_ID = "template_aarotet";
+const EMAILJS_PUBLIC_KEY = "PXmfoyxFDt9znE4qR";
 
 const queryClient = new QueryClient();
 
@@ -1010,19 +1012,19 @@ function ContactFormModal({ onClose }: { onClose: () => void }) {
         budget ? `Budget: ${budget}` : null,
         form.company ? `Company: ${form.company}` : null,
       ].filter(Boolean);
-      const res = await fetch("https://api.web3forms.com/submit", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          access_key: WEB3FORMS_KEY,
-          name: form.name,
-          email: form.email,
-          subject: `Portfolio inquiry from ${form.name}`,
-          message: `${projectParts.length ? `Services: ${projectParts.join(" · ")}\n\n` : ""}${form.message}`,
-        }),
-      });
-      const data = await res.json();
-      if (!data.success) throw new Error(data.message ?? "Submission failed.");
+      await import("@emailjs/browser").then(({ default: emailjs }) =>
+        emailjs.send(
+          EMAILJS_SERVICE_ID,
+          EMAILJS_TEMPLATE_ID,
+          {
+            from_name: form.name,
+            from_email: form.email,
+            project: projectParts.join(" · ") || "Not specified",
+            message: form.message,
+          },
+          EMAILJS_PUBLIC_KEY,
+        )
+      );
       setSent(true);
     } catch (err) {
       console.error("EmailJS error:", err);
