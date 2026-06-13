@@ -23,6 +23,7 @@ type Project = {
   deviceMockup?: boolean;
   scrollGallery?: boolean;
   pdfLinks?: { label: string; url: string }[];
+  hideBrandGuide?: boolean;
   liveUrl?: string;
   caseStudy?: {
     challenge: string;
@@ -332,7 +333,7 @@ function CarouselModal({
             )}
 
             {/* ── Brand Guide ── */}
-            {project.brandGuide && (
+            {project.brandGuide && !project.hideBrandGuide && (
               <div className="px-14 md:px-24 pb-2 mt-1">
                 <button
                   onClick={() => setBrandGuideOpen(o => !o)}
@@ -860,7 +861,7 @@ function CarouselModal({
               ) : project.scrollGallery ? (
                 /* Full-width vertical scroll — brand guides, documents */
                 <div className="flex flex-col pb-16" style={{ gap: 2 }}>
-                  {imgs.map((src, i) => (
+                  {imgs.slice(1).map((src, i) => (
                     <button
                       key={i}
                       onClick={() => setLightboxIndex(i)}
@@ -1544,11 +1545,9 @@ function Home() {
       nameColor: "#FAF7F1",
       clientColor: "rgba(250,247,241,0.55)",
       desc: "Residential painting company full rebrand — logo, brand system, color palette, typography, signage, and print collateral.",
-      images: ["/ppp-1.png"],
-      pdfLinks: [
-        { label: "Brand Guide", url: "/ppp-brand-guide.pdf" },
-        { label: "Ad Strategy", url: "/ppp-ad-strategy.pdf" },
-      ],
+      images: ["/ppp-1.png", "/ppp-ads-01.png", "/ppp-ads-02.png", "/ppp-ads-03.png", "/ppp-ads-04.png", "/ppp-ads-05.png", "/ppp-ads-06.png", "/ppp-ads-07.png", "/ppp-ads-08.png", "/ppp-ads-09.png", "/ppp-ads-10.png", "/ppp-ads-11.png"],
+      scrollGallery: true,
+      hideBrandGuide: true,
       caseStudy: {
         stats: [
           { value: "6+", label: "Brand Deliverables" },
