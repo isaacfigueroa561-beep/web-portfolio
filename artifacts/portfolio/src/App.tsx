@@ -21,6 +21,7 @@ type Project = {
   images?: string[];
   phoneFrame?: boolean;
   deviceMockup?: boolean;
+  scrollGallery?: boolean;
   liveUrl?: string;
   caseStudy?: {
     challenge: string;
@@ -836,6 +837,26 @@ function CarouselModal({
                     </button>
                   ))}
                 </div>
+              ) : project.scrollGallery ? (
+                /* Full-width vertical scroll — brand guides, documents */
+                <div className="flex flex-col pb-16" style={{ gap: 2 }}>
+                  {imgs.map((src, i) => (
+                    <button
+                      key={i}
+                      onClick={() => setLightboxIndex(i)}
+                      className="w-full block focus:outline-none group relative"
+                      aria-label={`View ${project.name} page ${i + 1} of ${imgs.length}`}
+                    >
+                      <img
+                        src={src}
+                        alt={`${project.name} — page ${i + 1}`}
+                        className="w-full h-auto block"
+                        loading={i === 0 ? "eager" : "lazy"}
+                      />
+                      <div className="absolute inset-0 bg-white/0 group-hover:bg-white/[0.03] transition-colors duration-200 pointer-events-none" />
+                    </button>
+                  ))}
+                </div>
               ) : (
                 /* 3-column thumbnail grid */
                 <div className="grid grid-cols-3 gap-1 px-14 md:px-24 pb-16">
@@ -1503,6 +1524,8 @@ function Home() {
       nameColor: "#FAF7F1",
       clientColor: "rgba(250,247,241,0.55)",
       desc: "Residential painting company full rebrand — logo, brand system, color palette, typography, signage, and print collateral.",
+      images: ["/ppp-1.png", "/ppp-2.png", "/ppp-3.png", "/ppp-4.png", "/ppp-5.png", "/ppp-6.png"],
+      scrollGallery: true,
       caseStudy: {
         stats: [
           { value: "6+", label: "Brand Deliverables" },
