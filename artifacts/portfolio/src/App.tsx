@@ -22,6 +22,7 @@ type Project = {
   phoneFrame?: boolean;
   deviceMockup?: boolean;
   scrollGallery?: boolean;
+  pdfLinks?: { label: string; url: string }[];
   liveUrl?: string;
   caseStudy?: {
     challenge: string;
@@ -571,6 +572,25 @@ function CarouselModal({
               </div>
             )}
 
+            {/* ── PDF Links ── */}
+            {project.pdfLinks && project.pdfLinks.length > 0 && (
+              <div className="px-14 md:px-24 pb-6 mt-1 flex flex-wrap gap-3">
+                {project.pdfLinks.map((link, i) => (
+                  <a
+                    key={i}
+                    href={link.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{ cursor: "none" }}
+                    className="inline-flex items-center gap-3 border border-[#222] text-[#F4F0E8]/50 font-sans font-semibold text-[11px] uppercase tracking-[0.2em] px-5 py-3 hover:border-[#F2541C] hover:text-[#F2541C] transition-all duration-200 focus:outline-none"
+                  >
+                    <span>{link.label}</span>
+                    <span className="text-sm leading-none" aria-hidden="true">↗</span>
+                  </a>
+                ))}
+              </div>
+            )}
+
             {project.deviceMockup ? (
               <div className="pb-16">
 
@@ -807,7 +827,7 @@ function CarouselModal({
                   )}
                 </div>
               </div>
-            ) : imgs.length > 0 ? (
+            ) : imgs.length > 0 && !project.pdfLinks ? (
               project.phoneFrame ? (
                 /* Phone frames: centered wrap */
                 <div className="flex flex-wrap justify-center gap-8 px-14 md:px-24 pb-16">
@@ -1524,8 +1544,11 @@ function Home() {
       nameColor: "#FAF7F1",
       clientColor: "rgba(250,247,241,0.55)",
       desc: "Residential painting company full rebrand — logo, brand system, color palette, typography, signage, and print collateral.",
-      images: ["/ppp-1.png", "/ppp-2.png", "/ppp-3.png", "/ppp-4.png", "/ppp-5.png", "/ppp-6.png"],
-      scrollGallery: true,
+      images: ["/ppp-1.png"],
+      pdfLinks: [
+        { label: "Brand Guide", url: "/ppp-brand-guide.pdf" },
+        { label: "Ad Strategy", url: "/ppp-ad-strategy.pdf" },
+      ],
       caseStudy: {
         stats: [
           { value: "6+", label: "Brand Deliverables" },
