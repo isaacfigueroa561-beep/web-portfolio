@@ -828,7 +828,7 @@ function CarouselModal({
                   )}
                 </div>
               </div>
-            ) : imgs.length > 0 && !project.pdfLinks ? (
+            ) : imgs.length > 0 ? (
               project.phoneFrame ? (
                 /* Phone frames: centered wrap */
                 <div className="flex flex-wrap justify-center gap-8 px-14 md:px-24 pb-16">
@@ -1548,6 +1548,7 @@ function Home() {
       images: ["/ppp-1.png", "/ppp-ads-01.png", "/ppp-ads-02.png", "/ppp-ads-03.png", "/ppp-ads-04.png", "/ppp-ads-05.png", "/ppp-ads-06.png", "/ppp-ads-07.png", "/ppp-ads-08.png", "/ppp-ads-09.png", "/ppp-ads-10.png", "/ppp-ads-11.png"],
       scrollGallery: true,
       hideBrandGuide: true,
+      pdfLinks: [{ label: "Brand Guide", url: "https://precision-paint-pros-brandguide.vercel.app/" }],
       caseStudy: {
         stats: [
           { value: "6+", label: "Brand Deliverables" },
