@@ -1,0 +1,337 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 900" width="1400" height="900">
+  <defs>
+    <style>
+      .f-ui { font-family: -apple-system,'SF Pro Display','Helvetica Neue',Arial,sans-serif; }
+    </style>
+    <linearGradient id="pageBg4" x1="0" y1="0" x2="1400" y2="900" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#06060E"/>
+      <stop offset="100%" stop-color="#0E0C1C"/>
+    </linearGradient>
+    <linearGradient id="pp" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#6C47FF"/>
+      <stop offset="100%" stop-color="#A855FF"/>
+    </linearGradient>
+    <linearGradient id="cardG" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#7C55FF"/>
+      <stop offset="100%" stop-color="#4D2FCC"/>
+    </linearGradient>
+    <linearGradient id="nftG1" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#6C47FF" stop-opacity="0.7"/>
+      <stop offset="100%" stop-color="#0D0B1A"/>
+    </linearGradient>
+    <linearGradient id="nftG2" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#00D084" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#0D0B1A"/>
+    </linearGradient>
+    <linearGradient id="nftG3" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#FF5A5A" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#0D0B1A"/>
+    </linearGradient>
+    <linearGradient id="chartArea" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#6C47FF" stop-opacity="0.45"/>
+      <stop offset="100%" stop-color="#6C47FF" stop-opacity="0"/>
+    </linearGradient>
+    <radialGradient id="gl1" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#6C47FF" stop-opacity="0.15"/>
+      <stop offset="100%" stop-color="#6C47FF" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="gl2" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#00D084" stop-opacity="0.1"/>
+      <stop offset="100%" stop-color="#00D084" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="gl3" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#A855FF" stop-opacity="0.12"/>
+      <stop offset="100%" stop-color="#A855FF" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="ps1">
+      <feDropShadow dx="0" dy="20" stdDeviation="30" flood-color="#6C47FF" flood-opacity="0.2"/>
+      <feDropShadow dx="0" dy="4" stdDeviation="8" flood-color="#000" flood-opacity="0.5"/>
+    </filter>
+    <filter id="ps2">
+      <feDropShadow dx="0" dy="20" stdDeviation="30" flood-color="#00D084" flood-opacity="0.15"/>
+      <feDropShadow dx="0" dy="4" stdDeviation="8" flood-color="#000" flood-opacity="0.5"/>
+    </filter>
+    <filter id="ps3">
+      <feDropShadow dx="0" dy="20" stdDeviation="30" flood-color="#A855FF" flood-opacity="0.18"/>
+      <feDropShadow dx="0" dy="4" stdDeviation="8" flood-color="#000" flood-opacity="0.5"/>
+    </filter>
+    <filter id="gfx">
+      <feGaussianBlur stdDeviation="5" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <clipPath id="s1clip"><rect x="68" y="88" width="246" height="532" rx="36"/></clipPath>
+    <clipPath id="s2clip"><rect x="577" y="88" width="246" height="532" rx="36"/></clipPath>
+    <clipPath id="s3clip"><rect x="1086" y="88" width="246" height="532" rx="36"/></clipPath>
+  </defs>
+
+  <rect width="1400" height="900" fill="url(#pageBg4)"/>
+  <pattern id="dg" x="0" y="0" width="32" height="32" patternUnits="userSpaceOnUse">
+    <circle cx="16" cy="16" r="0.7" fill="#F5F0E8" opacity="0.035"/>
+  </pattern>
+  <rect width="1400" height="900" fill="url(#dg)"/>
+
+  <!-- Glows behind phones -->
+  <ellipse cx="191" cy="380" rx="200" ry="230" fill="url(#gl1)"/>
+  <ellipse cx="700" cy="380" rx="200" ry="230" fill="url(#gl2)"/>
+  <ellipse cx="1209" cy="380" rx="200" ry="230" fill="url(#gl3)"/>
+
+  <!-- ═══ TOP LABEL BAR ═══ -->
+  <text x="700" y="44" font-family="-apple-system,sans-serif" font-size="9" fill="rgba(245,240,232,0.25)" letter-spacing="0.2em" text-anchor="middle">VAULT — THREE-SCREEN FLOW — UX/UI CASE STUDY</text>
+  <line x1="60" y1="56" x2="1340" y2="56" stroke="#F5F0E8" stroke-width="0.5" opacity="0.06"/>
+
+  <!-- Screen labels above -->
+  <text x="191" y="76" font-family="-apple-system,sans-serif" font-size="9" fill="#6C47FF" letter-spacing="0.18em" text-anchor="middle">01 — HOME</text>
+  <text x="700" y="76" font-family="-apple-system,sans-serif" font-size="9" fill="#00D084" letter-spacing="0.18em" text-anchor="middle">02 — SEND</text>
+  <text x="1209" y="76" font-family="-apple-system,sans-serif" font-size="9" fill="#A855FF" letter-spacing="0.18em" text-anchor="middle">03 — NFT VAULT</text>
+
+  <!-- ═══ PHONE 1: HOME ═══ -->
+  <rect x="66" y="86" width="250" height="536" rx="38" fill="#0F0D1A" filter="url(#ps1)"/>
+  <rect x="68" y="88" width="246" height="532" rx="36" fill="#07070F"/>
+  <g clip-path="url(#s1clip)">
+    <!-- Status -->
+    <text x="84" y="116" class="f-ui" font-size="10" font-weight="700" fill="#F5F0E8">9:41</text>
+    <rect x="284" y="107" width="20" height="10" rx="2.5" fill="none" stroke="rgba(245,240,232,0.4)" stroke-width="1"/>
+    <rect x="286" y="109" width="15" height="6" rx="1.5" fill="rgba(245,240,232,0.7)"/>
+    <!-- Greeting -->
+    <text x="84" y="146" class="f-ui" font-size="9" fill="rgba(245,240,232,0.4)">Good morning</text>
+    <text x="84" y="164" class="f-ui" font-size="15" font-weight="700" fill="#F5F0E8">Isaac 👋</text>
+    <!-- Avatar -->
+    <circle cx="294" cy="152" r="14" fill="#14112A"/>
+    <circle cx="294" cy="152" r="14" fill="none" stroke="#6C47FF" stroke-width="1.2" opacity="0.5"/>
+    <text x="294" y="157" class="f-ui" font-size="10" font-weight="700" fill="#9B75FF" text-anchor="middle">IF</text>
+    <!-- Balance card -->
+    <rect x="76" y="180" width="228" height="106" rx="18" fill="url(#cardG)"/>
+    <rect x="76" y="180" width="228" height="53" rx="18" fill="white" opacity="0.04"/>
+    <rect x="76" y="180" width="228" height="106" rx="18" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+    <text x="92" y="202" class="f-ui" font-size="8" fill="rgba(255,255,255,0.6)" letter-spacing="0.14em">PORTFOLIO VALUE</text>
+    <text x="92" y="234" class="f-ui" font-size="28" font-weight="800" fill="#fff" letter-spacing="-0.5">$45,230</text>
+    <text x="218" y="234" class="f-ui" font-size="14" fill="rgba(255,255,255,0.4)">.84</text>
+    <rect x="92" y="244" width="60" height="17" rx="8" fill="rgba(0,208,132,0.25)"/>
+    <text x="122" y="256" class="f-ui" font-size="8.5" font-weight="600" fill="#00D084" text-anchor="middle">▲ 4.2%</text>
+    <polyline points="190,272 200,265 210,268 220,258 230,261 240,252 250,255 260,246 270,249 280,240 292,244" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="1.2" stroke-linecap="round"/>
+    <!-- Quick actions -->
+    <text x="84" y="306" class="f-ui" font-size="8" fill="rgba(245,240,232,0.28)" letter-spacing="0.14em">QUICK ACTIONS</text>
+    <rect x="76" y="314" width="50" height="48" rx="14" fill="#14112A"/>
+    <text x="101" y="340" class="f-ui" font-size="18" fill="#6C47FF" text-anchor="middle">↑</text>
+    <text x="101" y="355" class="f-ui" font-size="8" fill="rgba(245,240,232,0.35)" text-anchor="middle">Send</text>
+    <rect x="133" y="314" width="50" height="48" rx="14" fill="#14112A"/>
+    <text x="158" y="340" class="f-ui" font-size="18" fill="#6C47FF" text-anchor="middle">↓</text>
+    <text x="158" y="355" class="f-ui" font-size="8" fill="rgba(245,240,232,0.35)" text-anchor="middle">Receive</text>
+    <rect x="190" y="314" width="50" height="48" rx="14" fill="#14112A"/>
+    <text x="215" y="340" class="f-ui" font-size="16" fill="#6C47FF" text-anchor="middle">⇄</text>
+    <text x="215" y="355" class="f-ui" font-size="8" fill="rgba(245,240,232,0.35)" text-anchor="middle">Swap</text>
+    <rect x="247" y="314" width="50" height="48" rx="14" fill="#14112A"/>
+    <text x="272" y="340" class="f-ui" font-size="18" fill="#6C47FF" text-anchor="middle">+</text>
+    <text x="272" y="355" class="f-ui" font-size="8" fill="rgba(245,240,232,0.35)" text-anchor="middle">Buy</text>
+    <!-- Assets -->
+    <text x="84" y="386" class="f-ui" font-size="8" fill="rgba(245,240,232,0.28)" letter-spacing="0.14em">MY ASSETS</text>
+    <text x="304" y="386" class="f-ui" font-size="9" fill="#6C47FF" text-anchor="end">See all</text>
+    <!-- BTC -->
+    <circle cx="93" cy="410" r="13" fill="#F7931A"/>
+    <text x="93" y="415" class="f-ui" font-size="11" font-weight="700" fill="#fff" text-anchor="middle">₿</text>
+    <text x="113" y="406" class="f-ui" font-size="11" font-weight="700" fill="#F5F0E8">Bitcoin</text>
+    <text x="113" y="420" class="f-ui" font-size="8" fill="rgba(245,240,232,0.3)">0.812 BTC</text>
+    <text x="303" y="406" class="f-ui" font-size="11" font-weight="700" fill="#F5F0E8" text-anchor="end">$23,410</text>
+    <text x="303" y="420" class="f-ui" font-size="9" fill="#00D084" text-anchor="end">▲ 2.3%</text>
+    <line x1="76" y1="432" x2="312" y2="432" stroke="#F5F0E8" stroke-width="0.5" opacity="0.05"/>
+    <!-- ETH -->
+    <circle cx="93" cy="454" r="13" fill="#627EEA"/>
+    <text x="93" y="459" class="f-ui" font-size="11" font-weight="700" fill="#fff" text-anchor="middle">Ξ</text>
+    <text x="113" y="450" class="f-ui" font-size="11" font-weight="700" fill="#F5F0E8">Ethereum</text>
+    <text x="113" y="464" class="f-ui" font-size="8" fill="rgba(245,240,232,0.3)">4.5 ETH</text>
+    <text x="303" y="450" class="f-ui" font-size="11" font-weight="700" fill="#F5F0E8" text-anchor="end">$14,220</text>
+    <text x="303" y="464" class="f-ui" font-size="9" fill="#00D084" text-anchor="end">▲ 5.1%</text>
+    <line x1="76" y1="476" x2="312" y2="476" stroke="#F5F0E8" stroke-width="0.5" opacity="0.05"/>
+    <!-- SOL -->
+    <circle cx="93" cy="498" r="13" fill="#9945FF"/>
+    <text x="93" y="503" class="f-ui" font-size="10" fill="#fff" text-anchor="middle">◎</text>
+    <text x="113" y="494" class="f-ui" font-size="11" font-weight="700" fill="#F5F0E8">Solana</text>
+    <text x="113" y="508" class="f-ui" font-size="8" fill="rgba(245,240,232,0.3)">32.0 SOL</text>
+    <text x="303" y="494" class="f-ui" font-size="11" font-weight="700" fill="#F5F0E8" text-anchor="end">$5,440</text>
+    <text x="303" y="508" class="f-ui" font-size="9" fill="#FF5A5A" text-anchor="end">▼ 1.2%</text>
+    <!-- Chart -->
+    <rect x="76" y="524" width="228" height="56" rx="10" fill="#14112A"/>
+    <polygon points="84,572 100,558 120,563 140,547 162,552 184,537 206,543 228,528 250,534 272,520 292,526 300,580 84,580" fill="url(#chartArea)" opacity="0.7"/>
+    <polyline points="84,572 100,558 120,563 140,547 162,552 184,537 206,543 228,528 250,534 272,520 292,526" fill="none" stroke="#6C47FF" stroke-width="1.8" stroke-linecap="round" filter="url(#gfx)"/>
+    <circle cx="292" cy="526" r="3.5" fill="#6C47FF" filter="url(#gfx)"/>
+    <circle cx="292" cy="526" r="1.5" fill="#fff"/>
+    <!-- Bottom nav -->
+    <rect x="68" y="592" width="246" height="28" fill="#07070F"/>
+    <line x1="68" y1="592" x2="314" y2="592" stroke="#F5F0E8" stroke-width="0.5" opacity="0.06"/>
+    <text x="114" y="610" class="f-ui" font-size="15" fill="#6C47FF" text-anchor="middle">⌂</text>
+    <circle cx="114" cy="617" r="2" fill="#6C47FF"/>
+    <text x="168" y="610" class="f-ui" font-size="13" fill="rgba(245,240,232,0.18)" text-anchor="middle">◫</text>
+    <text x="222" y="610" class="f-ui" font-size="13" fill="rgba(245,240,232,0.18)" text-anchor="middle">↕</text>
+    <text x="276" y="610" class="f-ui" font-size="13" fill="rgba(245,240,232,0.18)" text-anchor="middle">⊙</text>
+  </g>
+  <!-- Dynamic island phone 1 -->
+  <rect x="148" y="93" width="86" height="22" rx="11" fill="#000"/>
+
+  <!-- ═══ PHONE 2: SEND FLOW ═══ -->
+  <rect x="575" y="86" width="250" height="536" rx="38" fill="#0F1A0F" filter="url(#ps2)"/>
+  <rect x="577" y="88" width="246" height="532" rx="36" fill="#07070F"/>
+  <g clip-path="url(#s2clip)">
+    <rect x="577" y="88" width="246" height="532" fill="#07070F"/>
+    <!-- Header -->
+    <text x="593" y="120" class="f-ui" font-size="14" fill="#00D084">←</text>
+    <text x="700" y="120" class="f-ui" font-size="13" font-weight="700" fill="#F5F0E8" text-anchor="middle">Send Crypto</text>
+    <!-- Asset chip -->
+    <rect x="593" y="134" width="230" height="44" rx="12" fill="#14112A"/>
+    <rect x="593" y="134" width="230" height="44" rx="12" fill="none" stroke="#F5F0E8" stroke-width="0.5" opacity="0.08"/>
+    <circle cx="615" cy="156" r="13" fill="#F7931A"/>
+    <text x="615" y="161" class="f-ui" font-size="11" font-weight="700" fill="#fff" text-anchor="middle">₿</text>
+    <text x="636" y="152" class="f-ui" font-size="11" font-weight="700" fill="#F5F0E8">Bitcoin</text>
+    <text x="636" y="166" class="f-ui" font-size="8" fill="rgba(245,240,232,0.3)">0.812 BTC available</text>
+    <text x="815" y="158" class="f-ui" font-size="14" fill="rgba(245,240,232,0.3)" text-anchor="end">∨</text>
+    <!-- Amount label -->
+    <text x="593" y="203" class="f-ui" font-size="8" fill="rgba(245,240,232,0.28)" letter-spacing="0.14em">AMOUNT (BTC)</text>
+    <!-- Big amount -->
+    <text x="700" y="256" class="f-ui" font-size="44" font-weight="800" fill="#F5F0E8" text-anchor="middle" letter-spacing="-1">0.05</text>
+    <text x="700" y="278" class="f-ui" font-size="11" fill="rgba(245,240,232,0.35)" text-anchor="middle">≈ $1,420.50 USD</text>
+    <!-- Max pill -->
+    <rect x="660" y="290" width="80" height="22" rx="11" fill="#6C47FF" opacity="0.18"/>
+    <rect x="660" y="290" width="80" height="22" rx="11" fill="none" stroke="#6C47FF" stroke-width="1" opacity="0.5"/>
+    <text x="700" y="304" class="f-ui" font-size="9" fill="#9B75FF" text-anchor="middle" letter-spacing="0.1em">USE MAX</text>
+    <!-- Numpad suggestion -->
+    <line x1="593" y1="326" x2="823" y2="326" stroke="#F5F0E8" stroke-width="0.5" opacity="0.06"/>
+    <text x="660" y="352" class="f-ui" font-size="18" fill="rgba(245,240,232,0.6)" text-anchor="middle">1</text>
+    <text x="700" y="352" class="f-ui" font-size="18" fill="rgba(245,240,232,0.6)" text-anchor="middle">2</text>
+    <text x="740" y="352" class="f-ui" font-size="18" fill="rgba(245,240,232,0.6)" text-anchor="middle">3</text>
+    <text x="660" y="388" class="f-ui" font-size="18" fill="rgba(245,240,232,0.6)" text-anchor="middle">4</text>
+    <text x="700" y="388" class="f-ui" font-size="18" fill="rgba(245,240,232,0.6)" text-anchor="middle">5</text>
+    <text x="740" y="388" class="f-ui" font-size="18" fill="rgba(245,240,232,0.6)" text-anchor="middle">6</text>
+    <text x="660" y="424" class="f-ui" font-size="18" fill="rgba(245,240,232,0.6)" text-anchor="middle">7</text>
+    <text x="700" y="424" class="f-ui" font-size="18" fill="rgba(245,240,232,0.6)" text-anchor="middle">8</text>
+    <text x="740" y="424" class="f-ui" font-size="18" fill="rgba(245,240,232,0.6)" text-anchor="middle">9</text>
+    <text x="660" y="460" class="f-ui" font-size="16" fill="rgba(245,240,232,0.4)" text-anchor="middle">.</text>
+    <text x="700" y="460" class="f-ui" font-size="18" fill="rgba(245,240,232,0.6)" text-anchor="middle">0</text>
+    <text x="740" y="460" class="f-ui" font-size="16" fill="rgba(245,240,232,0.5)" text-anchor="middle">⌫</text>
+    <!-- To + fee -->
+    <text x="593" y="490" class="f-ui" font-size="8" fill="rgba(245,240,232,0.28)" letter-spacing="0.14em">TO · NETWORK FEE</text>
+    <rect x="593" y="498" width="230" height="36" rx="10" fill="#14112A"/>
+    <text x="609" y="520" class="f-ui" font-size="9" fill="rgba(245,240,232,0.3)">0x3Fa8...d29C · ~$2.40 · ~30s</text>
+    <!-- Send btn -->
+    <rect x="593" y="546" width="230" height="44" rx="22" fill="url(#pp)"/>
+    <text x="708" y="572" class="f-ui" font-size="13" font-weight="700" fill="#fff" text-anchor="middle">Confirm Send →</text>
+    <!-- Bottom nav -->
+    <rect x="577" y="592" width="246" height="28" fill="#07070F"/>
+    <line x1="577" y1="592" x2="823" y2="592" stroke="#F5F0E8" stroke-width="0.5" opacity="0.06"/>
+    <text x="623" y="610" class="f-ui" font-size="13" fill="rgba(245,240,232,0.18)" text-anchor="middle">⌂</text>
+    <text x="677" y="610" class="f-ui" font-size="15" fill="#00D084" text-anchor="middle">◫</text>
+    <circle cx="677" cy="617" r="2" fill="#00D084"/>
+    <text x="731" y="610" class="f-ui" font-size="13" fill="rgba(245,240,232,0.18)" text-anchor="middle">↕</text>
+    <text x="785" y="610" class="f-ui" font-size="13" fill="rgba(245,240,232,0.18)" text-anchor="middle">⊙</text>
+  </g>
+  <rect x="657" y="93" width="86" height="22" rx="11" fill="#000"/>
+
+  <!-- ═══ PHONE 3: NFT VAULT ═══ -->
+  <rect x="1084" y="86" width="250" height="536" rx="38" fill="#140F1A" filter="url(#ps3)"/>
+  <rect x="1086" y="88" width="246" height="532" rx="36" fill="#07070F"/>
+  <g clip-path="url(#s3clip)">
+    <rect x="1086" y="88" width="246" height="532" fill="#07070F"/>
+    <!-- Header -->
+    <text x="1102" y="120" class="f-ui" font-size="14" fill="#A855FF">←</text>
+    <text x="1209" y="120" class="f-ui" font-size="13" font-weight="700" fill="#F5F0E8" text-anchor="middle">My NFTs</text>
+    <text x="1316" y="120" class="f-ui" font-size="13" fill="rgba(245,240,232,0.3)" text-anchor="end">⊕</text>
+    <!-- Tabs -->
+    <rect x="1094" y="132" width="76" height="24" rx="12" fill="#A855FF" opacity="0.25"/>
+    <rect x="1094" y="132" width="76" height="24" rx="12" fill="none" stroke="#A855FF" stroke-width="1" opacity="0.5"/>
+    <text x="1132" y="148" class="f-ui" font-size="9" font-weight="600" fill="#A855FF" text-anchor="middle">Collected</text>
+    <text x="1210" y="148" class="f-ui" font-size="9" fill="rgba(245,240,232,0.28)" text-anchor="middle">Created</text>
+    <text x="1292" y="148" class="f-ui" font-size="9" fill="rgba(245,240,232,0.28)" text-anchor="middle">Liked</text>
+    <!-- Portfolio bar -->
+    <rect x="1094" y="166" width="228" height="40" rx="10" fill="#14112A"/>
+    <text x="1110" y="182" class="f-ui" font-size="8" fill="rgba(245,240,232,0.28)" letter-spacing="0.1em">NFT PORTFOLIO</text>
+    <text x="1110" y="199" class="f-ui" font-size="14" font-weight="700" fill="#F5F0E8">Ξ 4.57</text>
+    <text x="1314" y="199" class="f-ui" font-size="10" font-weight="600" fill="#00D084" text-anchor="end">▲ 12.4%</text>
+    <!-- NFT Grid 2x2 -->
+    <!-- NFT 1 - purple -->
+    <rect x="1094" y="216" width="106" height="106" rx="14" fill="#0E0B1A"/>
+    <rect x="1094" y="216" width="106" height="106" rx="14" fill="url(#nftG1)"/>
+    <text x="1147" y="275" class="f-ui" font-size="36" fill="rgba(255,255,255,0.35)" text-anchor="middle">◈</text>
+    <rect x="1094" y="299" width="106" height="23" rx="0" fill="rgba(0,0,0,0.6)"/>
+    <text x="1106" y="310" class="f-ui" font-size="8" fill="rgba(245,240,232,0.7)">Neon Cube #42</text>
+    <text x="1106" y="320" class="f-ui" font-size="8" fill="#00D084">Ξ 0.85</text>
+    <!-- NFT 2 - green -->
+    <rect x="1208" y="216" width="106" height="106" rx="14" fill="#0A1A10"/>
+    <rect x="1208" y="216" width="106" height="106" rx="14" fill="url(#nftG2)"/>
+    <text x="1261" y="275" class="f-ui" font-size="36" fill="rgba(255,255,255,0.35)" text-anchor="middle">⬡</text>
+    <rect x="1208" y="299" width="106" height="23" rx="0" fill="rgba(0,0,0,0.6)"/>
+    <text x="1220" y="310" class="f-ui" font-size="8" fill="rgba(245,240,232,0.7)">Pixel Grid #07</text>
+    <text x="1220" y="320" class="f-ui" font-size="8" fill="#00D084">Ξ 1.20</text>
+    <!-- NFT 3 - red -->
+    <rect x="1094" y="330" width="106" height="106" rx="14" fill="#1A0A0A"/>
+    <rect x="1094" y="330" width="106" height="106" rx="14" fill="url(#nftG3)"/>
+    <text x="1147" y="389" class="f-ui" font-size="36" fill="rgba(255,255,255,0.35)" text-anchor="middle">⬟</text>
+    <rect x="1094" y="413" width="106" height="23" rx="0" fill="rgba(0,0,0,0.6)"/>
+    <text x="1106" y="424" class="f-ui" font-size="8" fill="rgba(245,240,232,0.7)">Wave Form #18</text>
+    <text x="1106" y="434" class="f-ui" font-size="8" fill="#FF5A5A">Ξ 0.42</text>
+    <!-- NFT 4 - purple lite -->
+    <rect x="1208" y="330" width="106" height="106" rx="14" fill="#110A1A"/>
+    <rect x="1208" y="330" width="106" height="106" rx="14" fill="none" stroke="#A855FF" stroke-width="1" opacity="0.3"/>
+    <text x="1261" y="380" class="f-ui" font-size="36" fill="rgba(168,85,255,0.3)" text-anchor="middle">+</text>
+    <text x="1261" y="400" class="f-ui" font-size="10" fill="rgba(168,85,255,0.5)" text-anchor="middle">Add</text>
+    <!-- Explore btn -->
+    <rect x="1094" y="448" width="228" height="42" rx="21" fill="url(#pp)"/>
+    <text x="1208" y="473" class="f-ui" font-size="12" font-weight="700" fill="#fff" text-anchor="middle">Explore Market →</text>
+    <!-- Bottom nav -->
+    <rect x="1086" y="592" width="246" height="28" fill="#07070F"/>
+    <line x1="1086" y1="592" x2="1332" y2="592" stroke="#F5F0E8" stroke-width="0.5" opacity="0.06"/>
+    <text x="1132" y="610" class="f-ui" font-size="13" fill="rgba(245,240,232,0.18)" text-anchor="middle">⌂</text>
+    <text x="1186" y="610" class="f-ui" font-size="13" fill="rgba(245,240,232,0.18)" text-anchor="middle">◫</text>
+    <text x="1240" y="610" class="f-ui" font-size="13" fill="rgba(245,240,232,0.18)" text-anchor="middle">↕</text>
+    <text x="1294" y="610" class="f-ui" font-size="15" fill="#A855FF" text-anchor="middle">⊙</text>
+    <circle cx="1294" cy="617" r="2" fill="#A855FF"/>
+  </g>
+  <rect x="1166" y="93" width="86" height="22" rx="11" fill="#000"/>
+
+  <!-- ═══ CONNECTING FLOW ARROWS ═══ -->
+  <!-- Arrow 1→2 -->
+  <line x1="320" y1="380" x2="574" y2="380" stroke="#F5F0E8" stroke-width="0.5" opacity="0.1" stroke-dasharray="4,4"/>
+  <polygon points="574,376 574,384 582,380" fill="#6C47FF" opacity="0.5"/>
+  <text x="447" y="370" class="f-ui" font-size="8" fill="rgba(245,240,232,0.25)" text-anchor="middle" letter-spacing="0.1em">TAP SEND</text>
+
+  <!-- Arrow 2→3 -->
+  <line x1="825" y1="380" x2="1082" y2="380" stroke="#F5F0E8" stroke-width="0.5" opacity="0.1" stroke-dasharray="4,4"/>
+  <polygon points="1082,376 1082,384 1090,380" fill="#00D084" opacity="0.5"/>
+  <text x="954" y="370" class="f-ui" font-size="8" fill="rgba(245,240,232,0.25)" text-anchor="middle" letter-spacing="0.1em">TAP VAULT</text>
+
+  <!-- ═══ BOTTOM: Case Study Strip ═══ -->
+  <line x1="60" y1="658" x2="1340" y2="658" stroke="#F5F0E8" stroke-width="0.5" opacity="0.06"/>
+
+  <!-- Metric cards -->
+  <rect x="60" y="674" width="240" height="82" fill="#14112A"/>
+  <rect x="60" y="674" width="3" height="82" fill="url(#pp)"/>
+  <text x="76" y="700" class="f-ui" font-size="8" fill="#9B75FF" letter-spacing="0.14em">RESEARCH PHASE</text>
+  <text x="76" y="726" class="f-ui" font-size="28" font-weight="800" fill="#F5F0E8">8</text>
+  <text x="76" y="748" class="f-ui" font-size="10" fill="rgba(245,240,232,0.35)">apps benchmarked</text>
+
+  <rect x="314" y="674" width="240" height="82" fill="#14112A"/>
+  <rect x="314" y="674" width="3" height="82" fill="url(#pp)"/>
+  <text x="330" y="700" class="f-ui" font-size="8" fill="#9B75FF" letter-spacing="0.14em">WIREFRAME PHASE</text>
+  <text x="330" y="726" class="f-ui" font-size="28" font-weight="800" fill="#F5F0E8">3</text>
+  <text x="330" y="748" class="f-ui" font-size="10" fill="rgba(245,240,232,0.35)">design iterations</text>
+
+  <rect x="568" y="674" width="240" height="82" fill="#14112A"/>
+  <rect x="568" y="674" width="3" height="82" fill="url(#pp)"/>
+  <text x="584" y="700" class="f-ui" font-size="8" fill="#9B75FF" letter-spacing="0.14em">VISUAL DESIGN</text>
+  <text x="584" y="726" class="f-ui" font-size="28" font-weight="800" fill="#F5F0E8">4</text>
+  <text x="584" y="748" class="f-ui" font-size="10" fill="rgba(245,240,232,0.35)">screens designed</text>
+
+  <rect x="822" y="674" width="240" height="82" fill="#14112A"/>
+  <rect x="822" y="674" width="3" height="82" fill="url(#pp)"/>
+  <text x="838" y="700" class="f-ui" font-size="8" fill="#9B75FF" letter-spacing="0.14em">PROTOTYPE</text>
+  <text x="838" y="726" class="f-ui" font-size="28" font-weight="800" fill="#F5F0E8">6w</text>
+  <text x="838" y="748" class="f-ui" font-size="10" fill="rgba(245,240,232,0.35)">total timeline</text>
+
+  <rect x="1076" y="674" width="264" height="82" fill="#6C47FF" opacity="0.12"/>
+  <rect x="1076" y="674" width="264" height="82" fill="none" stroke="#6C47FF" stroke-width="1" opacity="0.3"/>
+  <text x="1092" y="700" class="f-ui" font-size="8" fill="#9B75FF" letter-spacing="0.14em">USER CLARITY SCORE</text>
+  <text x="1208" y="742" class="f-ui" font-size="48" font-weight="800" fill="#6C47FF" text-anchor="middle" filter="url(#gfx)">92%</text>
+
+  <!-- Footer -->
+  <line x1="60" y1="788" x2="1340" y2="788" stroke="#F5F0E8" stroke-width="0.5" opacity="0.05"/>
+  <text x="60" y="810" font-family="'SF Mono','Courier New',monospace" font-size="9" fill="rgba(245,240,232,0.18)" letter-spacing="0.1em">VAULT — SCREEN FLOW — HOME · SEND · NFT VAULT — ISAAC FIGUEROA / WAVE CREATIVE HOUSE — 2024</text>
+  <text x="1340" y="810" font-family="'SF Mono','Courier New',monospace" font-size="9" fill="rgba(108,71,255,0.6)" text-anchor="end">03 / 03</text>
+  <text x="1340" y="870" class="f-ui" font-weight="900" font-size="180" fill="#F5F0E8" opacity="0.012" text-anchor="end">03</text>
+</svg>

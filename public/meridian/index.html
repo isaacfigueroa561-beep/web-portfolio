@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Meridian — Your wealth, clearly.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital,wght@0,400;1,400&family=Onest:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{height:100%;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+body{height:100%;overflow:hidden}
+#root{height:100%}
+
+/* ── Tokens ── */
+:root {
+  --paper:#FBFAF6; --paper-2:#F4F1E9; --paper-3:#ECE7DA;
+  --line:#E5E0D2; --line-2:#D5CFBF;
+  --ink:#14110D; --ink-2:#3D3830; --ink-3:#6E6759; --ink-4:#9C9484; --ink-5:#BFB7A4;
+  --accent:oklch(0.42 0.07 152); --accent-deep:oklch(0.32 0.06 152);
+  --accent-soft:oklch(0.93 0.03 152); --accent-tint:oklch(0.96 0.018 152);
+  --gain:oklch(0.42 0.07 152); --gain-soft:oklch(0.93 0.03 152);
+  --loss:oklch(0.55 0.13 35); --loss-soft:oklch(0.95 0.03 35);
+  --serif:"Instrument Serif","Times New Roman",serif;
+  --sans:"Onest","Helvetica Neue",system-ui,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,"SF Mono",monospace;
+  --r:6px; --r-lg:10px; --r-xl:14px;
+}
+[data-theme="dark"] {
+  --paper:#131110; --paper-2:#1B1916; --paper-3:#25221E;
+  --line:#2E2A24; --line-2:#3D3830;
+  --ink:#F4F0E5; --ink-2:#C9C2B0; --ink-3:#948B77; --ink-4:#6C6452; --ink-5:#4A4438;
+  --accent:oklch(0.72 0.09 152); --accent-deep:oklch(0.62 0.10 152);
+  --accent-soft:oklch(0.24 0.05 152); --accent-tint:oklch(0.20 0.04 152);
+  --gain:oklch(0.72 0.09 152); --gain-soft:oklch(0.24 0.05 152);
+  --loss:oklch(0.68 0.13 35); --loss-soft:oklch(0.26 0.06 35);
+}
+
+/* ── Base ── */
+.mer{font-family:var(--sans);color:var(--ink);background:var(--paper)}
+.mer *{box-sizing:border-box}
+.mer h1,.mer h2,.mer h3,.mer h4{margin:0;font-weight:500}
+.mer p{margin:0}
+.mer button{font-family:inherit;cursor:pointer;border:none;background:none}
+img,svg{display:block}
+
+/* ── Typography ── */
+.t-display{font-family:var(--serif);font-weight:400;letter-spacing:-.015em;line-height:1.02}
+.t-display-i{font-style:italic}
+.t-eyebrow-mono{font-family:var(--mono);font-size:10px;font-weight:400;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3)}
+.t-label{font-family:var(--sans);font-size:12px;font-weight:500;color:var(--ink-2)}
+.t-body{font-family:var(--sans);font-size:14px;font-weight:400;color:var(--ink-2);line-height:1.5}
+.t-meta{font-family:var(--sans);font-size:12px;color:var(--ink-3);line-height:1.4}
+.t-num{font-family:var(--mono);font-variant-numeric:tabular-nums;font-feature-settings:'tnum' 1;letter-spacing:-.025em}
+.t-gain{color:var(--gain)}
+.t-loss{color:var(--loss)}
+
+/* ── Cards ── */
+.card{background:var(--paper);border:1px solid var(--line);border-radius:var(--r-lg);padding:20px}
+.card-tint{background:var(--paper-2);border-color:var(--line)}
+.card-ink{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.card-ink .t-meta{color:var(--ink-4)}
+
+/* ── Buttons ── */
+.btn-x{font-family:var(--sans);font-weight:500;font-size:13px;padding:9px 16px;border:1px solid var(--ink);border-radius:999px;background:var(--ink);color:var(--paper);cursor:pointer;display:inline-flex;align-items:center;gap:6px;white-space:nowrap;transition:opacity .15s}
+.btn-x:hover{opacity:.88}
+.btn-x-ghost{background:transparent;color:var(--ink)}
+.btn-x-accent{background:var(--accent);border-color:var(--accent);color:var(--paper)}
+.btn-x-soft{background:var(--paper-2);border-color:var(--line);color:var(--ink)}
+.btn-x-sm{font-size:12px;padding:6px 12px}
+
+/* ── Misc ── */
+.brand{font-family:var(--serif);font-style:italic;font-weight:400;letter-spacing:-.01em;font-size:22px;display:inline-flex;align-items:baseline;gap:6px;color:var(--ink)}
+.brand-mark{display:inline-block;width:16px;height:16px;border:1.2px solid var(--ink);border-radius:999px;position:relative;vertical-align:-2px;background:linear-gradient(180deg,var(--paper) 0 50%,var(--ink) 50% 100%)}
+.av{width:32px;height:32px;border-radius:999px;background:var(--paper-2);border:1px solid var(--line);display:inline-flex;align-items:center;justify-content:center;font-family:var(--sans);font-size:12px;font-weight:500;color:var(--ink-2);flex-shrink:0}
+.av-accent{background:var(--accent-tint);color:var(--accent-deep)}
+.spark{display:block;width:100%;height:100%;overflow:visible}
+.no-scrollbar::-webkit-scrollbar{display:none}
+.no-scrollbar{scrollbar-width:none}
+.tabs{display:flex;border-bottom:1px solid var(--line)}
+.tab{font-family:var(--sans);font-size:13px;font-weight:500;color:var(--ink-3);padding:10px 14px 11px;cursor:pointer;border-bottom:1.5px solid transparent;margin-bottom:-1px;white-space:nowrap;transition:color .15s,border-color .15s}
+.tab.is-active{color:var(--ink);border-bottom-color:var(--ink)}
+.bar{height:6px;background:var(--paper-3);border-radius:99px;overflow:hidden}
+.bar-fill{height:100%;background:var(--accent);border-radius:99px;transform:scaleX(0);transform-origin:left;transition:transform 1s cubic-bezier(0,.5,.2,1)}
+.bar-fill.go{transform:scaleX(1)}
+.amt{font-family:var(--mono);font-variant-numeric:tabular-nums;font-feature-settings:'tnum' 1;letter-spacing:-.025em}
+.amt-cur{font-size:.6em;color:var(--ink-3);margin-right:1px;vertical-align:.18em}
+.amt-sub{color:var(--ink-3)}
+.hr-x{height:1px;background:var(--line);border:none;margin:0}
+
+/* ── Layout wrappers ── */
+.app-shell{display:flex;height:100%;flex-direction:column}
+.top-chrome{display:flex;align-items:center;justify-content:space-between;padding:14px 32px;border-bottom:1px solid var(--line);flex-shrink:0}
+.screen-body{flex:1;overflow:hidden;display:flex;flex-direction:column}
+
+/* ── Chart draw animation ── */
+.chart-path{stroke-dasharray:2600;stroke-dashoffset:2600;transition:stroke-dashoffset 1.4s cubic-bezier(.4,0,.15,1)}
+.chart-path.drawn{stroke-dashoffset:0}
+.chart-fill{opacity:0;transition:opacity .6s ease .3s}
+.chart-fill.drawn{opacity:1}
+
+/* ── Scroll reveal ── */
+.rv{opacity:0;transform:translateY(18px);transition:opacity .5s ease,transform .5s ease}
+.rv.in{opacity:1;transform:translateY(0)}
+
+/* ── Splash ── */
+#splash{position:fixed;inset:0;background:var(--paper);z-index:9999;display:flex;align-items:center;justify-content:center;transition:opacity .5s ease,transform .5s ease}
+#splash.out{opacity:0;transform:scale(1.02);pointer-events:none}
+.splash-mark{width:48px;height:48px;border:2px solid var(--ink);border-radius:999px;background:linear-gradient(180deg,var(--paper) 0 50%,var(--ink) 50% 100%);animation:spin 1.4s linear infinite}
+@keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+
+/* ── Sidebar ── */
+.sidebar{width:220px;height:100%;border-right:1px solid var(--line);background:var(--paper);display:flex;flex-direction:column;padding:18px 14px;flex-shrink:0}
+.sidebar-nav{display:flex;flex-direction:column;gap:1px}
+.nav-item{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:8px;font-size:13px;cursor:pointer;transition:background .12s,color .12s;color:var(--ink-2)}
+.nav-item.active{background:var(--paper-2);color:var(--ink);font-weight:500}
+.nav-item:hover:not(.active){background:var(--paper-2)}
+
+/* ── Bottom tab bar ── */
+.tab-bar{position:absolute;bottom:0;left:0;right:0;padding-bottom:28px;padding-top:10px;background:var(--paper);border-top:1px solid var(--line);display:grid}
+.tab-item{display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer}
+.tab-item-label{font-family:var(--sans);font-size:10px;color:var(--ink-4);font-weight:400}
+.tab-item.active .tab-item-label{color:var(--ink);font-weight:500}
+.tab-item svg{color:var(--ink-4)}
+.tab-item.active svg{color:var(--ink)}
+
+/* ── Theme toggle ── */
+.theme-btn{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:8px;border:1px solid var(--line);background:var(--paper-2);cursor:pointer;color:var(--ink-3);transition:background .15s,border-color .15s}
+.theme-btn:hover{background:var(--paper-3);border-color:var(--line-2)}
+
+/* ── Dashboard responsive ── */
+.dash-grid{display:grid;grid-template-columns:2fr 1fr;grid-template-rows:auto auto;gap:16px}
+.dash-row2{display:grid;grid-template-columns:1fr 1fr;gap:16px;grid-column:span 2}
+
+/* ── Portfolio responsive ── */
+.port-body{display:grid;grid-template-columns:1fr 300px;gap:20px}
+
+/* ── Insights responsive ── */
+.ins-lead{display:grid;grid-template-columns:1.4fr 1fr;gap:64px;padding-bottom:40px;border-bottom:1px solid var(--line)}
+.ins-features{display:grid;grid-template-columns:repeat(3,1fr);gap:40px;padding-top:40px}
+
+/* ── Mobile ── */
+@media(max-width:768px){
+  .sidebar{display:none}
+  .top-chrome{padding:12px 20px}
+  .dash-grid,.port-body{display:block}
+  .dash-row2{display:block;grid-column:unset}
+  .dash-row2>*+*{margin-top:12px}
+  .ins-lead{display:block}
+  .ins-lead>aside{margin-top:32px}
+  .ins-features{grid-template-columns:1fr;gap:24px}
+  .screen-inner-scroll{padding:0 20px 100px!important}
+  .hide-mobile{display:none!important}
+}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<div id="splash" data-theme="light">
+  <div class="mer" style="display:flex;align-items:center;gap:14px">
+    <div class="splash-mark"></div>
+    <span style="font-family:'Instrument Serif',serif;font-style:italic;font-size:28px;color:#14110D">Meridian</span>
+  </div>
+</div>
+
+<script type="text/babel">
+const { useState, useEffect, useRef, useCallback } = React;
+
+// ── Utilities ────────────────────────────────────────────────────
+
+function easeOutCubic(t) { return 1 - Math.pow(1 - t, 3); }
+
+function genSeries(n, start, drift = 0.005, vol = 0.015, seed = 1) {
+  let s = seed * 9301 + 49297;
+  const rand = () => { s = (s * 9301 + 49297) % 233280; return s / 233280; };
+  const out = [start];
+  for (let i = 1; i < n; i++) {
+    const r = (rand() - 0.5) * vol + drift;
+    out.push(out[i - 1] * (1 + r));
+  }
+  const mn = Math.min(...out), mx = Math.max(...out);
+  return out.map(v => (v - mn) / (mx - mn || 1));
+}
+
+function useCounter(target, ms = 1400, delay = 300) {
+  const [val, setVal] = useState(0);
+  useEffect(() => {
+    let raf, start;
+    const t = setTimeout(() => {
+      const tick = (ts) => {
+        if (!start) start = ts;
+        const prog = Math.min((ts - start) / ms, 1);
+        setVal(target * easeOutCubic(prog));
+        if (prog < 1) raf = requestAnimationFrame(tick);
+      };
+      raf = requestAnimationFrame(tick);
+    }, delay);
+    return () => { clearTimeout(t); cancelAnimationFrame(raf); };
+  }, [target]);
+  return val;
+}
+
+function useLive(base, range = 50, interval = 3200) {
+  const [val, setVal] = useState(base);
+  const ref = useRef(base);
+  useEffect(() => {
+    const id = setInterval(() => {
+      const delta = (Math.random() - 0.48) * range;
+      ref.current = Math.max(base * 0.97, Math.min(base * 1.03, ref.current + delta));
+      setVal(ref.current);
+    }, interval);
+    return () => clearInterval(id);
+  }, []);
+  return val;
+}
+
+// ── Icons ────────────────────────────────────────────────────────
+
+function I({ size = 16, children }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none"
+      stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
+      {children}
+    </svg>
+  );
+}
+const Home = () => <I><path d="M3 11l9-8 9 8" /><path d="M5 10v10h14V10" /></I>;
+const Chart = () => <I><path d="M3 20h18M6 16V9M11 16V5M16 16v-7M21 16v-3" /></I>;
+const Globe = () => <I><circle cx="12" cy="12" r="9" /><path d="M3 12h18M12 3a14 14 0 010 18M12 3a14 14 0 000 18" /></I>;
+const Flag = () => <I><path d="M5 21V4M5 4h13l-3 5 3 5H5" /></I>;
+const Book = () => <I><path d="M4 5a2 2 0 012-2h13v17H6a2 2 0 00-2 2V5z" /><path d="M19 17H6" /></I>;
+const Chat = () => <I><path d="M21 12c0 4.4-4 8-9 8-1.4 0-2.8-.3-4-.8L3 21l1.8-4.5C3.7 15.1 3 13.6 3 12c0-4.4 4-8 9-8s9 3.6 9 8z" /></I>;
+const Pulse = () => <I><path d="M3 12h4l2-6 4 12 2-6h6" /></I>;
+const Sun = () => <I><circle cx="12" cy="12" r="4" /><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" /></I>;
+const Moon = () => <I><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" /></I>;
+const ArrowR = () => <I><path d="M5 12h14M13 6l6 6-6 6" /></I>;
+const Star = () => <I><path d="M12 3l2.6 5.6 6 .9-4.3 4.2 1 6L12 17l-5.3 2.7 1-6L3.4 9.5l6-.9L12 3z" /></I>;
+
+// ── Area Chart ───────────────────────────────────────────────────
+
+function AreaChart({ data, height = 120, width = 480, accent = true }) {
+  const pathRef = useRef(null);
+  const fillRef = useRef(null);
+  const [drawn, setDrawn] = useState(false);
+
+  useEffect(() => {
+    const t = setTimeout(() => setDrawn(true), 100);
+    return () => clearTimeout(t);
+  }, [data]);
+
+  const w = width, h = height;
+  const n = data.length;
+  const xs = data.map((_, i) => (i / (n - 1)) * w);
+  const ys = data.map(y => h - y * h * 0.88 - h * 0.06);
+
+  let d = `M ${xs[0].toFixed(1)} ${ys[0].toFixed(1)}`;
+  for (let i = 0; i < n - 1; i++) {
+    const x0 = xs[Math.max(0, i - 1)], y0 = ys[Math.max(0, i - 1)];
+    const x1 = xs[i], y1 = ys[i];
+    const x2 = xs[i + 1], y2 = ys[i + 1];
+    const x3 = xs[Math.min(n - 1, i + 2)], y3 = ys[Math.min(n - 1, i + 2)];
+    const cp1x = x1 + (x2 - x0) / 6, cp1y = y1 + (y2 - y0) / 6;
+    const cp2x = x2 - (x3 - x1) / 6, cp2y = y2 - (y3 - y1) / 6;
+    d += ` C ${cp1x.toFixed(1)} ${cp1y.toFixed(1)}, ${cp2x.toFixed(1)} ${cp2y.toFixed(1)}, ${x2.toFixed(1)} ${y2.toFixed(1)}`;
+  }
+  const fill = d + ` L ${w} ${h} L 0 ${h} Z`;
+  const stroke = accent ? 'var(--accent)' : 'var(--ink)';
+  const gid = useRef(`g${Math.floor(Math.random() * 1e6)}`).current;
+
+  return (
+    <svg viewBox={`0 0 ${w} ${h}`} preserveAspectRatio="none" className="spark">
+      <defs>
+        <linearGradient id={gid} x1="0" x2="0" y1="0" y2="1">
+          <stop offset="0%" stopColor={stroke} stopOpacity="0.20" />
+          <stop offset="100%" stopColor={stroke} stopOpacity="0" />
+        </linearGradient>
+      </defs>
+      <path ref={fillRef} d={fill} fill={`url(#${gid})`} className={`chart-fill ${drawn ? 'drawn' : ''}`} />
+      <path ref={pathRef} d={d} fill="none" stroke={stroke} strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"
+        className={`chart-path ${drawn ? 'drawn' : ''}`} />
+    </svg>
+  );
+}
+
+// ── Donut Chart ──────────────────────────────────────────────────
+
+function DonutChart({ slices, size = 108, thickness = 14 }) {
+  const r = size / 2 - thickness / 2;
+  const cx = size / 2, cy = size / 2;
+  const C = 2 * Math.PI * r;
+  const total = slices.reduce((s, x) => s + x.pct, 0);
+  const [drawn, setDrawn] = useState(false);
+  useEffect(() => { const t = setTimeout(() => setDrawn(true), 400); return () => clearTimeout(t); }, []);
+
+  let acc = 0;
+  return (
+    <svg viewBox={`0 0 ${size} ${size}`} style={{ width: size, height: size, display: 'block' }}>
+      <circle cx={cx} cy={cy} r={r} fill="none" stroke="var(--line)" strokeWidth={thickness} />
+      {slices.map((s, i) => {
+        const len = drawn ? (s.pct / total) * C : 0;
+        const off = (acc / total) * C;
+        acc += s.pct;
+        return (
+          <circle key={i} cx={cx} cy={cy} r={r} fill="none" stroke={s.color} strokeWidth={thickness}
+            strokeDasharray={`${(drawn ? len : 0).toFixed(2)} ${C.toFixed(2)}`}
+            strokeDashoffset={(-off).toFixed(2)} strokeLinecap="butt"
+            transform={`rotate(-90 ${cx} ${cy})`}
+            style={{ transition: `stroke-dasharray ${0.8 + i * 0.1}s cubic-bezier(0,.5,.2,1) ${0.2 + i * 0.08}s` }}
+          />
+        );
+      })}
+    </svg>
+  );
+}
+
+// ── Money display ────────────────────────────────────────────────
+
+function Money({ value }) {
+  const [int, dec] = Number(value).toFixed(2).split('.');
+  const intFmt = int.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  return (
+    <span className="amt">
+      <span className="amt-cur">$</span>{intFmt}<span className="amt-sub">.{dec}</span>
+    </span>
+  );
+}
+
+function Delta({ value, pct }) {
+  const v = Number(value), sign = v >= 0;
+  const str = pct ? `${sign ? '↑' : '↓'} ${Math.abs(v).toFixed(2)}%` : `${sign ? '↑' : '↓'} $${Math.abs(v).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+  return <span className={`t-num ${sign ? 't-gain' : 't-loss'}`} style={{ fontSize: 12 }}>{str}</span>;
+}
+
+// ── Sidebar ──────────────────────────────────────────────────────
+
+function Sidebar({ active, onNav }) {
+  const items = [
+    ['home', 'Home', <Home />],
+    ['portfolio', 'Portfolio', <Chart />],
+    ['markets', 'Markets', <Globe />],
+    ['goals', 'Goals', <Flag />],
+    ['learn', 'Learn', <Book />],
+    ['advisor', 'Advisor', <Chat />],
+    ['activity', 'Activity', <Pulse />],
+  ];
+  return (
+    <aside className="sidebar">
+      <div style={{ padding: '4px 8px 18px', display: 'flex', alignItems: 'center' }}>
+        <div className="brand"><span className="brand-mark" />Meridian</div>
+      </div>
+      <nav className="sidebar-nav">
+        {items.map(([k, label, icon]) => (
+          <div key={k} className={`nav-item ${active === k ? 'active' : ''}`} onClick={() => onNav(k)}>
+            <span style={{ width: 16, height: 16, display: 'inline-flex' }}>{icon}</span>
+            {label}
+          </div>
+        ))}
+      </nav>
+      <div style={{ flex: 1 }} />
+      <div className="card card-tint" style={{ padding: 14, borderRadius: 10 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+          <div className="av av-accent" style={{ width: 28, height: 28, fontFamily: 'var(--serif)', fontStyle: 'italic', fontSize: 13 }}>M</div>
+          <div>
+            <div className="t-label" style={{ fontSize: 12 }}>Marisol</div>
+            <div className="t-meta" style={{ fontSize: 10 }}>Your advisor</div>
+          </div>
+        </div>
+        <div className="t-meta" style={{ fontSize: 11, marginTop: 8, lineHeight: 1.4 }}>1 unread note about your bonus.</div>
+      </div>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginTop: 12, padding: '2px 6px' }}>
+        <div className="av" style={{ width: 26, height: 26, fontSize: 11 }}>JM</div>
+        <div>
+          <div className="t-label" style={{ fontSize: 12 }}>Jesse Moore</div>
+          <div className="t-meta" style={{ fontSize: 10 }}>Member · est. 2024</div>
+        </div>
+      </div>
+    </aside>
+  );
+}
+
+// ── Mobile Tab Bar ───────────────────────────────────────────────
+
+function TabBar({ active, onNav }) {
+  const items = [
+    ['home', 'Home', <Home />],
+    ['portfolio', 'Portfolio', <Chart />],
+    ['learn', 'Learn', <Book />],
+    ['advisor', 'Marisol', <Chat />],
+    ['me', 'Me', <Star />],
+  ];
+  return (
+    <div className="tab-bar" style={{ gridTemplateColumns: `repeat(${items.length}, 1fr)` }}>
+      {items.map(([k, label, icon]) => (
+        <div key={k} className={`tab-item ${active === k ? 'active' : ''}`} onClick={() => onNav(k)}>
+          {icon}
+          <span className="tab-item-label">{label}</span>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+// ── Period selector ──────────────────────────────────────────────
+
+const SERIES_BY_PERIOD = {
+  '1D': genSeries(24, 100, 0.0008, 0.003, 3),
+  '1W': genSeries(42, 95, 0.003, 0.008, 7),
+  '1M': genSeries(60, 80, 0.004, 0.012, 7),
+  '3M': genSeries(90, 70, 0.005, 0.011, 5),
+  '1Y': genSeries(120, 60, 0.006, 0.014, 2),
+  'ALL': genSeries(180, 40, 0.007, 0.016, 9),
+};
+
+// ── Dashboard ────────────────────────────────────────────────────
+
+const NW_SERIES = genSeries(60, 80, 0.004, 0.012, 7);
+
+function Dashboard({ onNav }) {
+  const [period, setPeriod] = useState('1M');
+  const [chartKey, setChartKey] = useState(0);
+  const nw = useCounter(184320.42, 1600, 200);
+  const delta = useCounter(2140.18, 1200, 400);
+  const barRef1 = useRef(null), barRef2 = useRef(null);
+
+  useEffect(() => {
+    const t = setTimeout(() => {
+      if (barRef1.current) barRef1.current.classList.add('go');
+      if (barRef2.current) barRef2.current.classList.add('go');
+    }, 800);
+    return () => clearTimeout(t);
+  }, []);
+
+  function handlePeriod(p) {
+    setPeriod(p);
+    setChartKey(k => k + 1);
+  }
+
+  return (
+    <div className="mer app-shell">
+      <div style={{ display: 'flex', flex: 1, overflow: 'hidden' }}>
+        <Sidebar active="home" onNav={onNav} />
+
+        <main className="screen-body">
+          {/* Chrome */}
+          <div className="top-chrome">
+            <div className="t-eyebrow-mono">Saturday · May 16</div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+              <button className="btn-x btn-x-soft btn-x-sm">Transfer</button>
+              <button className="btn-x btn-x-sm">Invest</button>
+            </div>
+          </div>
+
+          {/* Title */}
+          <div style={{ padding: '32px 32px 20px' }}>
+            <h1 className="t-display" style={{ fontSize: 48 }}>Good morning, <span className="t-display-i">Jesse</span>.</h1>
+          </div>
+
+          {/* Grid */}
+          <div style={{ flex: 1, padding: '0 32px 32px', overflowY: 'auto' }} className="no-scrollbar screen-inner-scroll">
+            <div className="dash-grid">
+              {/* Net worth + chart */}
+              <section className="card" style={{ padding: 28, display: 'flex', flexDirection: 'column' }}>
+                <div className="t-eyebrow-mono">Total net worth</div>
+                <div className="t-display t-num" style={{ fontSize: 64, lineHeight: 1, marginTop: 8 }}>
+                  <span className="amt"><span className="amt-cur">$</span>{Math.floor(nw).toLocaleString()}<span className="amt-sub">.{String(Math.round((nw % 1) * 100)).padStart(2, '0')}</span></span>
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginTop: 10 }}>
+                  <span className="t-num t-gain" style={{ fontSize: 12 }}>↑ ${Math.floor(delta).toLocaleString()}</span>
+                  <span className="t-num t-gain" style={{ fontSize: 12 }}>↑ 1.18%</span>
+                  <span className="t-meta">this week</span>
+                </div>
+                <div style={{ height: 160, marginTop: 24, flex: 1 }}>
+                  <AreaChart key={chartKey} data={SERIES_BY_PERIOD[period]} height={160} width={660} />
+                </div>
+                <div style={{ display: 'flex', gap: 4, marginTop: 14, justifyContent: 'flex-end' }}>
+                  {Object.keys(SERIES_BY_PERIOD).map(p => (
+                    <span key={p} className="t-num" onClick={() => handlePeriod(p)} style={{
+                      fontSize: 11, padding: '4px 10px', borderRadius: 99, cursor: 'pointer',
+                      background: period === p ? 'var(--paper-2)' : 'transparent',
+                      color: period === p ? 'var(--ink)' : 'var(--ink-3)',
+                      transition: 'background .15s,color .15s',
+                    }}>{p}</span>
+                  ))}
+                </div>
+              </section>
+
+              {/* Marisol */}
+              <section className="card card-ink" style={{ padding: 26, display: 'flex', flexDirection: 'column' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                  <div className="av av-accent" style={{ width: 32, height: 32, fontFamily: 'var(--serif)', fontStyle: 'italic', fontSize: 17 }}>M</div>
+                  <div className="t-label" style={{ fontSize: 13, color: 'var(--paper)' }}>Marisol</div>
+                </div>
+                <div className="t-display" style={{ fontSize: 24, lineHeight: 1.25, marginTop: 22, color: 'var(--paper)' }}>
+                  Your <span className="t-num">$42,800</span> bonus is still in checking. <span className="t-display-i">Let's give it a job.</span>
+                </div>
+                <div style={{ flex: 1 }} />
+                <div style={{ display: 'flex', gap: 8, marginTop: 22 }}>
+                  <button className="btn-x btn-x-accent btn-x-sm">Plan with me</button>
+                  <button className="btn-x btn-x-sm btn-x-ghost" style={{ borderColor: 'var(--ink-2)', color: 'var(--paper)' }}>Later</button>
+                </div>
+              </section>
+
+              {/* Row 2 */}
+              <div className="dash-row2">
+                {/* Allocation */}
+                <section className="card" style={{ padding: 24 }}>
+                  <div className="t-eyebrow-mono">Allocation</div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 18, marginTop: 14 }}>
+                    <DonutChart size={108} thickness={14} slices={[
+                      { pct: 54, color: 'var(--ink)' },
+                      { pct: 23, color: 'var(--accent)' },
+                      { pct: 16, color: 'var(--ink-4)' },
+                      { pct: 7, color: 'var(--paper-3)' },
+                    ]} />
+                    <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 8 }}>
+                      {[['Stocks', 54], ['Bonds', 23], ['Cash', 16], ['Crypto', 7]].map(([l, v]) => (
+                        <div key={l} style={{ display: 'flex', justifyContent: 'space-between' }}>
+                          <span className="t-label" style={{ fontSize: 13 }}>{l}</span>
+                          <span className="t-num" style={{ fontSize: 13 }}>{v}%</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </section>
+
+                {/* Goals */}
+                <section className="card" style={{ padding: 24, display: 'flex', flexDirection: 'column' }}>
+                  <div className="t-eyebrow-mono">Goals</div>
+                  <div style={{ marginTop: 16, display: 'flex', flexDirection: 'column', gap: 18, flex: 1 }}>
+                    {[['House · Brooklyn', 37, '$37k of $100k', barRef1], ['FIRE @ 45', 15, '$184k of $1.2M', barRef2]].map(([n, p, sub, ref], i) => (
+                      <div key={i}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
+                          <span className="t-label" style={{ fontSize: 14 }}>{n}</span>
+                          <span className="t-num" style={{ fontSize: 12, color: 'var(--ink-3)' }}>{p}%</span>
+                        </div>
+                        <div className="bar" style={{ marginTop: 8 }}>
+                          <div ref={ref} className="bar-fill" style={{ width: `${p}%` }} />
+                        </div>
+                        <div className="t-meta" style={{ fontSize: 11, marginTop: 6 }}>{sub}</div>
+                      </div>
+                    ))}
+                  </div>
+                </section>
+              </div>
+            </div>
+          </div>
+        </main>
+      </div>
+
+      {/* Mobile bottom nav */}
+      <div style={{ display: 'none' }} className="show-mobile">
+        <TabBar active="home" onNav={onNav} />
+      </div>
+    </div>
+  );
+}
+
+// ── Portfolio ────────────────────────────────────────────────────
+
+const PORT_SERIES = genSeries(80, 100, 0.005, 0.011, 11);
+const HOLDINGS = [
+  { sym: 'NVDA', name: 'Nvidia',          shares: 12,     px: 921.40,  val: 11052.00, day: 4.08,  ret: 50.5 },
+  { sym: 'VTI',  name: 'Total Market',    shares: 42.10,  px: 258.20,  val: 10870.42, day: 0.84,  ret: 18.4 },
+  { sym: 'MSFT', name: 'Microsoft',       shares: 22,     px: 418.00,  val:  9196.00, day: 0.61,  ret: 12.8 },
+  { sym: 'BTC',  name: 'Bitcoin',         shares: 0.0820, px: 98000,   val:  8036.00, day:-2.10,  ret: 64.1 },
+  { sym: 'BND',  name: 'Total Bond',      shares: 85.20,  px:  71.00,  val:  6049.20, day: 0.12,  ret:  3.4 },
+  { sym: 'AAPL', name: 'Apple',           shares: 24,     px: 214.00,  val:  5136.00, day: 2.40,  ret: 22.6 },
+  { sym: 'SCHD', name: 'Schwab Dividend', shares: 38,     px:  84.05,  val:  3193.90, day: 1.18,  ret:  9.2 },
+];
+
+function Portfolio({ onNav }) {
+  const total = useCounter(98440.10, 1400, 100);
+  const fmt = v => v.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+  return (
+    <div className="mer app-shell">
+      <div style={{ display: 'flex', flex: 1, overflow: 'hidden' }}>
+        <Sidebar active="portfolio" onNav={onNav} />
+
+        <main className="screen-body">
+          <div className="top-chrome">
+            <div className="t-eyebrow-mono">Portfolio · Individual taxable</div>
+            <div style={{ display: 'flex', gap: 8 }}>
+              <button className="btn-x btn-x-soft btn-x-sm">Transfer</button>
+              <button className="btn-x btn-x-sm">Buy</button>
+            </div>
+          </div>
+
+          <div style={{ padding: '32px 32px 24px', display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between' }}>
+            <div>
+              <h1 className="t-display" style={{ fontSize: 48 }}>Your <span className="t-display-i">holdings</span>.</h1>
+              <div className="t-meta" style={{ marginTop: 8 }}>14 positions · opened Feb 2023</div>
+            </div>
+            <div style={{ textAlign: 'right' }}>
+              <div className="t-display t-num" style={{ fontSize: 48, lineHeight: 1 }}>
+                <span className="amt"><span className="amt-cur">$</span>{Math.floor(total).toLocaleString()}<span className="amt-sub">.{String(Math.round((total % 1) * 100)).padStart(2,'0')}</span></span>
+              </div>
+              <div style={{ display: 'flex', gap: 10, justifyContent: 'flex-end', marginTop: 8 }}>
+                <Delta value={782.40} /><Delta value={0.80} pct />
+              </div>
+            </div>
+          </div>
+
+          <div style={{ padding: '0 32px' }}>
+            <div className="tabs">
+              {['Holdings', 'Performance', 'Activity', 'Tax lots'].map((t, i) => (
+                <span key={t} className={`tab ${i === 0 ? 'is-active' : ''}`}>{t}</span>
+              ))}
+            </div>
+          </div>
+
+          <div style={{ flex: 1, padding: '20px 32px 32px', overflow: 'hidden' }} className="no-scrollbar">
+            <div className="port-body">
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 16, overflow: 'hidden' }}>
+                <div style={{ height: 130 }}>
+                  <AreaChart data={PORT_SERIES} height={130} width={660} />
+                </div>
+                <div style={{ overflowY: 'auto' }} className="no-scrollbar">
+                  <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                    <thead>
+                      <tr className="t-eyebrow-mono" style={{ textAlign: 'left', borderBottom: '1px solid var(--line)' }}>
+                        <th style={{ padding: '12px 0', fontWeight: 500 }}>Holding</th>
+                        <th style={{ padding: '12px 0', textAlign: 'right', fontWeight: 500 }}>Value</th>
+                        <th style={{ padding: '12px 0', textAlign: 'right', fontWeight: 500 }} className="hide-mobile">Today</th>
+                        <th style={{ padding: '12px 0', textAlign: 'right', fontWeight: 500 }} className="hide-mobile">All-time</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {HOLDINGS.map((h, i) => (
+                        <tr key={i} style={{ borderBottom: '1px solid var(--line)' }}>
+                          <td style={{ padding: '14px 0' }}>
+                            <div className="t-label" style={{ fontSize: 14 }}>{h.sym}</div>
+                            <div className="t-meta" style={{ fontSize: 12 }}>{h.name} · {h.shares.toLocaleString(undefined, { maximumFractionDigits: 4 })} sh</div>
+                          </td>
+                          <td className="t-num" style={{ textAlign: 'right', fontSize: 14 }}>${fmt(h.val)}</td>
+                          <td className="t-num hide-mobile" style={{ textAlign: 'right', fontSize: 13, color: h.day >= 0 ? 'var(--gain)' : 'var(--loss)' }}>{h.day >= 0 ? '+' : ''}{h.day.toFixed(2)}%</td>
+                          <td className="t-num hide-mobile" style={{ textAlign: 'right', fontSize: 13, color: h.ret >= 0 ? 'var(--gain)' : 'var(--loss)' }}>{h.ret >= 0 ? '+' : ''}{h.ret.toFixed(1)}%</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              {/* Marisol note */}
+              <aside className="hide-mobile">
+                <section className="card card-ink" style={{ padding: 24 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                    <div className="av av-accent" style={{ width: 26, height: 26, fontFamily: 'var(--serif)', fontStyle: 'italic', fontSize: 14 }}>M</div>
+                    <span className="t-eyebrow-mono" style={{ color: 'var(--ink-5)' }}>Marisol</span>
+                  </div>
+                  <div className="t-display" style={{ fontSize: 22, lineHeight: 1.3, marginTop: 16, color: 'var(--paper)' }}>
+                    NVDA is now <span className="t-num">11%</span> of your portfolio. <span className="t-display-i">That's concentrated.</span>
+                  </div>
+                  <div className="t-body" style={{ marginTop: 10, color: 'var(--ink-5)', fontSize: 13 }}>Want to lock in $1,235 and rebalance?</div>
+                  <button className="btn-x btn-x-accent btn-x-sm" style={{ marginTop: 18 }}>Review trim</button>
+                </section>
+              </aside>
+            </div>
+          </div>
+        </main>
+      </div>
+    </div>
+  );
+}
+
+// ── Insights ─────────────────────────────────────────────────────
+
+function Insights({ onNav }) {
+  return (
+    <div className="mer app-shell">
+      <div style={{ display: 'flex', flex: 1, overflow: 'hidden' }}>
+        <Sidebar active="learn" onNav={onNav} />
+
+        <main className="screen-body">
+          <div className="top-chrome">
+            <div className="t-eyebrow-mono">Learn · The Saturday Brief</div>
+            <div className="t-meta" style={{ fontSize: 12 }}>№ 142 · May 16, 2026</div>
+          </div>
+
+          <div style={{ padding: '48px 32px 32px', textAlign: 'center', flexShrink: 0 }}>
+            <div className="t-display" style={{ fontSize: 64, letterSpacing: '-.02em' }}>
+              The <span className="t-display-i">Meridian</span> Weekly
+            </div>
+            <div className="t-meta" style={{ fontStyle: 'italic', marginTop: 12, fontSize: 14 }}>Money writing for people who just started caring.</div>
+          </div>
+
+          <div style={{ flex: 1, padding: '0 64px 40px', overflowY: 'auto' }} className="no-scrollbar screen-inner-scroll">
+            <div className="ins-lead">
+              <article>
+                <div className="t-eyebrow-mono">Lead essay · 7 min</div>
+                <h2 className="t-display" style={{ fontSize: 40, lineHeight: 1.1, marginTop: 12 }}>
+                  The bonus, the Roth, and the <span className="t-display-i">lump-sum question</span>.
+                </h2>
+                <div className="t-meta" style={{ fontSize: 14, marginTop: 16, lineHeight: 1.6, maxWidth: 520 }}>
+                  You grew up watching everyone live paycheck to paycheck. Now $40,000 just landed at once. A frame for not screwing it up.
+                </div>
+                <button className="btn-x btn-x-sm" style={{ marginTop: 24 }}>Read now <ArrowR /></button>
+              </article>
+
+              <aside>
+                <div className="t-eyebrow-mono">Most read</div>
+                <ol style={{ paddingLeft: 0, listStyle: 'none', margin: '20px 0 0' }}>
+                  {[
+                    'Why your bonus mostly belongs in a Roth',
+                    'The 401(k) match math, finally',
+                    'Manhattan on $400k: an honest budget',
+                    'Crypto: how much is "too much"?',
+                  ].map((t, i) => (
+                    <li key={i} style={{
+                      padding: '16px 0',
+                      borderBottom: i < 3 ? '1px solid var(--line)' : 'none',
+                      display: 'flex', gap: 18, alignItems: 'baseline',
+                    }}>
+                      <span className="t-display t-display-i" style={{ fontSize: 24, color: 'var(--ink-4)', lineHeight: 1 }}>
+                        {String(i + 1).padStart(2, '0')}
+                      </span>
+                      <div className="t-label" style={{ fontSize: 14, lineHeight: 1.4 }}>{t}</div>
+                    </li>
+                  ))}
+                </ol>
+              </aside>
+            </div>
+
+            <div className="ins-features">
+              {[
+                { cat: 'Markets', title: 'Why bonds are quietly working again.', meta: '4 min · Alan Hoffman' },
+                { cat: 'Taxes', title: 'State tax math when you cross $250k.', meta: '3 min · Priya Rao' },
+                { cat: 'Lifestyle', title: 'Manhattan on $400k, an honest budget.', meta: '6 min · Sam Cohen' },
+              ].map((a, i) => (
+                <article key={i}>
+                  <div className="t-eyebrow-mono">{a.cat}</div>
+                  <h3 className="t-display" style={{ fontSize: 24, lineHeight: 1.25, marginTop: 10 }}>{a.title}</h3>
+                  <div className="t-meta" style={{ fontSize: 12, marginTop: 12 }}>{a.meta}</div>
+                </article>
+              ))}
+            </div>
+          </div>
+        </main>
+      </div>
+    </div>
+  );
+}
+
+// ── App shell ─────────────────────────────────────────────────────
+
+function App() {
+  const [screen, setScreen] = useState('home');
+  const [theme, setTheme] = useState('light');
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme);
+    const splash = document.getElementById('splash');
+    if (splash) splash.setAttribute('data-theme', theme);
+  }, [theme]);
+
+  const toggleTheme = () => setTheme(t => t === 'light' ? 'dark' : 'light');
+
+  // Hide splash after compile + small delay
+  useEffect(() => {
+    const t = setTimeout(() => {
+      const splash = document.getElementById('splash');
+      if (splash) splash.classList.add('out');
+      setTimeout(() => { if (splash) splash.remove(); }, 600);
+    }, 1600);
+    return () => clearTimeout(t);
+  }, []);
+
+  const screens = { home: Dashboard, portfolio: Portfolio, learn: Insights };
+  const Screen = screens[screen] || Dashboard;
+
+  return (
+    <div data-theme={theme} style={{ height: '100%', position: 'relative' }}>
+      {/* Theme toggle — floating */}
+      <button
+        className="theme-btn"
+        onClick={toggleTheme}
+        title="Toggle theme"
+        style={{ position: 'fixed', bottom: 20, right: 20, zIndex: 500 }}
+      >
+        {theme === 'light' ? <Moon /> : <Sun />}
+      </button>
+
+      <Screen onNav={setScreen} />
+    </div>
+  );
+}
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<App />);
+</script>
+</body>
+</html>
