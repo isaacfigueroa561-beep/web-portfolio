@@ -1640,6 +1640,7 @@ function Home() {
       nameColor: "#111",
       clientColor: "#555",
       desc: "Full brand identity and website for Wave Creative House — a Las Vegas design studio co-founded by Isaac. Branding, web design, copywriting, and Webflow development all in one cohesive build.",
+      deviceMockup: true,
       images: ["/wave-motion.mp4"],
       liveUrl: "https://www.wavecreativehouse.com/",
       urlDisplay: "wavecreativehouse.com",
