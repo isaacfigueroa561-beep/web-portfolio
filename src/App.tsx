@@ -43,6 +43,7 @@ function WebProjectPanel({
   onSelect: (i: number) => void;
 }) {
   const heroImage = project.images?.[0] ?? null;
+  const isHeroVideo = heroImage?.endsWith(".mp4") ?? false;
   const stat = project.caseStudy?.stats?.[0];
   const [hovered, setHovered] = useState(false);
   const globalIdx = allProjects.indexOf(project);
@@ -230,13 +231,26 @@ function WebProjectPanel({
       >
         {heroImage ? (
           <>
-            <motion.img
-              src={heroImage}
-              alt={project.name}
-              className="absolute inset-0 w-full h-full object-cover"
-              animate={{ scale: hovered ? 1.04 : 1 }}
-              transition={{ duration: 1.1, ease: [0.25, 0.46, 0.45, 0.94] }}
-            />
+            {isHeroVideo ? (
+              <motion.video
+                src={heroImage}
+                autoPlay
+                loop
+                muted
+                playsInline
+                className="absolute inset-0 w-full h-full object-cover"
+                animate={{ scale: hovered ? 1.04 : 1 }}
+                transition={{ duration: 1.1, ease: [0.25, 0.46, 0.45, 0.94] }}
+              />
+            ) : (
+              <motion.img
+                src={heroImage}
+                alt={project.name}
+                className="absolute inset-0 w-full h-full object-cover"
+                animate={{ scale: hovered ? 1.04 : 1 }}
+                transition={{ duration: 1.1, ease: [0.25, 0.46, 0.45, 0.94] }}
+              />
+            )}
             {/* Subtle dark vignette */}
             <div
               className="absolute inset-0 pointer-events-none"
@@ -1571,28 +1585,6 @@ function Home() {
       },
     },
     {
-      name: "Meridian",
-      client: "Personal Project",
-      category: "Product Design / UI",
-      bg: "#FBFAF6",
-      labelColor: "#14110D",
-      nameColor: "#14110D",
-      clientColor: "#3D3830",
-      desc: "Meridian is a fintech web app for high-income professionals — full product design and front-end development. Dashboard, portfolio, markets, goals, and an AI advisor all in one editorial interface.",
-      deviceMockup: true,
-      liveUrl: "/meridian/index.html",
-      caseStudy: {
-        stats: [
-          { value: "0→1", label: "Built from Scratch" },
-          { value: "5", label: "Core Screens" },
-          { value: "2", label: "Themes (Light / Dark)" },
-          { value: "100%", label: "Custom Coded" },
-        ],
-        challenge: "Most financial apps treat data like a spreadsheet — dense, cold, and anxiety-inducing. High-income professionals don't need more data; they need clarity. The challenge was designing a fintech interface that felt editorial and calm rather than overwhelming — one that surfaces the right information at the right moment without making wealth management feel like a second job.",
-        approach: "I built Meridian around the idea that a great financial interface should feel more like a well-designed magazine than a Bloomberg terminal. Instrument Serif for headings, Onest for UI, and JetBrains Mono for numbers created a typographic hierarchy that's instantly scannable. The dashboard leads with net worth and a single chart — everything else is a layer deeper. Light and dark themes, a living AI advisor panel named Marisol, and animated micro-interactions throughout make the app feel alive without being distracting.",
-      },
-    },
-    {
       name: "Little Pilot",
       client: "Little Pilot Agency",
       category: "Web Design / Brand",
@@ -1602,7 +1594,7 @@ function Home() {
       clientColor: "rgba(240,230,204,0.55)",
       desc: "Website for Little Pilot — a CPG-native growth agency running paid media, email & SMS, influencer, and creative for 20+ food, beverage, and personal care brands.",
       deviceMockup: true,
-      images: ["/little-pilot-preview.png"],
+      images: ["/little-pilot-motion.mp4"],
       liveUrl: "https://little-pilot-new-new.vercel.app",
       urlDisplay: "little-pilot.co",
       caseStudy: {
@@ -1617,6 +1609,29 @@ function Home() {
       },
     },
     {
+      name: "Meridian",
+      client: "Personal Project",
+      category: "Product Design / UI",
+      bg: "#FBFAF6",
+      labelColor: "#14110D",
+      nameColor: "#14110D",
+      clientColor: "#3D3830",
+      desc: "Meridian is a fintech web app for high-income professionals — full product design and front-end development. Dashboard, portfolio, markets, goals, and an AI advisor all in one editorial interface.",
+      deviceMockup: true,
+      images: ["/meridian-motion.mp4"],
+      liveUrl: "/meridian/index.html",
+      caseStudy: {
+        stats: [
+          { value: "0→1", label: "Built from Scratch" },
+          { value: "5", label: "Core Screens" },
+          { value: "2", label: "Themes (Light / Dark)" },
+          { value: "100%", label: "Custom Coded" },
+        ],
+        challenge: "Most financial apps treat data like a spreadsheet — dense, cold, and anxiety-inducing. High-income professionals don't need more data; they need clarity. The challenge was designing a fintech interface that felt editorial and calm rather than overwhelming — one that surfaces the right information at the right moment without making wealth management feel like a second job.",
+        approach: "I built Meridian around the idea that a great financial interface should feel more like a well-designed magazine than a Bloomberg terminal. Instrument Serif for headings, Onest for UI, and JetBrains Mono for numbers created a typographic hierarchy that's instantly scannable. The dashboard leads with net worth and a single chart — everything else is a layer deeper. Light and dark themes, a living AI advisor panel named Marisol, and animated micro-interactions throughout make the app feel alive without being distracting.",
+      },
+    },
+    {
       name: "Wave Creative House",
       client: "Wave Creative House",
       category: "Web Design / Brand",
@@ -1625,7 +1640,7 @@ function Home() {
       nameColor: "#111",
       clientColor: "#555",
       desc: "Full brand identity and website for Wave Creative House — a Las Vegas design studio co-founded by Isaac. Branding, web design, copywriting, and Webflow development all in one cohesive build.",
-      images: ["/wave-preview.png"],
+      images: ["/wave-motion.mp4"],
       liveUrl: "https://www.wavecreativehouse.com/",
       urlDisplay: "wavecreativehouse.com",
       caseStudy: {
