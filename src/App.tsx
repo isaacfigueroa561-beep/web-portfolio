@@ -226,7 +226,7 @@ function WebProjectPanel({
       {/* ── RIGHT: full-bleed visual panel ── */}
       <div
         className="relative flex-1 overflow-hidden"
-        style={{ minHeight: 480, cursor: "none" }}
+        style={{ minHeight: 480, cursor: "none", background: "#0D0D0D" }}
         onClick={() => onSelect(globalIdx)}
       >
         {heroImage ? (
@@ -238,7 +238,7 @@ function WebProjectPanel({
                 loop
                 muted
                 playsInline
-                className="absolute inset-0 w-full h-full object-cover"
+                className="absolute inset-0 w-full h-full object-contain"
                 animate={{ scale: hovered ? 1.04 : 1 }}
                 transition={{ duration: 1.1, ease: [0.25, 0.46, 0.45, 0.94] }}
               />
